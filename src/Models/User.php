@@ -59,12 +59,21 @@ class User
    * @var Relation[]
    */
   protected array $outRelations;
-
   /**
    * @OneToMany(targetEntity="Relation", mappedBy="target")
    * @var Relation[]
    */
   protected array $inRelations;
+  /**
+   * @OneToMany(targetEntity="Message", mappedBy="sender")
+   * @var Message[]
+   */
+  protected array $outMessages;
+  /**
+   * @OneToMany(targetEntity="Message", mappedBy="target")
+   * @var Message[]
+   */
+  protected array $inMessages;
 
   public function __construct()
   {
@@ -78,6 +87,15 @@ class User
   public function addInRelation(Relation $rel)
   {
     $this->inRelations[] = $rel;
+  }
+
+  public function addOutMessage(Message $msg)
+  {
+    $this->outMessages[] = $msg;
+  }
+  public function addInMessage(Message $msg)
+  {
+    $this->inMessages[] = $msg;
   }
 
   public function __get(string $name)

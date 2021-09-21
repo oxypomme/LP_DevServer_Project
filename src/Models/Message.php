@@ -4,20 +4,32 @@ namespace Crisis\Models;
 
 /**
  * @Entity
- * @Table(name="relations")
+ * @Table(name="messages")
  */
-class Relation
+class Message
 {
-  /**
-   * @Id 
-   * @Column(type="integer") 
+  /** 
+   * @Id
+   * @Column(type="integer")
    * @GeneratedValue
    */
   protected int $id;
   /** 
+   * @Column(type="string") 
+   */
+  public string $content;
+  /** 
+   * @Column(type="string") 
+   */
+  public string $attachement;
+  /** 
    * @Column(type="datetime") 
    */
-  public \DateTime $date;
+  protected \DateTime $date;
+  /** 
+   * @Column(type="datetime") 
+   */
+  public \DateTime $edit_date;
 
   /**
    * @ManyToOne(targetEntity="User", inversedBy="outRelations")
@@ -31,6 +43,7 @@ class Relation
   public function __get(string $name)
   {
     switch ($name) {
+      case 'date':
       case 'id':
         return $this->$name;
         break;
