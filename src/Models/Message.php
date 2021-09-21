@@ -15,11 +15,11 @@ class Message
    */
   protected int $id;
   /** 
-   * @Column(type="string") 
+   * @Column(type="string", columnDefinition="TEXT NOT NULL") 
    */
   public string $content;
   /** 
-   * @Column(type="string", nullable=true) 
+   * @Column(type="string", columnDefinition="TEXT", nullable=true) 
    */
   public string $attachement;
   /** 

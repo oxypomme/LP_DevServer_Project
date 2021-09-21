@@ -39,6 +39,8 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $settings['slim']['logErrorDetails']
             );
 
+            // Slim routes here
+
             $app->get('/', function (Request $request, Response $response) {
                 $response->getBody()->write("Hello, World");
 
