@@ -6,4 +6,7 @@ vendor/
 node_modules/
 
 # Maps
-public/*/*.map
+# public/*/*.map
+
+# Generated files
+public/*

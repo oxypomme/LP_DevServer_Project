@@ -1,18 +1,19 @@
 const { watch, src, dest, parallel } = require("gulp");
+const pipeline = require("readable-stream").pipeline;
+const sourcemaps = require("gulp-sourcemaps");
+const concat = require("gulp-concat");
 const ts = require("gulp-typescript");
 const uglify = require("gulp-uglify");
-const sourcemaps = require("gulp-sourcemaps");
-const pipeline = require("readable-stream").pipeline;
 const sass = require("gulp-sass")(require("sass"));
 
 const tsProject = ts.createProject("tsconfig.json");
 
 function typescript() {
-  // TODO : Pack in one file
   return pipeline(
     tsProject.src(),
     sourcemaps.init(),
     tsProject(),
+    concat("bundle.js"),
     uglify(),
     sourcemaps.write(".", { sourceRoot: "./", includeContent: false }),
     dest("public/js/")
@@ -28,6 +29,8 @@ function scss() {
     dest("public/css/")
   );
 }
+
+// TODO? : Resize images ?
 
 exports.build = () => {
   parallel(typescript, scss);
