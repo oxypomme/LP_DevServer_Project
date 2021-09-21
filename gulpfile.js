@@ -16,7 +16,7 @@ function typescript() {
     concat("bundle.js"),
     uglify(),
     sourcemaps.write(".", { sourceRoot: "./", includeContent: false }),
-    dest("public/js/")
+    dest("dist/js/")
   );
 }
 
@@ -26,7 +26,7 @@ function scss() {
     sourcemaps.init(),
     sass({ outputStyle: "compressed" }).on("error", sass.logError),
     sourcemaps.write("."),
-    dest("public/css/")
+    dest("dist/css/")
   );
 }
 

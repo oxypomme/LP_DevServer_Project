@@ -51,7 +51,7 @@ class Slim implements \UMA\DIC\ServiceProvider
 
 
             $app->get('/static/{file:.*}', function (Request $request, Response $response, $args) {
-                $filePath = APP_ROOT . '/public/' . $args['file'];
+                $filePath = APP_ROOT . '/dist/' . $args['file'];
 
                 if (!file_exists($filePath)) {
                     return $response->withStatus(404, 'File Not Found');

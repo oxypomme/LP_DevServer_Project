@@ -9,4 +9,4 @@ node_modules/
 # public/*/*.map
 
 # Generated files
-public/*
+dist/
