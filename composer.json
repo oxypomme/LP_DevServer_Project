@@ -1,0 +1,19 @@
+{
+  "require": {
+    "php": ">= 7.3",
+    "ext-json": "*",
+    "doctrine/cache": "^1.11",
+    "doctrine/orm": "^2.9",
+    "fzaninotto/faker": "^1.9",
+    "nyholm/psr7": "^1.4",
+    "nyholm/psr7-server": "^1.0",
+    "slim/slim": "^4.8",
+    "uma/dic": "^2.0",
+    "vlucas/phpdotenv": "^5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Crisis\\": "src/"
+    }
+  }
+}

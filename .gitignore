@@ -1,0 +1,6 @@
+.env
+.vscode/*
+
+# Dependencies
+vendor/
+node_modules/
