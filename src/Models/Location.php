@@ -23,13 +23,13 @@ class Location
    */
   public float $lat;
   /** 
-   * @Column(type="datetime") 
+   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
   public \DateTime $lastUpdate;
 
   /**
-  * @OneToOne(targetEntity="User")
-  */
+   * @OneToOne(targetEntity="User")
+   */
   public User $user;
 
   public function __get(string $name)

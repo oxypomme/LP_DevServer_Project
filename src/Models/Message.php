@@ -19,24 +19,24 @@ class Message
    */
   public string $content;
   /** 
-   * @Column(type="string") 
+   * @Column(type="string", nullable=true) 
    */
   public string $attachement;
   /** 
-   * @Column(type="datetime") 
+   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
   protected \DateTime $date;
   /** 
-   * @Column(type="datetime") 
+   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
   public \DateTime $edit_date;
 
   /**
-   * @ManyToOne(targetEntity="User", inversedBy="outRelations")
+   * @ManyToOne(targetEntity="User", inversedBy="outMessages")
    */
   protected User $sender;
   /**
-   * @ManyToOne(targetEntity="User", inversedBy="inRelations")
+   * @ManyToOne(targetEntity="User", inversedBy="inMessages")
    */
   protected User $target;
 
@@ -58,11 +58,11 @@ class Message
   {
     switch ($name) {
       case 'sender':
-        $value->addOutRelation($this);
+        $value->addOutMessage($this);
         $this->sender = $value;
         break;
       case 'target':
-        $value->addInRelation($this);
+        $value->addInMassage($this);
         $this->target = $value;
         break;
 

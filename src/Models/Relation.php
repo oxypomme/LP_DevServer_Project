@@ -15,7 +15,7 @@ class Relation
    */
   protected int $id;
   /** 
-   * @Column(type="datetime") 
+   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
   public \DateTime $date;
 

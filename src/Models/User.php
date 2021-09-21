@@ -3,6 +3,7 @@
 namespace Crisis\Models;
 
 use JsonSerializable;
+use Doctrine\ORM\PersistentCollection;
 use function password_hash;
 
 /**
@@ -50,7 +51,7 @@ class User
    */
   public string $country;
   /** 
-   * @Column(type="integer") 
+   * @Column(type="integer", options={"default": 0})
    */
   public int $status;
 
@@ -58,22 +59,22 @@ class User
    * @OneToMany(targetEntity="Relation", mappedBy="sender")
    * @var Relation[]
    */
-  protected array $outRelations;
+  protected PersistentCollection $outRelations;
   /**
    * @OneToMany(targetEntity="Relation", mappedBy="target")
    * @var Relation[]
    */
-  protected array $inRelations;
+  protected PersistentCollection $inRelations;
   /**
    * @OneToMany(targetEntity="Message", mappedBy="sender")
    * @var Message[]
    */
-  protected array $outMessages;
+  protected PersistentCollection $outMessages;
   /**
    * @OneToMany(targetEntity="Message", mappedBy="target")
    * @var Message[]
    */
-  protected array $inMessages;
+  protected PersistentCollection $inMessages;
 
   public function __construct()
   {
