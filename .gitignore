@@ -4,3 +4,6 @@
 # Dependencies
 vendor/
 node_modules/
+
+# Maps
+public/*/*.map
