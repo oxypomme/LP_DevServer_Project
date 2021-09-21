@@ -1,6 +1,7 @@
 <?php
 
 const APP_ROOT = __DIR__;
+const TEMPLATES_DIR = __DIR__ . '/src/templates';
 
 $dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
 $dotenv->load();
