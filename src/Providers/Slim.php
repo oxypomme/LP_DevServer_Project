@@ -21,13 +21,13 @@ class Slim implements \UMA\DIC\ServiceProvider
      */
     public function provide(Container $c): void
     {
-        $c->set(ListUsers::class, static function(Container $c): RequestHandlerInterface {;
+        $c->set(ListUsers::class, static function (Container $c): RequestHandlerInterface {
             return new ListUsers(
                 $c->get(EntityManager::class)
             );
         });
 
-        $c->set(App::class, static function (Container $c): \Slim\App {
+        $c->set(\Slim\App::class, static function (Container $c): \Slim\App {
             /** @var array $settings */
             $settings = $c->get('settings');
 
@@ -41,7 +41,7 @@ class Slim implements \UMA\DIC\ServiceProvider
 
             $app->get('/', function (Request $request, Response $response) {
                 $response->getBody()->write("Hello, World");
-            
+
                 return $response;
             });
 
