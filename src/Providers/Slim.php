@@ -2,12 +2,11 @@
 
 namespace Crisis\Providers;
 
-use Crisis\Actions\ListUsers;
-use Doctrine\ORM\EntityManager;
+use Crisis\Actions\Users;
 use UMA\DIC\Container;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use \Psr\Http\Server\RequestHandlerInterface;
+use Slim\Routing\RouteCollectorProxy;
 use Slim\Views\PhpRenderer;
 
 /**
@@ -22,12 +21,6 @@ class Slim implements \UMA\DIC\ServiceProvider
      */
     public function provide(Container $c): void
     {
-        $c->set(ListUsers::class, static function (Container $c): RequestHandlerInterface {
-            return new ListUsers(
-                $c->get(EntityManager::class)
-            );
-        });
-
         $c->set(\Slim\App::class, static function (Container $c): \Slim\App {
             /** @var array $settings */
             $settings = $c->get('settings');
@@ -47,8 +40,21 @@ class Slim implements \UMA\DIC\ServiceProvider
                 return $renderer->render($response, "hello.phtml", $args);
             });
 
-            $app->get('/users', ListUsers::class);
+            $app->group('/api', function (RouteCollectorProxy $group) {
+                //Group for API calls
+                $group->group('/users', function (RouteCollectorProxy $group) {
+                    // Group for user list
+                    //// $group->post('', ...);
+                    $group->get('', Users\ListUsers::class);
 
+                    $group->group('/{id:[0-9]+}', function (RouteCollectorProxy $group) {
+                        // Group for specific user
+                        $group->get('', Users\GetUser::class);
+                        //// $group->put('', ...);
+                        //// $group->delete('', ...);
+                    });
+                });
+            });
 
             $app->get('/static/{file:.*}', function (Request $request, Response $response, $args) {
                 $filePath = APP_ROOT . '/dist/' . $args['file'];

@@ -1,22 +1,17 @@
 <?php
 
-namespace Crisis\Actions;
+namespace Crisis\Actions\Users;
 
 use Crisis\Models\User;
-use Doctrine\ORM\EntityManager;
+use Crisis\Actions\InvokableEMAction;
 use Nyholm\Psr7;
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
 use function json_encode;
 
-class ListUsers implements \Psr\Http\Server\RequestHandlerInterface
+class ListUsers extends InvokableEMAction
 {
-    private EntityManager $em;
-
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
-    }
-
-    public function handle(\Psr\Http\Message\ServerRequestInterface $request): \Psr\Http\Message\ResponseInterface
+    public function handle(Request $request, Response $response, array $args): Response
     {
         /** @var User[] $users */
         $users = $this->em
