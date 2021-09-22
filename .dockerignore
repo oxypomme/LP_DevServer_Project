@@ -1,0 +1,31 @@
+# Dev only
+.vscode/
+README.md
+.*
+!.env.prod
+!.htaccess
+*.drawio
+
+# Dependencies
+vendor/
+node_modules/
+
+# Maps
+dist/*/*.map
+
+# If not needed
+# docker*
+
+# If needed
+!.dockerignore
+
+# If client build in docker
+# dist/
+
+# If client build not in docker
+gulpfile.js
+package.json
+tsconfig.json
+yarn.lock
+package.lock
+client/
