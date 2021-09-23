@@ -65,7 +65,7 @@ class User
    */
   protected PersistentCollection $outRelations;
   /**
-   * @OneToMany(targetEntity="Relation", mappedBy="target")
+   * @OneToMany(targetEntity="Relation", mappedBy="target", fetch="EAGER")
    * @var Relation[]
    */
   protected PersistentCollection $inRelations;
@@ -122,8 +122,17 @@ class User
     $this->groups[] = $group;
   }
 
+  public function getRelations()
+  {
+    return $this->inRelations;
+  }
+
   public function __get(string $name)
   {
+    if (!property_exists($this, $name)) {
+      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
+    }
+
     switch ($name) {
       case 'password':
         throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
@@ -137,6 +146,10 @@ class User
 
   public function __set(string $name, $value)
   {
+    if (!property_exists($this, $name)) {
+      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
+    }
+
     switch ($name) {
       case 'registerDate':
       case 'id':

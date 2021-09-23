@@ -15,11 +15,11 @@ class Message
    */
   protected int $id;
   /** 
-   * @Column(type="string", columnDefinition="TEXT NOT NULL") 
+   * @Column(type="text") 
    */
   public string $content;
   /** 
-   * @Column(type="string", columnDefinition="TEXT", nullable=true) 
+   * @Column(type="text", nullable=true) 
    */
   public string $attachement;
   /** 
@@ -42,6 +42,10 @@ class Message
 
   public function __get(string $name)
   {
+    if (!property_exists($this, $name)) {
+      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
+    }
+
     switch ($name) {
       default:
         return $this->$name;
@@ -51,6 +55,10 @@ class Message
 
   public function __set(string $name, $value)
   {
+    if (!property_exists($this, $name)) {
+      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
+    }
+
     switch ($name) {
       case 'date':
       case 'id':

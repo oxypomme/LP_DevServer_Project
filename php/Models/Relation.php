@@ -33,6 +33,10 @@ class Relation
 
   public function __get(string $name)
   {
+    if (!property_exists($this, $name)) {
+      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
+    }
+
     switch ($name) {
       default:
         return $this->$name;
@@ -42,6 +46,10 @@ class Relation
 
   public function __set(string $name, $value)
   {
+    if (!property_exists($this, $name)) {
+      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
+    }
+
     switch ($name) {
       case 'date':
       case 'id':
