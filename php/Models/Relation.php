@@ -4,7 +4,10 @@ namespace Crisis\Models;
 
 /**
  * @Entity
- * @Table(name="relations")
+ * @Table(
+ *  name="relations",
+ *  uniqueConstraints={@UniqueConstraint(columns={"sender_id", "target_id"})}
+ * )
  */
 class Relation
 {
@@ -17,7 +20,7 @@ class Relation
   /** 
    * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  public \DateTime $date;
+  protected \DateTime $date;
 
   /**
    * @ManyToOne(targetEntity="User", inversedBy="outRelations")
@@ -31,12 +34,8 @@ class Relation
   public function __get(string $name)
   {
     switch ($name) {
-      case 'id':
-        return $this->$name;
-        break;
-
       default:
-        throw new \Error("Property ${name} is not accessible");
+        return $this->$name;
         break;
     }
   }
@@ -44,6 +43,11 @@ class Relation
   public function __set(string $name, $value)
   {
     switch ($name) {
+      case 'date':
+      case 'id':
+        throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
+        break;
+
       case 'sender':
         $value->addOutRelation($this);
         $this->sender = $value;
@@ -54,7 +58,7 @@ class Relation
         break;
 
       default:
-        throw new \Error("Property ${name} is not accessible");
+        $this->$name = $value;
         break;
     }
   }

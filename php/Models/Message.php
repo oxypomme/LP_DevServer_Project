@@ -43,13 +43,8 @@ class Message
   public function __get(string $name)
   {
     switch ($name) {
-      case 'date':
-      case 'id':
-        return $this->$name;
-        break;
-
       default:
-        throw new \Error("Property ${name} is not accessible");
+        return $this->$name;
         break;
     }
   }
@@ -57,6 +52,11 @@ class Message
   public function __set(string $name, $value)
   {
     switch ($name) {
+      case 'date':
+      case 'id':
+        throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
+        break;
+
       case 'sender':
         $value->addOutMessage($this);
         $this->sender = $value;
@@ -67,7 +67,7 @@ class Message
         break;
 
       default:
-        throw new \Error("Property ${name} is not accessible");
+        $this->$name = $value;
         break;
     }
   }

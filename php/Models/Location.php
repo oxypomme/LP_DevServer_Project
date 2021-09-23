@@ -35,12 +35,8 @@ class Location
   public function __get(string $name)
   {
     switch ($name) {
-      case 'id':
-        return $this->$name;
-        break;
-
       default:
-        throw new \Error("Property ${name} is not accessible");
+        return $this->$name;
         break;
     }
   }
@@ -48,8 +44,12 @@ class Location
   public function __set(string $name, $value)
   {
     switch ($name) {
+      case 'id':
+        throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
+        break;
+
       default:
-        throw new \Error("Property ${name} is not accessible");
+        $this->$name = $value;
         break;
     }
   }

@@ -54,6 +54,10 @@ class User
    * @Column(type="integer", options={"default": 0})
    */
   public int $status;
+  /** 
+   * @Column(type="datetime", name="register_date", options={"default": "CURRENT_TIMESTAMP"}) 
+   */
+  protected \DateTime $registerDate;
 
   /**
    * @OneToMany(targetEntity="Relation", mappedBy="sender")
@@ -75,10 +79,20 @@ class User
    * @var Message[]
    */
   protected PersistentCollection $inMessages;
+  /**
+   * @OneToMany(targetEntity="Group", mappedBy="owner")
+   * @var Group[]
+   */
+  protected PersistentCollection $ownedGroups;
+  /**
+   * @ManyToMany(targetEntity="Group", inversedBy="users")
+   * @JoinTable(name="users_groups")
+   * @var Group[]
+   */
+  protected PersistentCollection $groups;
 
   public function __construct()
   {
-    var_dump('Missing construct');
   }
 
   public function addOutRelation(Relation $rel)
@@ -99,16 +113,24 @@ class User
     $this->inMessages[] = $msg;
   }
 
+  public function addOwnedGroup(Group $group)
+  {
+    $this->ownedGroups[] = $group;
+  }
+  public function addGroup(Group $group)
+  {
+    $this->groups[] = $group;
+  }
+
   public function __get(string $name)
   {
     switch ($name) {
-      case 'id':
       case 'password':
-        return $this->$name;
+        throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
         break;
 
       default:
-        throw new \Error("Property ${name} is not accessible");
+        return $this->$name;
         break;
     }
   }
@@ -116,12 +138,22 @@ class User
   public function __set(string $name, $value)
   {
     switch ($name) {
+      case 'registerDate':
+      case 'id':
+        throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
+        break;
+
       case 'password':
         $this->password = password_hash((string) $value, PASSWORD_DEFAULT);
         break;
 
+      case 'groups':
+        $value->addToGroup($this);
+        $this->groups[] = $value;
+        break;
+
       default:
-        throw new \Error("Property ${name} is not accessible");
+        $this->$name;
         break;
     }
   }
