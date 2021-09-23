@@ -3,9 +3,10 @@ FROM php:7.4.3-apache
 WORKDIR /var/www/html
 
 # Upgrade + install driver
-RUN apt update \
-  && apt upgrade -y \
-  && docker-php-ext-install mysqli
+RUN apt-get update \
+  && apt-get upgrade -y \
+  && apt-get install git unzip -y \
+  && docker-php-ext-install pdo pdo_mysql
 
 # Add project files
 COPY . ./
@@ -20,11 +21,10 @@ RUN mv ./.env.prod ./.env \
   && /etc/init.d/apache2 restart
 
 # Install composer
-#// COPY --from=composer /usr/bin/composer /usr/bin/composer
-#// RUN composer update
-# Or
-RUN curl -sS https://getcomposer.org/installer \
-  | php -- --install-dir=/usr/bin/composer --filename=composer \
-  | composer update
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN composer update
 
-EXPOSE 80
+#! composer: not found
+# RUN curl -sS https://getcomposer.org/installer \
+#   | php -- --install-dir=/usr/bin/composer --filename=composer \
+#   | composer update

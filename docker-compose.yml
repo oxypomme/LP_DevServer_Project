@@ -4,7 +4,7 @@ services:
     image: mysql
     restart: always
     ports:
-      - 3306:${DB_PORT}
+      - ${DB_PORT}:3306
     volumes:
       - "./docker/db:/var/lib/mysql"
     environment:
@@ -17,4 +17,4 @@ services:
     depends_on:
       - db
     ports:
-      - 80:80
+      - ${HTTP_PORT}:80
