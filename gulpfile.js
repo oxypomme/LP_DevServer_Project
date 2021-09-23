@@ -22,7 +22,7 @@ function typescript() {
 
 function scss() {
   return pipeline(
-    src("client/scss/**/*.scss"),
+    src("src/scss/**/*.scss"),
     sourcemaps.init(),
     sass({ outputStyle: "compressed" }).on("error", sass.logError),
     sourcemaps.write("."),
@@ -37,6 +37,6 @@ exports.build = () => {
 };
 
 exports.watch = () => {
-  watch("client/ts/**/*.ts", typescript);
-  watch("client/scss/**/*.scss", scss);
+  watch("src/ts/**/*.ts", typescript);
+  watch("src/scss/**/*.scss", scss);
 };

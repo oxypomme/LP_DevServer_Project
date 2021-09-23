@@ -1,7 +1,7 @@
 <?php
 
 const APP_ROOT = __DIR__;
-const TEMPLATES_DIR = __DIR__ . '/src/templates';
+const TEMPLATES_DIR = __DIR__ . '/php/templates';
 
 $dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
 $dotenv->load();
@@ -31,7 +31,7 @@ return [
             'cache_dir' => APP_ROOT . '/var/doctrine',
 
             // you should add any other path containing annotated entity classes
-            'metadata_dirs' => [APP_ROOT . '/src/Models'],
+            'metadata_dirs' => [APP_ROOT . '/php/Models'],
 
             'connection' => [
                 'driver' => $_ENV['DB_DRIVER'],

@@ -6,8 +6,9 @@
 vendor/
 node_modules/
 
-# Maps
+# Maps & cache
 # public/*/*.map
+var/
 
 # Generated files
 dist/

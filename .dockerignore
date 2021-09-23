@@ -18,8 +18,9 @@ client/
 vendor/
 node_modules/
 
-# Maps
+# Maps & cache
 dist/*/*.map
+var/
 
 # Docker files
 docker*
