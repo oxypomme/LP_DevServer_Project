@@ -1,17 +1,21 @@
 import { task, watch, src, dest, series, parallel } from "gulp";
 const pipeline = require("readable-stream").pipeline;
 import sourcemaps from "gulp-sourcemaps";
-import uglify from "gulp-uglify";
 import clean from "gulp-clean";
-import browserify from "browserify";
-import { sync } from "glob";
-import source from "vinyl-source-stream";
+
 import tsify from "tsify";
+import { sync } from "glob";
+import uglify from "gulp-uglify";
+import browserify from "browserify";
+import source from "vinyl-source-stream";
 import buffer from "vinyl-buffer";
 
 import gulpsass from "gulp-sass";
 import sassCompiler from "sass";
 const sass = gulpsass(sassCompiler);
+import postcss from "gulp-postcss";
+import autoprefixer from "autoprefixer";
+import cssnano from "cssnano";
 
 function pruneJS() {
   return src(["tmp/js/**/*, dist/js/*"], { read: false }).pipe(clean());
@@ -37,16 +41,18 @@ function transpileTS() {
     buffer(),
     sourcemaps.init({ loadMaps: true }),
     uglify(),
-    sourcemaps.write("."),
+    sourcemaps.write(".", { includeContent: false }),
     dest("dist/js")
   );
 }
+
 function transpileSCSS() {
   return pipeline(
     src("src/scss/**/*.scss"),
     sourcemaps.init(),
-    sass({ outputStyle: "compressed" }).on("error", sass.logError),
-    sourcemaps.write("."),
+    sass().on("error", sass.logError),
+    postcss([autoprefixer, cssnano]),
+    sourcemaps.write(".", { includeContent: false }),
     dest("dist/css/")
   );
 }
