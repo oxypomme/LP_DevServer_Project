@@ -22,9 +22,4 @@ RUN mv ./.env.prod ./.env \
 
 # Install composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN composer update
-
-#! composer: not found
-# RUN curl -sS https://getcomposer.org/installer \
-#   | php -- --install-dir=/usr/bin/composer --filename=composer \
-#   | composer update
+RUN composer install --no-dev --optimize-autoloader
