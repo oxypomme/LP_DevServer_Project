@@ -1,6 +1,7 @@
 .env*
 !.env.example
 .vscode/*
+yarn-error.log
 
 # Dependencies
 vendor/

@@ -7,15 +7,23 @@
   "private": true,
   "scripts": {
     "build": "gulp build",
+    "build:client": "gulp build:client",
+    "build:server": "gulp build:server",
     "build:docker": "gulp build && docker-compose --env-file ./.env.prod up",
     "watch": "gulp watch"
   },
   "devDependencies": {
+    "@types/gulp": "^4.0.9",
+    "@types/gulp-concat": "^0.0.33",
+    "@types/gulp-sourcemaps": "0.0.35",
+    "@types/gulp-uglify": "^3.0.7",
+    "@types/node": "^16.10.1",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "eslint": "^7.32.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
+    "gulp-ignore": "^3.0.0",
     "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
