@@ -24,7 +24,7 @@ return [
 
         'doctrine' => [
             // if true, metadata caching is forcefully disabled
-            'dev_mode' => true,
+            'dev_mode' => ($_ENV['MODE'] != "production"),
 
             // path where the compiled metadata info will be cached
             // make sure the path exists and it is writable
