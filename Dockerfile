@@ -23,3 +23,6 @@ RUN mv ./.env.prod ./.env \
 # Install composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
+
+# Run Websocket server
+CMD php ./public/socket.php

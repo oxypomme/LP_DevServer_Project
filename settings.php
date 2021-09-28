@@ -24,7 +24,7 @@ return [
 
         'doctrine' => [
             // if true, metadata caching is forcefully disabled
-            'dev_mode' => ($_ENV['MODE'] != "production"),
+            'dev_mode' => ($_ENV['PHP_ENV'] != "production"),
 
             // path where the compiled metadata info will be cached
             // make sure the path exists and it is writable
@@ -41,6 +41,11 @@ return [
                 'host' => $_ENV['DB_HOST'],
                 'port' => $_ENV['DB_PORT'],
             ]
+        ],
+
+        'socket' => [
+            // Apache config depends on that
+            'port' => 8090
         ]
     ]
 ];

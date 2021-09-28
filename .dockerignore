@@ -7,8 +7,8 @@ README.md
 *.drawio
 
 # Client dev only
-gulpfile.js
-package.json
+gulpfile.ts
+# package.json
 tsconfig.json
 yarn.lock
 package.lock
@@ -21,6 +21,7 @@ node_modules/
 # Maps & cache
 dist/*/*.map
 var/
+tmp/
 
 # Docker files
 docker*

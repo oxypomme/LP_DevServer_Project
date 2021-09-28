@@ -38,6 +38,11 @@
   <footer></footer>
 
   <!-- JS -->
+  <script>
+    window.env = {
+      PHP_MODE: '<?= $_ENV['PHP_ENV'] ?>',
+    }
+  </script>
   <script src="/static/js/bundle.js" defer></script>
 </body>
 
