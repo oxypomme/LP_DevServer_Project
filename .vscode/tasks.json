@@ -1,0 +1,27 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "php: server",
+      "type": "shell",
+      "command": "php -S localhost:8080 ./public/index.php"
+    },
+    {
+      "label": "php: sockets",
+      "type": "shell",
+      "command": "php ./public/socket.php"
+    },
+    {
+      "type": "npm",
+      "script": "watch",
+      "label": "npm: watch",
+      "detail": "gulp watch"
+    },
+    {
+      "label": "Dev Server",
+      "dependsOn": ["npm: watch", "php: sockets", "php: server"]
+    }
+  ]
+}
