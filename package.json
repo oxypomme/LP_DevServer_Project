@@ -10,7 +10,8 @@
     "build:client": "gulp build:client",
     "build:server": "gulp build:server",
     "build:docker": "gulp build && docker-compose --env-file ./.env.prod up",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "serve": "php -S localhost:8080 ./public/index.php | gulp watch"
   },
   "devDependencies": {
     "@types/gulp": "^4.0.9",

@@ -29,6 +29,11 @@ function typescriptClient() {
   );
 }
 
+function typescriptServer() {
+  //TODO
+  return;
+}
+
 function scss() {
   return pipeline(
     src("src/scss/**/*.scss"),
@@ -44,7 +49,7 @@ function scss() {
 const buildClient = parallel(typescriptClient, scss);
 buildClient.displayName = "build:client";
 
-const buildServer = parallel(); //TODO
+const buildServer = parallel(typescriptServer);
 buildServer.displayName = "build:server";
 
 const build = parallel(buildClient, buildServer);
