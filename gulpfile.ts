@@ -1,39 +1,43 @@
-// const { watch, src, dest, parallel } = require("gulp");
-// const pipeline = require("readable-stream").pipeline;
-// const sourcemaps = require("gulp-sourcemaps");
-// const concat = require("gulp-concat");
-// const ts = require("gulp-typescript");
-// const uglify = require("gulp-uglify");
-// const sass = require("gulp-sass")(require("sass"));
-import { watch as gwatch, src, dest, parallel } from "gulp";
+import { task, watch, src, dest, series, parallel } from "gulp";
 const pipeline = require("readable-stream").pipeline;
 import sourcemaps from "gulp-sourcemaps";
-import concat from "gulp-concat";
-import ts from "gulp-typescript";
 import uglify from "gulp-uglify";
-import { exclude } from "gulp-ignore";
+import clean from "gulp-clean";
+import browserify from "browserify";
+import { sync } from "glob";
+import source from "vinyl-source-stream";
+import tsify from "tsify";
+import buffer from "vinyl-buffer";
 const sass = require("gulp-sass")(require("sass"));
 
-const tsProject = ts.createProject("tsconfig.json");
+function pruneJS() {
+  return src(["tmp/js/**/*, dist/js/*"], { read: false }).pipe(clean());
+}
+function pruneCSS() {
+  return src(["dist/css/**/*"], { read: false }).pipe(clean());
+}
+const prune = parallel(pruneJS, pruneCSS);
 
-function typescriptClient() {
+function transpileTS() {
+  const files = sync("src/ts/**/*.ts");
   return pipeline(
-    tsProject.src(),
-    sourcemaps.init(),
-    exclude("gulpfile.ts"),
-    tsProject(),
-    concat("bundle.js"),
+    browserify({
+      basedir: ".",
+      debug: true,
+      entries: files,
+      cache: {},
+      packageCache: {},
+    })
+      .plugin(tsify)
+      .bundle(),
+    source("bundle.js"),
+    buffer(),
+    sourcemaps.init({ loadMaps: true }),
     uglify(),
-    sourcemaps.write(".", { sourceRoot: "./", includeContent: false }),
-    dest("dist/js/")
+    sourcemaps.write("."),
+    dest("dist/js")
   );
 }
-
-function typescriptServer() {
-  //TODO
-  return;
-}
-
 function scss() {
   return pipeline(
     src("src/scss/**/*.scss"),
@@ -46,18 +50,9 @@ function scss() {
 
 // TODO? : Resize images ?
 
-const buildClient = parallel(typescriptClient, scss);
-buildClient.displayName = "build:client";
+task("build", series(prune, parallel(transpileTS, scss)));
 
-const buildServer = parallel(typescriptServer);
-buildServer.displayName = "build:server";
-
-const build = parallel(buildClient, buildServer);
-
-const watch = () => {
-  gwatch("src/ts/**/*.ts", typescriptClient);
-  gwatch("src/scss/**/*.scss", scss);
-  //TODO: watch server
-};
-
-export { build, buildClient, buildServer, watch };
+task("watch", function () {
+  watch("src/ts/**/*.ts", series(pruneJS, transpileTS));
+  watch("src/scss/**/*.scss", series(pruneCSS, scss));
+});
