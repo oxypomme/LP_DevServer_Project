@@ -8,7 +8,10 @@ import { sync } from "glob";
 import source from "vinyl-source-stream";
 import tsify from "tsify";
 import buffer from "vinyl-buffer";
-const sass = require("gulp-sass")(require("sass"));
+
+import gulpsass from "gulp-sass";
+import sassCompiler from "sass";
+const sass = gulpsass(sassCompiler);
 
 function pruneJS() {
   return src(["tmp/js/**/*, dist/js/*"], { read: false }).pipe(clean());
@@ -38,7 +41,7 @@ function transpileTS() {
     dest("dist/js")
   );
 }
-function scss() {
+function transpileSCSS() {
   return pipeline(
     src("src/scss/**/*.scss"),
     sourcemaps.init(),
@@ -50,9 +53,9 @@ function scss() {
 
 // TODO? : Resize images ?
 
-task("build", series(prune, parallel(transpileTS, scss)));
+task("build", series(prune, parallel(transpileTS, transpileSCSS)));
 
 task("watch", function () {
   watch("src/ts/**/*.ts", series(pruneJS, transpileTS));
-  watch("src/scss/**/*.scss", series(pruneCSS, scss));
+  watch("src/scss/**/*.scss", series(pruneCSS, transpileSCSS));
 });

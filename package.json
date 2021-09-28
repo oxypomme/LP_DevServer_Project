@@ -13,9 +13,11 @@
   "devDependencies": {
     "@types/browserify": "^12.0.37",
     "@types/gulp": "^4.0.9",
+    "@types/gulp-sass": "^5.0.0",
     "@types/gulp-sourcemaps": "0.0.35",
     "@types/gulp-uglify": "^3.0.7",
     "@types/node": "^16.10.1",
+    "@types/sass": "^1.16.1",
     "@types/vinyl-buffer": "^1.0.0",
     "@types/vinyl-source-stream": "^0.0.30",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
