@@ -13,4 +13,4 @@ jobs:
           ssh_cert: ${{ secrets.SSH_CERT }}
           ssh_key: ${{ secrets.SSH_KEY }}
 
-      - run: docker-compose --context dev-server up --d
+      - run: docker-compose --context dev-server up --d --build
