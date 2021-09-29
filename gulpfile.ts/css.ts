@@ -1,5 +1,5 @@
 import { src, dest } from "gulp";
-const { pipeline } = require("readable-stream");
+import { pipeline } from "readable-stream";
 import sourcemaps from "gulp-sourcemaps";
 
 import gulpsass from "gulp-sass";

@@ -15,13 +15,13 @@
     },
     {
       "type": "npm",
-      "script": "watch",
-      "label": "npm: watch",
-      "detail": "gulp watch"
+      "script": "serve",
+      "label": "npm: serve",
+      "detail": "gulp serve"
     },
     {
       "label": "Dev Server",
-      "dependsOn": ["npm: watch", "php: sockets", "php: server"]
+      "dependsOn": ["npm: serve", "php: sockets"]
     }
   ]
 }
