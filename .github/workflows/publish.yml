@@ -1,0 +1,16 @@
+on:
+  push: [release]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: "Publish on the developement server"
+    steps:
+      - uses: arwynfr/actions-docker-context@v2
+        with:
+          docker_host: "${{ secrets.DOCKER_HOST }}"
+          context_name: "dev-server"
+          ssh_cert: ${{ secrets.SSH_CERT }}
+          ssh_key: ${{ secrets.SSH_KEY }}
+
+      - run: docker-compose --context dev-server up --d
