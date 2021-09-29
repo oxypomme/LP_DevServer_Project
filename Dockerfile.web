@@ -1,0 +1,16 @@
+FROM alpine
+
+WORKDIR /var/www/localhost/htdocs
+
+# Add project files
+COPY /config ./config
+
+# Upgrade + install driver
+RUN apk update \
+  && apk upgrade -U -a \
+  && apk add apache2 apache2-proxy --no-cache \
+  # Add config files
+  && mv -v ./config/apache2/* /etc/apache2/conf.d/
+
+# Run server
+CMD /usr/sbin/httpd -D FOREGROUND

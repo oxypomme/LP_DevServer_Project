@@ -31,23 +31,24 @@ RUN apk update \
   && composer install --no-dev --optimize-autoloader \
   # Make it fetchable
   && mkdir /app \
-  && mv config/ dist/ php/ public/ vendor/ .env ./*.php ./composer.json /app/
+  && mv dist/ php/ public/ vendor/ .env ./*.php ./composer.json /app/
 
 # ====
 
-FROM php:7.4.3-apache
+FROM php:7.4.24-fpm-alpine
 
-WORKDIR /var/www/html
+WORKDIR /app
 
 # Add project files
 COPY --from=builder /app ./
 
 # Upgrade + install driver
-RUN apt-get update \
-  && apt-get upgrade -y \
+RUN apk update \
+  && apk upgrade -U -a \
   && docker-php-ext-install pdo pdo_mysql \
-  # Add config files
-  && mv -v ./config/apache2/* /etc/apache2/sites-available/
+  && echo "php /app/public/socket.php &" > start.sh \
+  && echo "php-fpm" >> start.sh \
+  && chmod +x start.sh
 
-# Run server
-CMD /etc/init.d/apache2 restart ; php ./public/socket.php
+# Run WS server
+CMD /app/start.sh
