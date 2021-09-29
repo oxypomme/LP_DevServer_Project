@@ -2,24 +2,18 @@
 .vscode/
 README.md
 .*
+!.env
 !.env.prod
 !.htaccess
 *.drawio
-
-# Client dev only
-gulpfile.ts
-# package.json
-tsconfig.json
-yarn.lock
-package.lock
-client/
+dist/
 
 # Dependencies
 vendor/
 node_modules/
 
 # Maps & cache
-dist/*/*.map
+# dist/*/*.map
 var/
 tmp/
 

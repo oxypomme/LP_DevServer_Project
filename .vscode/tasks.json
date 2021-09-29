@@ -22,6 +22,18 @@
     {
       "label": "Dev Server",
       "dependsOn": ["npm: serve", "php: sockets"]
+    },
+    {
+      // docker-compose --env-file ./.env.prod up --build --d
+      "label": "Run docker-compose up",
+      "type": "docker-compose",
+      "dockerCompose": {
+        "up": {
+          "detached": true,
+          "build": true,
+          "customOptions": "--env-file ./.env.prod"
+        }
+      }
     }
   ]
 }
