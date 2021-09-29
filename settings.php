@@ -3,7 +3,7 @@
 const APP_ROOT = __DIR__;
 const TEMPLATES_DIR = __DIR__ . '/php/templates';
 
-$dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
+$dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT, ['.env.dev', '.env']);
 $dotenv->load();
 
 return [

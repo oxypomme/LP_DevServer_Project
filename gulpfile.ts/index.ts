@@ -1,3 +1,8 @@
+import { config as dotenv } from "dotenv";
+dotenv({
+  path: process.env.NODE_ENV !== "production" ? ".env.dev" : undefined,
+});
+
 import { task, watch, series, parallel } from "gulp";
 import del from "del";
 import { server } from "gulp-connect-php";
@@ -21,12 +26,12 @@ task("build", series(prune, parallel(transpileTS, transpileSCSS)));
 task("serve", function () {
   server(
     {
-      port: 8080,
+      port: process.env.HTTP_PORT,
       router: "public/index.php",
     },
     function () {
       browserSync({
-        proxy: "127.0.0.1:8080",
+        proxy: `127.0.0.1:${process.env.HTTP_PORT}`,
       });
     }
   );

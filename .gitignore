@@ -1,5 +1,4 @@
-.env*
-!.env.example
+.env.*
 .vscode/*
 !.vscode/tasks.json
 yarn-error.log

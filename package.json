@@ -29,6 +29,7 @@
     "browserify": "^17.0.0",
     "cssnano": "^5.0.8",
     "del": "^6.0.0",
+    "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "gulp": "^4.0.2",
     "gulp-connect-php": "^1.0.3",
