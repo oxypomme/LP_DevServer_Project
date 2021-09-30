@@ -36,9 +36,9 @@ task("serve", function () {
     }
   );
 
-  watch("src/ts/**/*.ts", series(pruneJS, transpileTS));
-  watch("src/scss/**/*.scss", series(pruneCSS, transpileSCSS));
-  watch(["php/**/*", "src/**/*"]).on("change", function () {
+  watch(["php/**/*", "dist/**/*"]).on("change", function () {
     browserSync.reload();
   });
+  watch("src/**/*.ts", series(pruneJS, transpileTS));
+  watch("src/**/*.scss", series(pruneCSS, transpileSCSS));
 });
