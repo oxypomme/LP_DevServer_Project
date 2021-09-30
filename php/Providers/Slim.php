@@ -44,14 +44,14 @@ class Slim implements \UMA\DIC\ServiceProvider
                 //Group for API calls
                 $group->group('/users', function (RouteCollectorProxy $group) {
                     // Group for user list
-                    //// $group->post('', ...);
                     $group->get('', Users\ListUsers::class);
+                    $group->post('', Users\NewUser::class);
 
                     $group->group('/{id:[0-9]+}', function (RouteCollectorProxy $group) {
                         // Group for specific user
                         $group->get('', Users\GetUser::class);
-                        //// $group->put('', ...);
-                        //// $group->delete('', ...);
+                        $group->put('', Users\UpdateUser::class);
+                        $group->delete('', Users\DeleteUser::class);
                     });
                 });
             });

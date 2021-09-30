@@ -4,7 +4,6 @@ namespace Crisis\Actions\Users;
 
 use Crisis\Models\User;
 use Crisis\Actions\InvokableEMAction;
-use Nyholm\Psr7;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 

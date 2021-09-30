@@ -2,6 +2,7 @@
 
 namespace Crisis\Models;
 
+use DateTime;
 use JsonSerializable;
 use Doctrine\ORM\PersistentCollection;
 use function password_hash;
@@ -37,7 +38,7 @@ class User
   /** 
    * @Column(type="datetime") 
    */
-  public \DateTime $brithdate;
+  public \DateTime $birthdate;
   /** 
    * @Column(type="string") 
    */
@@ -91,8 +92,18 @@ class User
    */
   protected PersistentCollection $groups;
 
-  public function __construct()
+  public function __construct(string $username, string $password, string $email, string $phone, DateTime $birthdate, string $address, string $city, string $country)
   {
+    $this->username = $username;
+    $this->password = password_hash((string) $password, PASSWORD_DEFAULT);
+    $this->email = $email;
+    $this->phone = $phone;
+    $this->birthdate = $birthdate;
+    $this->address = $address;
+    $this->city = $city;
+    $this->country = $country;
+    $this->status = \Crisis\EStatus::SAFE;
+    $this->registerDate = new DateTime();
   }
 
   public function addOutRelation(Relation $rel)
