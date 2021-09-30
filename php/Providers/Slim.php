@@ -2,7 +2,7 @@
 
 namespace Crisis\Providers;
 
-use Crisis\Actions\Users;
+use Crisis\Actions;
 use UMA\DIC\Container;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -40,20 +40,29 @@ class Slim implements \UMA\DIC\ServiceProvider
                 return $renderer->render($response, "hello.phtml", $args);
             });
 
+            $app->get('/protected', function (Request $request, Response $response, array $args) {
+                $renderer = new PhpRenderer(TEMPLATES_DIR);
+                return $renderer->render($response, "hello.phtml", $args);
+            });
+
             $app->group('/api', function (RouteCollectorProxy $group) {
                 //Group for API calls
                 $group->group('/users', function (RouteCollectorProxy $group) {
                     // Group for user list
-                    $group->get('', Users\ListUsers::class);
-                    $group->post('', Users\NewUser::class);
+                    $group->get('', Actions\Users\ListUsers::class);
+                    $group->post('', Actions\Users\NewUser::class);
 
                     $group->group('/{id:[0-9]+}', function (RouteCollectorProxy $group) {
                         // Group for specific user
-                        $group->get('', Users\GetUser::class);
-                        $group->put('', Users\UpdateUser::class);
-                        $group->delete('', Users\DeleteUser::class);
+                        $group->get('', Actions\Users\GetUser::class);
+                        $group->put('', Actions\Users\UpdateUser::class);
+                        $group->delete('', Actions\Users\DeleteUser::class);
                     });
                 });
+            })->add(\PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], 'jwt', ['Auth Failed']));
+
+            $app->group('/auth', function (RouteCollectorProxy $group) {
+                $group->post('', Actions\Auth\GetJWTToken::class);
             });
 
             $app->get('/static/{file:.*}', function (Request $request, Response $response, $args) {

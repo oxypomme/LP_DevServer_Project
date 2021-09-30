@@ -30,7 +30,7 @@ abstract class InvokableJSONAction extends InvokableAction
   /**
    * Create a JSON response
    */
-  protected function createResponse($data = null): Psr7\Response
+  protected function createResponse($data = null, $status = 200): Psr7\Response
   {
     if (is_null($data)) {
       $data = new \stdClass();
@@ -39,7 +39,7 @@ abstract class InvokableJSONAction extends InvokableAction
     $body = Psr7\Stream::create($this->_json_encode($data) . PHP_EOL);
 
     return new Psr7\Response(
-      200,
+      $status,
       [
         'Content-Type' => 'application/json',
         'Content-Length' => $body->getSize()

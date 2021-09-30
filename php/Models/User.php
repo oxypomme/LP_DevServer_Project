@@ -145,10 +145,6 @@ class User
     }
 
     switch ($name) {
-      case 'password':
-        throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
-        break;
-
       default:
         return $this->$name;
         break;

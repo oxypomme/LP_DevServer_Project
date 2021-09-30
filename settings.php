@@ -46,6 +46,11 @@ return [
         'socket' => [
             // Apache config depends on that
             'port' => 8090
+        ],
+
+        'jwt' => [
+            "path" => ["/protected"],
+            "secret" => $_ENV['JWT_SECRET']
         ]
     ]
 ];
