@@ -36,7 +36,7 @@ task("serve", function () {
     }
   );
 
-  watch(["php/**/*", "dist/**/*"]).on("change", function () {
+  watch(["php/**/*", "src/**/*"]).on("change", function () {
     browserSync.reload();
   });
   watch("src/**/*.ts", series(pruneJS, transpileTS));
