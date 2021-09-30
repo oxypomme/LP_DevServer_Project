@@ -25,6 +25,7 @@ class UpdateUser extends InvokableEMAction
     $user->address = (string) $parsedBody['address'];
     $user->city = (string) $parsedBody['city'];
     $user->country = (string) $parsedBody['country'];
+    $user->status = (int) $parsedBody['status'];
 
     $this->em->persist($user);
     $this->em->flush();

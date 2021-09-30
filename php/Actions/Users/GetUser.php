@@ -16,6 +16,6 @@ class GetUser extends InvokableEMAction
             ->getRepository(User::class)
             ->find((int) $args['id']);
 
-        return $this->createResponse($this->getFullObject($user));
+        return $this->createResponse($user);
     }
 }
