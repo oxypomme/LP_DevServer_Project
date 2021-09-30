@@ -1,5 +1,6 @@
 on:
-  push: [release]
+  push:
+    branches: ["release"]
 
 jobs:
   publish:
