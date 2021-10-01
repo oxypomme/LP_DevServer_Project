@@ -7,11 +7,18 @@ jobs:
     runs-on: ubuntu-latest
     name: "Publish on the developement server"
     steps:
-      - run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-      - uses: arwynfr/actions-docker-context@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: release
+
+      - run: mkdir --parents $HOME/.ssh && ssh-keyscan -H ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
+      - name: Create Docker Context
+        uses: arwynfr/actions-docker-context@v2
         with:
           docker_host: "${{ secrets.DOCKER_HOST }}"
           context_name: "dev-server"
           ssh_key: ${{ secrets.SSH_KEY }}
 
-      - run: docker-compose --context dev-server up --d --build
+      - name: Build docker-compose
+        run: docker context use dev-server && docker-compose up --d --build
