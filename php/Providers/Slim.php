@@ -33,6 +33,11 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $settings['slim']['logErrorDetails']
             );
 
+            // Minify HTML if production
+            if ($_ENV['PHP_ENV'] == "production") {
+                $app->add(new \Slim\Middleware\Minify());
+            }
+
             // Slim routes here
 
             $app->get('/', function (Request $request, Response $response, array $args) use ($renderer) {
