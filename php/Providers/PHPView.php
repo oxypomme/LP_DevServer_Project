@@ -16,7 +16,7 @@ class PHPView implements \UMA\DIC\ServiceProvider
 			/** @var array $settings */
 			// $settings = $c->get('settings');
 
-			$phpView = new PhpRenderer(TEMPLATES_DIR, ['title' => 'Crisis']);
+			$phpView = new PhpRenderer(TEMPLATES_DIR, ['title' => '']);
 			$phpView->setLayout('layout.phtml');
 			return $phpView;
 		});

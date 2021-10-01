@@ -28,10 +28,10 @@ class GetJWTToken extends InvokableEMAction
           ->setPayloadClaim('user_id', $user->id)
           ->build();
 
-        return $this->createResponse(['token' => $token->getToken()]);
+        return $this->createResponse(['status' => 200, 'token' => $token->getToken()]);
       };
     }
 
-    return $this->createResponse(['message' => 'Bad Creditentials'], 401);
+    return $this->createResponse(['status' => 401, 'message' => 'Bad Creditentials'], 401);
   }
 }

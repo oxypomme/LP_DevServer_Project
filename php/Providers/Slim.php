@@ -40,8 +40,15 @@ class Slim implements \UMA\DIC\ServiceProvider
 
             // Slim routes here
 
-            $app->get('/', function (Request $request, Response $response, array $args) use ($renderer) {
-                return $renderer->render($response, "hello.phtml", ['title' => 'Home']);
+
+            $app->group('/', function (RouteCollectorProxy $group) use ($renderer) {
+                $group->get('', function (Request $request, Response $response, array $args) use ($renderer) {
+                    return $renderer->render($response, "home.phtml", ['title' => 'Signin']);
+                });
+                $group->get('register', function (Request $request, Response $response, array $args) use ($renderer) {
+                    return $renderer->render($response, "register.phtml", ['title' => 'Signup']);
+                });
+                $group->post('auth', Actions\Auth\GetJWTToken::class);
             });
 
             $app->group('/api', function (RouteCollectorProxy $group) {
@@ -60,11 +67,8 @@ class Slim implements \UMA\DIC\ServiceProvider
                         $group->delete('', Actions\Users\DeleteUser::class);
                     });
                 });
-            })->add(\PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], 'jwt', ['Auth Failed']));
+            })->add(\PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], 'jwt', ['stauts' => 401, 'message' => 'Auth Failed']));
 
-            $app->group('/auth', function (RouteCollectorProxy $group) {
-                $group->post('', Actions\Auth\GetJWTToken::class);
-            });
 
             $app->get('/static/{file:.*}', function (Request $request, Response $response, $args) {
                 $filePath = APP_ROOT . '/dist/' . $args['file'];
