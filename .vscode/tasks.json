@@ -20,8 +20,14 @@
       "detail": "gulp serve"
     },
     {
+      "type": "npm",
+      "script": "build",
+      "label": "npm: build",
+      "detail": "gulp build"
+    },
+    {
       "label": "Dev Server",
-      "dependsOn": ["npm: serve", "php: sockets"]
+      "dependsOn": ["npm: build", "npm: serve", "php: sockets"]
     },
     {
       // docker-compose --env-file ./.env.prod up --build --d
