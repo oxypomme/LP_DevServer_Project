@@ -7,7 +7,6 @@ use UMA\DIC\Container;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Slim\Routing\RouteCollectorProxy;
-use Slim\Views\PhpRenderer;
 
 /**
  * A ServiceProvider for registering services related
@@ -24,6 +23,7 @@ class Slim implements \UMA\DIC\ServiceProvider
         $c->set(\Slim\App::class, static function (Container $c): \Slim\App {
             /** @var array $settings */
             $settings = $c->get('settings');
+            $renderer = $c->get(\Slim\Views\PhpRenderer::class);
 
             $app = \Slim\Factory\AppFactory::create(null, $c);
 
@@ -35,17 +35,13 @@ class Slim implements \UMA\DIC\ServiceProvider
 
             // Slim routes here
 
-            $app->get('/', function (Request $request, Response $response, array $args) {
-                $renderer = new PhpRenderer(TEMPLATES_DIR);
-                return $renderer->render($response, "hello.phtml", $args);
-            });
-
-            $app->get('/protected', function (Request $request, Response $response, array $args) {
-                $renderer = new PhpRenderer(TEMPLATES_DIR);
-                return $renderer->render($response, "hello.phtml", $args);
+            $app->get('/', function (Request $request, Response $response, array $args) use ($renderer) {
+                return $renderer->render($response, "hello.phtml", ['title' => 'Home']);
             });
 
             $app->group('/api', function (RouteCollectorProxy $group) {
+                // TODO: API Doc
+                // $group->get('', ...)
                 //Group for API calls
                 $group->group('/users', function (RouteCollectorProxy $group) {
                     // Group for user list

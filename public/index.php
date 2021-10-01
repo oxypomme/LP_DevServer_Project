@@ -8,6 +8,7 @@ use Crisis\Providers;
 $cnt = require_once __DIR__ . '/../bootstrap.php';
 
 $cnt->register(new Providers\Doctrine());
+$cnt->register(new Providers\PHPView());
 $cnt->register(new Providers\Slim());
 
 /** @var App $app */

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8" />
+
+
+	<!-- Meta Data -->
+	<title><?= $title ?></title>
+	<meta name="description" content="" />
+	<!-- Critical style -->
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			width: 100%;
+		}
+	</style>
+
+	<!-- Style -->
+	<link rel="stylesheet" href="/static/css/style.css" />
+
+	<meta name="viewport" content="initial-scale=1" />
+</head>
+
+<body>
+	<?= $content ?>
+
+	<!-- JS -->
+	<script>
+		window.env = {
+			PHP_MODE: '<?= $_ENV['PHP_ENV'] ?>',
+		}
+	</script>
+	<script src="/static/js/bundle.js" defer></script>
+</body>
+
+</html>
