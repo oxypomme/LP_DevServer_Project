@@ -15,12 +15,10 @@ form > input {
   padding: 5%;
   border-radius: 20px;
   border: white;
-}
-.form-button {
-  margin-top: 10%;
+  &[type="submit"] {
+    margin-top: 10%;
+  }
 }
 .link-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
 }

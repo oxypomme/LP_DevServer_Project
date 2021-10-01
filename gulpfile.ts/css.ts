@@ -11,7 +11,7 @@ import cssnano from "cssnano";
 
 export function transpileSCSS() {
   return pipeline(
-    src("src/scss/**/*.scss"),
+    src("src/scss/**/style.scss"),
     sourcemaps.init(),
     sass().on("error", sass.logError),
     postcss([autoprefixer, cssnano]),
