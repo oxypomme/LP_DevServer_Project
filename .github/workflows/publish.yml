@@ -12,13 +12,16 @@ jobs:
         with:
           ref: release
 
-      - run: mkdir --parents $HOME/.ssh && ssh-keyscan -H ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
+      - name: Adding Dev Server to known hosts
+        run: mkdir --parents $HOME/.ssh && ssh-keyscan -H ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
+
       - name: Create Docker Context
         uses: arwynfr/actions-docker-context@v2
         with:
-          docker_host: "${{ secrets.DOCKER_HOST }}"
+          docker_host: ${{ secrets.DOCKER_HOST }}
           context_name: "dev-server"
           ssh_key: ${{ secrets.SSH_KEY }}
+          use_context: true
 
       - name: Build docker-compose
-        run: docker context use dev-server && docker-compose up --d --build
+        run: docker-compose up --d --build
