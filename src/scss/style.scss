@@ -7,7 +7,7 @@ body {
 .grid-form {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
-  grid-gap: 10%;
+  grid-gap: 5%;
   align-items: center;
 }
 
@@ -21,4 +21,9 @@ form > input {
 }
 .link-center {
   text-align: center;
+}
+
+.error-message{
+  display: none;
+  color: red;
 }
