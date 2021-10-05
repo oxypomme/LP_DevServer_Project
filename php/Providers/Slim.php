@@ -52,73 +52,73 @@ class Slim implements \UMA\DIC\ServiceProvider
             });
 
             // This route is not in group because it can't be protected by Auth
-            $app->post('/api/users', Actions\Users\NewUser::class);
+            $app->post('/api/users[/]', Actions\Users\NewUser::class);
 
             $app->group('/api', function (RouteCollectorProxy $group) {
                 // TODO: API Doc
-                // $group->get('', ...)
+                // $group->get('[/]', ...)
                 //Group for API calls
                 $group->group('/users', function (RouteCollectorProxy $group) {
                     // Group for user list
-                    $group->get('', Actions\Users\ListUsers::class);
+                    $group->get('[/]', Actions\Users\ListUsers::class);
 
                     $group->group('/{user_id:[0-9]+}', function (RouteCollectorProxy $group) {
                         // Group for specific user
-                        $group->get('', Actions\Users\GetUser::class);
-                        $group->put('', Actions\Users\UpdateUser::class);
-                        $group->delete('', Actions\Users\DeleteUser::class);
+                        $group->get('[/]', Actions\Users\GetUser::class);
+                        $group->put('[/]', Actions\Users\UpdateUser::class);
+                        $group->delete('[/]', Actions\Users\DeleteUser::class);
 
                         $group->group('/groups', function (RouteCollectorProxy $group) {
                             // Group for user's groups
-                            $group->get('', Actions\Groups\ListGroups::class);
-                            $group->post('', Actions\Groups\NewGroup::class);  // TODO Implement Action
+                            $group->get('[/]', Actions\Groups\ListGroups::class);
+                            $group->post('[/]', Actions\Groups\NewGroup::class);
 
                             $group->group('/{group_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's group
-                                $group->get('', Actions\Groups\GetGroup::class);
-                                $group->put('', Actions\Groups\UpdateGroup::class);   // TODO Implement Action
-                                $group->delete('', Actions\Groups\DeleteGroup::class);    // TODO Implement Action
+                                $group->get('[/]', Actions\Groups\GetGroup::class);
+                                $group->put('[/]', Actions\Groups\UpdateGroup::class);   // TODO Implement Action
+                                $group->delete('[/]', Actions\Groups\DeleteGroup::class);    // TODO Implement Action
 
                                 $group->group('/members', function (RouteCollectorProxy $group) {
                                     // Group for members of a group
-                                    $group->get('', Actions\Groups\Members\ListMembers::class);   // TODO Implement Action
-                                    $group->post('', Actions\Groups\Members\NewMember::class);  // TODO Implement Action
+                                    $group->get('[/]', Actions\Groups\Members\ListMembers::class);   // TODO Implement Action
+                                    $group->post('[/]', Actions\Groups\Members\NewMember::class);  // TODO Implement Action
 
                                     $group->group('/{group_user_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                         // Group for specific user in a group
-                                        $group->get('',  Actions\Groups\Members\GetMember::class);  // TODO Implement Action
-                                        $group->put('', Actions\Groups\Members\UpdateMember::class);   // TODO Implement Action
-                                        $group->delete('', Actions\Groups\Members\DeleteMember::class);    // TODO Implement Action
+                                        $group->get('[/]',  Actions\Groups\Members\GetMember::class);  // TODO Implement Action
+                                        $group->put('[/]', Actions\Groups\Members\UpdateMember::class);   // TODO Implement Action
+                                        $group->delete('[/]', Actions\Groups\Members\DeleteMember::class);    // TODO Implement Action
                                     });
                                 });
 
                                 $group->group('/messages', function (RouteCollectorProxy $group) {
                                     // Group for messages of a group
-                                    $group->get('', Actions\Groups\Messages\ListGroupMessages::class); // TODO Implement Action
+                                    $group->get('[/]', Actions\Groups\Messages\ListGroupMessages::class); // TODO Implement Action
 
-                                    $group->get('/{message_id:[0-9]+}', Actions\Groups\Messages\GetGroupMessages::class); // TODO Implement Action
+                                    $group->get('/{message_id:[0-9]+}[/]', Actions\Groups\Messages\GetGroupMessages::class); // TODO Implement Action
                                 });
                             });
                         });
 
                         $group->group('/relations', function (RouteCollectorProxy $group) {
                             // Group for user's relations
-                            $group->get('', Actions\Relations\ListRelations::class);   // TODO Implement Action
-                            $group->post('', Actions\Relations\NewRelation::class);  // TODO Implement Action
+                            $group->get('[/]', Actions\Relations\ListRelations::class);   // TODO Implement Action
+                            $group->post('[/]', Actions\Relations\NewRelation::class);  // TODO Implement Action
 
                             $group->group('/{relation_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's relation
-                                $group->get('', Actions\Relations\GetRelation::class);   // TODO Implement Action
-                                $group->put('', Actions\Relations\UpdateRelation::class);   // TODO Implement Action
-                                $group->delete('', Actions\Relations\DeleteRelation::class);    // TODO Implement Action
+                                $group->get('[/]', Actions\Relations\GetRelation::class);   // TODO Implement Action
+                                $group->put('[/]', Actions\Relations\UpdateRelation::class);   // TODO Implement Action
+                                $group->delete('[/]', Actions\Relations\DeleteRelation::class);    // TODO Implement Action
                             });
                         });
 
                         $group->group('/messages', function (RouteCollectorProxy $group) {
                             // Group for user's messages
-                            $group->get('', Actions\Messages\ListMessages::class); // TODO Implement Action
+                            $group->get('[/]', Actions\Messages\ListMessages::class); // TODO Implement Action
 
-                            $group->get('/{message_id:[0-9]+}', Actions\Messages\GetMessages::class); // TODO Implement Action
+                            $group->get('/{message_id:[0-9]+}[/]', Actions\Messages\GetMessages::class); // TODO Implement Action
                         });
                     });
                 });
