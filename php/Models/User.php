@@ -145,6 +145,10 @@ class User
     }
 
     switch ($name) {
+      case 'groups':
+        // return array_merge($this->groups, $this->ownedGroups);
+        // break;
+
       default:
         return $this->$name;
         break;

@@ -2,7 +2,6 @@
 
 namespace Crisis\Actions\Groups;
 
-use Crisis\Models\User;
 use Crisis\Models\Group;
 use Crisis\Actions\InvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
@@ -12,19 +11,11 @@ class GetGroup extends InvokableEMAction
 {
   public function handle(Request $request, Response $response, array $args): Response
   {
-    /** @var Group[] $groups */
-    $groups = $this->em
-      ->getRepository(User::class)
-      ->find((int) $args['user_id'])
-      ->groups;
+    /** @var Group $groups */
+    $group = $this->em
+      ->getRepository(Group::class)
+      ->find((int) $args['group_id']);
 
-    $result = null;
-    foreach ($groups as $group) {
-      if ($group->id == (int) $args['group_id']) {
-        $result = $this->getFullObject($group);
-      }
-    }
-
-    return $this->createResponse($result);
+    return $this->createResponse($this->getFullObject($group));
   }
 }

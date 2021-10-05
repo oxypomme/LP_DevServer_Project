@@ -49,7 +49,6 @@ return [
         ],
 
         'jwt' => [
-            "path" => ["/protected"],
             "secret" => $_ENV['JWT_SECRET']
         ]
     ]
