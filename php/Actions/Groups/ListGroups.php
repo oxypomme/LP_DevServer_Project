@@ -1,21 +1,23 @@
 <?php
 
-namespace Crisis\Actions\Users;
+namespace Crisis\Actions\Groups;
 
 use Crisis\Models\User;
+use Crisis\Models\Group;
 use Crisis\Actions\InvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-class GetUser extends InvokableEMAction
+class ListGroups extends InvokableEMAction
 {
     public function handle(Request $request, Response $response, array $args): Response
     {
-        /** @var User $user */
-        $user = $this->em
+        /** @var Group[] $groups */
+        $groups = $this->em
             ->getRepository(User::class)
-            ->find((int) $args['user_id']);
+            ->find((int) $args['user_id'])
+            ->groups;
 
-        return $this->createResponse($user);
+        return $this->createResponse($groups);
     }
 }

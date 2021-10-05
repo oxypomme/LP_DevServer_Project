@@ -15,7 +15,7 @@ class UpdateUser extends InvokableEMAction
 
     $user = $this->em
       ->getRepository(User::class)
-      ->find((int) $args['id']);
+      ->find((int) $args['user_id']);
 
     $user->username = (string) $parsedBody['username'];
     $user->password = (string) $parsedBody['password'];

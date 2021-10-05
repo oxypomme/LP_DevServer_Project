@@ -13,7 +13,7 @@ class DeleteUser extends InvokableEMAction
   {
     $user = $this->em
       ->getRepository(User::class)
-      ->find((int) $args['id']);
+      ->find((int) $args['user_id']);
     $this->em->remove($user);
     $this->em->flush();
 
