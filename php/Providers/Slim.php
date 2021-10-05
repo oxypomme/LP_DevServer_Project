@@ -76,8 +76,8 @@ class Slim implements \UMA\DIC\ServiceProvider
                             $group->group('/{group_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's group
                                 $group->get('[/]', Actions\Groups\GetGroup::class);
-                                $group->put('[/]', Actions\Groups\UpdateGroup::class);   // TODO Implement Action
-                                $group->delete('[/]', Actions\Groups\DeleteGroup::class);    // TODO Implement Action
+                                $group->put('[/]', Actions\Groups\UpdateGroup::class);
+                                $group->delete('[/]', Actions\Groups\DeleteGroup::class);
 
                                 $group->group('/members', function (RouteCollectorProxy $group) {
                                     // Group for members of a group
@@ -103,14 +103,13 @@ class Slim implements \UMA\DIC\ServiceProvider
 
                         $group->group('/relations', function (RouteCollectorProxy $group) {
                             // Group for user's relations
-                            $group->get('[/]', Actions\Relations\ListRelations::class);   // TODO Implement Action
-                            $group->post('[/]', Actions\Relations\NewRelation::class);  // TODO Implement Action
+                            $group->get('[/]', Actions\Relations\ListRelations::class);
+                            $group->post('[/]', Actions\Relations\NewRelation::class);
 
                             $group->group('/{relation_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's relation
-                                $group->get('[/]', Actions\Relations\GetRelation::class);   // TODO Implement Action
-                                $group->put('[/]', Actions\Relations\UpdateRelation::class);   // TODO Implement Action
-                                $group->delete('[/]', Actions\Relations\DeleteRelation::class);    // TODO Implement Action
+                                $group->get('[/]', Actions\Relations\GetRelation::class);
+                                $group->delete('[/]', Actions\Relations\DeleteRelation::class);
                             });
                         });
 

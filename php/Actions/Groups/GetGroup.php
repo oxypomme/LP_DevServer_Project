@@ -11,7 +11,7 @@ class GetGroup extends InvokableEMAction
 {
   public function handle(Request $request, Response $response, array $args): Response
   {
-    /** @var Group $groups */
+    /** @var Group $group */
     $group = $this->em
       ->getRepository(Group::class)
       ->find((int) $args['group_id']);

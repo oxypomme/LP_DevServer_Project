@@ -2,7 +2,6 @@
 
 namespace Crisis\Actions\Groups;
 
-
 use Crisis\Models\User;
 use Crisis\Models\Group;
 use Crisis\Actions\InvokableEMAction;
