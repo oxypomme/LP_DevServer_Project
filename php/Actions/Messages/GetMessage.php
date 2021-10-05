@@ -2,6 +2,6 @@
 
 namespace Crisis\Actions\Messages;
 
-class GetMessages
+class GetMessage
 {
 }

@@ -51,12 +51,13 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $group->post('auth', Actions\Auth\GetJWTToken::class);
             });
 
-            // This route is not in group because it can't be protected by Auth
+            // Theses routes are not in group because they can't be protected by Auth
             $app->post('/api/users[/]', Actions\Users\NewUser::class);
+            $app->get('/api[/]', function (Request $request, Response $response, array $args) use ($renderer) {
+                return $renderer->render($response, "api_doc.phtml", ['title' => 'Documentation']);
+            });
 
             $app->group('/api', function (RouteCollectorProxy $group) {
-                // TODO: API Doc
-                // $group->get('[/]', ...)
                 //Group for API calls
                 $group->group('/users', function (RouteCollectorProxy $group) {
                     // Group for user list
@@ -117,7 +118,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                             // Group for user's messages
                             $group->get('[/]', Actions\Messages\ListMessages::class); // TODO Implement Action
 
-                            $group->get('/{message_id:[0-9]+}[/]', Actions\Messages\GetMessages::class); // TODO Implement Action
+                            $group->get('/{message_id:[0-9]+}[/]', Actions\Messages\GetMessage::class); // TODO Implement Action
                         });
                     });
                 });
