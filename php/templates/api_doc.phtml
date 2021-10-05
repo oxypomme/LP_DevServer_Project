@@ -10,23 +10,72 @@
         <span class="method-POST">POST</span>
         <code>/auth</code>
       </summary>
-      Get a JWT Token.<br />Body:
-      <code>
-        <pre>{
+      <div class="api_description">
+        Get a JWT.
+      </div>
+      <div class="api_body">
+        Body:
+        <code>
+          <pre>{
   username: string,
   password: string
 }</pre>
-      </code>
+        </code>
+      </div>
+      <div class="api_retun">
+        Returns:
+        <code>
+          <pre>{
+  status: number,
+  token: string
+}</pre>
+        </code>
+      </div>
     </details>
   </section>
   <section>
     <h3>Users</h3>
-    <details>
+    <details class="auth-locked">
       <summary>
         <span class="method-GET">GET</span>
         <code>/api/users</code>
       </summary>
       Get all users.
+    </details>
+    <details>
+      <summary>
+        <span class="method-POST">POST</span>
+        <code>/api/users</code>
+      </summary>
+      <div class="api_description">
+        Create a user.
+      </div>
+      <div class="api_body">
+        Body:
+        <code>
+          <pre>{
+    username: string,
+    password: string
+}</pre>
+        </code>
+      </div>
+      <div class="api_retun">
+        Returns:
+        <code>
+          <pre>{
+    status: number,
+    token: string
+}</pre>
+        </code>
+      </div>
+    </details>
+    <hr />
+    <details class="auth-locked">
+      <summary>
+        <span class="method-GET">GET</span>
+        <code>/api/users/{user_id}</code>
+      </summary>
+      Get specific user.
     </details>
   </section>
 </main>

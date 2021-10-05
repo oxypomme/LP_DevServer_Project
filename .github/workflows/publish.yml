@@ -4,7 +4,7 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: docker-dind
     name: "Publish on the developement server"
     steps:
       - name: Checkout repository
@@ -24,4 +24,4 @@ jobs:
           use_context: true
 
       - name: Build docker-compose
-        run: docker-compose up --d --build
+        run: docker-compose --H ${{ secrets.SSH_HOST }} up --d --build
