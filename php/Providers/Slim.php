@@ -51,6 +51,9 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $group->post('auth', Actions\Auth\GetJWTToken::class);
             });
 
+            // This route is not in group because it can't be protected by Auth
+            $app->post('/api/users', Actions\Users\NewUser::class);
+
             $app->group('/api', function (RouteCollectorProxy $group) {
                 // TODO: API Doc
                 // $group->get('', ...)
@@ -58,7 +61,6 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $group->group('/users', function (RouteCollectorProxy $group) {
                     // Group for user list
                     $group->get('', Actions\Users\ListUsers::class);
-                    $group->post('', Actions\Users\NewUser::class);
 
                     $group->group('/{user_id:[0-9]+}', function (RouteCollectorProxy $group) {
                         // Group for specific user
