@@ -1,0 +1,102 @@
+.api_main {
+  width: 100%;
+  display: flex;
+}
+
+.api_nav {
+  width: 15%;
+  background: silver;
+}
+
+.api_doc {
+  width: 60%;
+  margin: 0 2.5%;
+
+  h2 {
+    margin: 0.5rem 0;
+  }
+
+  section:not(:first-child) {
+    margin-top: 1rem;
+    border-top: 1px solid gray;
+  }
+
+  .DELETE {
+    --method-color: #f93e3e;
+  }
+  .GET {
+    --method-color: #61affe;
+  }
+  .POST {
+    --method-color: #49cc90;
+  }
+  .PUT {
+    --method-color: #fca130;
+  }
+
+  code {
+    color: white;
+    background: rgb(51, 51, 51);
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+  }
+
+  hr {
+    border-style: dashed;
+    border-color: silver;
+  }
+
+  details {
+    position: relative;
+    border: 1px solid var(--method-color);
+    border-radius: 0.25rem;
+    margin: 0.25rem;
+
+    &.auth-locked summary::after {
+      content: "🔒" / "Needs a Bearer Token";
+      position: absolute;
+      right: 1rem;
+    }
+
+    ul {
+      margin: 0;
+    }
+
+    summary {
+      padding: 0.5rem;
+      code {
+        color: inherit;
+        background: transparent;
+        font-weight: bold;
+      }
+    }
+
+    > div {
+      margin-left: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .method {
+      background: var(--method-color);
+      color: white;
+      padding: 0.25rem;
+      border-radius: 0.25rem;
+    }
+  }
+}
+
+.api_types {
+  width: 20%;
+  margin: 0 2.5%;
+
+  details {
+    width: 100%;
+  }
+
+  pre {
+    color: white;
+    background: rgb(51, 51, 51);
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+  }
+}
