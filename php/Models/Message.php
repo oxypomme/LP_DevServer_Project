@@ -40,6 +40,16 @@ class Message
    */
   protected User $target;
 
+  public function __construct(string $content, string $attachement, User $sender, User $target)
+  {
+    $this->conent = $content;
+    $this->attachement = $attachement;
+    $this->date = new \DateTime();
+    $this->edit_date = new \DateTime();
+    $this->sender = $sender;
+    $this->target = $target;
+  }
+
   public function __get(string $name)
   {
     if (!property_exists($this, $name)) {

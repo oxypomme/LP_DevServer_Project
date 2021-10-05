@@ -31,6 +31,13 @@ class Relation
    */
   protected User $target;
 
+  public function __construct(User $sender, User $target)
+  {
+    $this->date = new \DateTime();
+    $this->sender = $sender;
+    $this->target = $target;
+  }
+
   public function __get(string $name)
   {
     if (!property_exists($this, $name)) {

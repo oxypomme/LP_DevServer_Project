@@ -32,6 +32,14 @@ class Location
    */
   public User $user;
 
+  public function __construct(float $long, float $lat, User $user)
+  {
+    $this->long = $long;
+    $this->lat = $lat;
+    $this->lastUpdate = new \DateTime();
+    $this->user = $user;
+  }
+
   public function __get(string $name)
   {
     if (!property_exists($this, $name)) {
@@ -58,6 +66,7 @@ class Location
 
       default:
         $this->$name = $value;
+        $this->lastUpdate = new \DateTime();
         break;
     }
   }

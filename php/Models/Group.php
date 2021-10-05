@@ -2,12 +2,12 @@
 
 namespace Crisis\Models;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @Entity
  * @Table(
- *  name="groups"
+ *  name="chat_groups"
  * )
  */
 class Group
@@ -35,11 +35,13 @@ class Group
    * @ManyToMany(targetEntity="User", mappedBy="groups")
    * @var User[]
    */
-  protected ArrayCollection $users;
+  protected PersistentCollection $users;
 
-  public function __construct()
+  public function __construct(string $name, User $owner)
   {
-    $this->users = new ArrayCollection();
+    $this->name = $name;
+    $this->owner = $owner;
+    $this->creationDate = new \DateTime();
   }
 
   public function addToGroup(User $user)
