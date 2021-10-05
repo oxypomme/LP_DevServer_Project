@@ -12,9 +12,10 @@ abstract class InvokableEMAction extends InvokableJSONAction
    * Get the full object (public & protected props)
    * 
    * @param object $obj
+   * @param string[] $excluded Excluded fields
    * @return object
    */
-  protected function getFullObject(object $obj): object
+  protected function getFullObject(object $obj, array $excluded = []): object
   {
     $res = new \stdClass();
 
@@ -23,6 +24,10 @@ abstract class InvokableEMAction extends InvokableJSONAction
 
     foreach ($props as $prop) {
       $propname = $prop->name;
+      if (in_array($propname, $excluded)) {
+        continue;
+      }
+
       try {
         $res->$propname = $obj->$propname;
       } catch (\Crisis\KeyNotFoundError $er) {

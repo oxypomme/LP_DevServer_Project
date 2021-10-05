@@ -84,7 +84,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                                     $group->get('', Actions\NotImplementedAction::class);   // TODO Create Action
                                     $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
 
-                                    $group->group('/{group_user_id:[0-9]+', function (RouteCollectorProxy $group) {
+                                    $group->group('/{group_user_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                         // Group for specific user in a group
                                         $group->get('',  Actions\NotImplementedAction::class);  // TODO Create Action
                                         $group->put('', Actions\NotImplementedAction::class);   // TODO Create Action
@@ -97,7 +97,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                                     $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
                                     $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
 
-                                    $group->group('/{message_id:[0-9]+', function (RouteCollectorProxy $group) {
+                                    $group->group('/{message_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                         // Group for specific message of a group
                                         $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
                                         $group->put('', Actions\NotImplementedAction::class); // TODO Create Action
@@ -112,7 +112,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                             $group->get('', Actions\NotImplementedAction::class);   // TODO Create Action
                             $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
 
-                            $group->group('/{relation_id:[0-9]+', function (RouteCollectorProxy $group) {
+                            $group->group('/{relation_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's relation
                                 $group->get('', Actions\NotImplementedAction::class);   // TODO Create Action
                                 $group->put('', Actions\NotImplementedAction::class);   // TODO Create Action
@@ -125,21 +125,8 @@ class Slim implements \UMA\DIC\ServiceProvider
                             $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
                             $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
 
-                            $group->group('/{message_id:[0-9]+', function (RouteCollectorProxy $group) {
+                            $group->group('/{message_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's message
-                                $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
-                                $group->put('', Actions\NotImplementedAction::class); // TODO Create Action
-                                $group->delete('', Actions\NotImplementedAction::class);  // TODO Create Action
-                            });
-                        });
-
-                        $group->group('/relations', function (RouteCollectorProxy $group) {
-                            // Group for user's relations
-                            $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
-                            $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
-
-                            $group->group('/{relation_id:[0-9]+', function (RouteCollectorProxy $group) {
-                                // Group for specific user's relation
                                 $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
                                 $group->put('', Actions\NotImplementedAction::class); // TODO Create Action
                                 $group->delete('', Actions\NotImplementedAction::class);  // TODO Create Action

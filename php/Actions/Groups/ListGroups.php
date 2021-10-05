@@ -18,6 +18,11 @@ class ListGroups extends InvokableEMAction
             ->find((int) $args['user_id'])
             ->groups;
 
-        return $this->createResponse($groups);
+        $res = [];
+        foreach ($groups as $group) {
+            $res[] = $this->getFullObject($group);
+        }
+
+        return $this->createResponse($res);
     }
 }

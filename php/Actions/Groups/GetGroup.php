@@ -19,9 +19,9 @@ class GetGroup extends InvokableEMAction
       ->groups;
 
     $result = null;
-    foreach ($groups as $key => $group) {
+    foreach ($groups as $group) {
       if ($group->id == (int) $args['group_id']) {
-        $result = $group;
+        $result = $this->getFullObject($group);
       }
     }
 

@@ -18,7 +18,7 @@ class ListUsers extends InvokableEMAction
 
         $users = [];
         foreach ($rawUsers as $user) {
-            $users[] = $this->getFullObject($user);
+            $users[] = $this->getFullObject($user, ['password']);
         }
 
         return $this->createResponse($users);
