@@ -1,6 +1,6 @@
-FROM alpine
+FROM httpd:alpine
 
-WORKDIR /var/www/localhost/htdocs
+WORKDIR /usr/local/apache2/htdocs
 
 # Add project files
 COPY /config ./config
@@ -8,9 +8,7 @@ COPY /config ./config
 # Upgrade + install driver
 RUN apk update \
   && apk upgrade -U -a \
-  && apk add apache2 apache2-proxy --no-cache \
   # Add config files
-  && mv -v ./config/apache2/* /etc/apache2/conf.d/
-
-# Run server
-CMD /usr/sbin/httpd -D FOREGROUND
+  && mkdir /usr/local/apache2/conf/conf.d/ \
+  && mv -v ./config/apache2/* /usr/local/apache2/conf/conf.d/ \
+  && echo "Include /usr/local/apache2/conf/conf.d/*.conf" >> /usr/local/apache2/conf/httpd.conf
