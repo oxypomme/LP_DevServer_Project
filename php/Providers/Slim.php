@@ -123,14 +123,8 @@ class Slim implements \UMA\DIC\ServiceProvider
                         $group->group('/messages', function (RouteCollectorProxy $group) {
                             // Group for user's messages
                             $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
-                            $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
 
-                            $group->group('/{message_id:[0-9]+}', function (RouteCollectorProxy $group) {
-                                // Group for specific user's message
-                                $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
-                                $group->put('', Actions\NotImplementedAction::class); // TODO Create Action
-                                $group->delete('', Actions\NotImplementedAction::class);  // TODO Create Action
-                            });
+                            $group->get('/{message_id:[0-9]+}', Actions\NotImplementedAction::class); // TODO Create Action
                         });
                     });
                 });
