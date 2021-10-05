@@ -60,11 +60,89 @@ class Slim implements \UMA\DIC\ServiceProvider
                     $group->get('', Actions\Users\ListUsers::class);
                     $group->post('', Actions\Users\NewUser::class);
 
-                    $group->group('/{id:[0-9]+}', function (RouteCollectorProxy $group) {
+                    $group->group('/{user_id:[0-9]+}', function (RouteCollectorProxy $group) {
                         // Group for specific user
                         $group->get('', Actions\Users\GetUser::class);
                         $group->put('', Actions\Users\UpdateUser::class);
                         $group->delete('', Actions\Users\DeleteUser::class);
+
+                        $group->group('/groups', function (RouteCollectorProxy $group) {
+                            // Group for user's groups
+                            $group->get('', Actions\NotImplementedAction::class);   // TODO Create Action
+                            $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
+
+                            $group->group('/{group_id:[0-9]+}', function (RouteCollectorProxy $group) {
+                                // Group for specific user's group
+                                $group->get('', Actions\NotImplementedAction::class);   // TODO Create Action
+                                $group->put('', Actions\NotImplementedAction::class);   // TODO Create Action
+                                $group->delete('', Actions\NotImplementedAction::class);    // TODO Create Action
+
+                                $group->group('/users', function (RouteCollectorProxy $group) {
+                                    // Group for users of a group
+                                    $group->get('', Actions\NotImplementedAction::class);   // TODO Create Action
+                                    $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
+
+                                    $group->group('/{group_user_id:[0-9]+', function (RouteCollectorProxy $group) {
+                                        // Group for specific user in a group
+                                        $group->get('',  Actions\NotImplementedAction::class);  // TODO Create Action
+                                        $group->put('', Actions\NotImplementedAction::class);   // TODO Create Action
+                                        $group->delete('', Actions\NotImplementedAction::class);    // TODO Create Action
+                                    });
+                                });
+
+                                $group->group('/messages', function (RouteCollectorProxy $group) {
+                                    // Group for messages of a group
+                                    $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
+                                    $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
+
+                                    $group->group('/{message_id:[0-9]+', function (RouteCollectorProxy $group) {
+                                        // Group for specific message of a group
+                                        $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
+                                        $group->put('', Actions\NotImplementedAction::class); // TODO Create Action
+                                        $group->delete('', Actions\NotImplementedAction::class);  // TODO Create Action
+                                    });
+                                });
+                            });
+                        });
+
+                        $group->group('/relations', function (RouteCollectorProxy $group) {
+                            // Group for user's relations
+                            $group->get('', Actions\NotImplementedAction::class);   // TODO Create Action
+                            $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
+
+                            $group->group('/{relation_id:[0-9]+', function (RouteCollectorProxy $group) {
+                                // Group for specific user's relation
+                                $group->get('', Actions\NotImplementedAction::class);   // TODO Create Action
+                                $group->put('', Actions\NotImplementedAction::class);   // TODO Create Action
+                                $group->delete('', Actions\NotImplementedAction::class);    // TODO Create Action
+                            });
+                        });
+
+                        $group->group('/messages', function (RouteCollectorProxy $group) {
+                            // Group for user's messages
+                            $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
+                            $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
+
+                            $group->group('/{message_id:[0-9]+', function (RouteCollectorProxy $group) {
+                                // Group for specific user's message
+                                $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
+                                $group->put('', Actions\NotImplementedAction::class); // TODO Create Action
+                                $group->delete('', Actions\NotImplementedAction::class);  // TODO Create Action
+                            });
+                        });
+
+                        $group->group('/relations', function (RouteCollectorProxy $group) {
+                            // Group for user's relations
+                            $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
+                            $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
+
+                            $group->group('/{relation_id:[0-9]+', function (RouteCollectorProxy $group) {
+                                // Group for specific user's relation
+                                $group->get('', Actions\NotImplementedAction::class); // TODO Create Action
+                                $group->put('', Actions\NotImplementedAction::class); // TODO Create Action
+                                $group->delete('', Actions\NotImplementedAction::class);  // TODO Create Action
+                            });
+                        });
                     });
                 });
             })->add(\PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], 'jwt', ['stauts' => 401, 'message' => 'Auth Failed']));
