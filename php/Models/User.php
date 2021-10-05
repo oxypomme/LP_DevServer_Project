@@ -86,7 +86,7 @@ class User
    */
   protected PersistentCollection $ownedGroups;
   /**
-   * @ManyToMany(targetEntity="Group", inversedBy="users")
+   * @ManyToMany(targetEntity="Group", inversedBy="members")
    * @JoinTable(name="users_groups")
    * @var Group[]
    */

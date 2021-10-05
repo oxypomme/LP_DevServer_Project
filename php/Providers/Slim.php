@@ -79,8 +79,8 @@ class Slim implements \UMA\DIC\ServiceProvider
                                 $group->put('', Actions\Groups\UpdateGroup::class);   // TODO Implement Action
                                 $group->delete('', Actions\Groups\DeleteGroup::class);    // TODO Implement Action
 
-                                $group->group('/users', function (RouteCollectorProxy $group) {
-                                    // Group for users of a group
+                                $group->group('/members', function (RouteCollectorProxy $group) {
+                                    // Group for members of a group
                                     $group->get('', Actions\NotImplementedAction::class);   // TODO Create Action
                                     $group->post('', Actions\NotImplementedAction::class);  // TODO Create Action
 

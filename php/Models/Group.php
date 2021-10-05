@@ -35,7 +35,7 @@ class Group
    * @ManyToMany(targetEntity="User", mappedBy="groups")
    * @var User[]
    */
-  protected PersistentCollection $users;
+  protected PersistentCollection $members;
 
   public function __construct(string $name, User $owner)
   {
