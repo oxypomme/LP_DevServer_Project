@@ -14,7 +14,7 @@ class DeleteUser extends ProtectedInvokableEMAction
     // Check authorisations
     $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
     if (!$this->checkUser((int) $jwtPayload['user_id'], (int) $args['user_id'])) {
-      return $this->createResponse(['stauts' => 401, 'message' => 'Unauthorized'], 401);
+      return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
     }
 
     $user = $this->em
@@ -23,6 +23,6 @@ class DeleteUser extends ProtectedInvokableEMAction
     $this->em->remove($user);
     $this->em->flush();
 
-    return $this->createResponse();
+    return $this->createResponse(['status' => 200, 'message' => 'OK']);
   }
 }

@@ -132,7 +132,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                         });
                     });
                 });
-            })->add(\PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], 'jwt', ['stauts' => 401, 'message' => 'Auth Failed']));
+            })->add(\PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], 'jwt', ['status' => 401, 'message' => 'Auth Failed']));
 
 
             $app->get('/static/{file:.*}', function (Request $request, Response $response, $args) {
