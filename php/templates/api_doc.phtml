@@ -30,7 +30,7 @@
         <div class="api_body">
           Body: <code>ILogin</code>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IToken</code>
         </div>
       </details>
@@ -46,7 +46,7 @@
           <div class="api_description">
             Get all users
           </div>
-          <div class="api_retun">
+          <div class="api_return">
             Returns: <code>IUser[]</code>
           </div>
         </details>
@@ -62,7 +62,7 @@
           <div class="api_body">
             Body: <code>IUserInput</code>
           </div>
-          <div class="api_retun">
+          <div class="api_return">
             Returns: <code>IUser</code>
           </div>
         </details>
@@ -83,7 +83,7 @@
               <li><code>user_id</code>: <code>/[0-9]+/</code></li>
             </ul>
           </div>
-          <div class="api_retun">
+          <div class="api_return">
             Returns: <code>IUser</code>
           </div>
         </details>
@@ -101,7 +101,10 @@
               <li><code>user_id</code>: <code>/[0-9]+/</code></li>
             </ul>
           </div>
-          <div class="api_retun">
+          <div class="api_body">
+            Body: <code>IUserInput</code>
+          </div>
+          <div class="api_return">
             Returns: <code>IUser</code>
           </div>
         </details>
@@ -119,7 +122,7 @@
               <li><code>user_id</code>: <code>/[0-9]+/</code></li>
             </ul>
           </div>
-          <div class="api_retun">
+          <div class="api_return">
             Returns: <code>IUser</code>
           </div>
         </details>
@@ -136,7 +139,13 @@
         <div class="api_description">
           Get all groups of a user
         </div>
-        <div class="api_retun">
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_return">
           Returns: <code>IGroup[]</code>
         </div>
       </details>
@@ -149,10 +158,16 @@
         <div class="api_description">
           Add a group to a user
         </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
         <div class="api_body">
           Body: <code>IGroupInput</code>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IGroup</code>
         </div>
       </details>
@@ -174,7 +189,7 @@
             <li><code>group_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IGroup</code>
         </div>
       </details>
@@ -193,7 +208,7 @@
             <li><code>group_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IBaseResponse</code>
         </div>
       </details>
@@ -210,7 +225,13 @@
         <div class="api_description">
           Get all relations of a user
         </div>
-        <div class="api_retun">
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_return">
           Returns: <code>IRelation[]</code>
         </div>
       </details>
@@ -223,10 +244,16 @@
         <div class="api_description">
           Add a relation to a user
         </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
         <div class="api_body">
           Body: <code>IRelationInput</code>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IRelation</code>
         </div>
       </details>
@@ -248,7 +275,7 @@
             <li><code>relation_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IRelation</code>
         </div>
       </details>
@@ -267,7 +294,90 @@
             <li><code>relation_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
+          Returns: <code>IBaseResponse</code>
+        </div>
+      </details>
+    </section>
+
+    <section id="users-location">
+      <h2>Users - Location</h2>
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/users/{user_id}/location</code>
+        </summary>
+        <div class="api_description">
+          Get location of a user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_return">
+          Returns: <code>ILocation</code>
+        </div>
+      </details>
+      <details class="auth-locked POST">
+        <summary>
+          <span class="method">POST</span>
+          <code>/api/users/{user_id}/location</code>
+        </summary>
+        <div class="api_description">
+          Add the location of a user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_body">
+          Body: <code>ILocationInput</code>
+        </div>
+        <div class="api_return">
+          Returns: <code>ILocation</code>
+        </div>
+      </details>
+      <details class="auth-locked PUT">
+        <summary>
+          <span class="method">PUT</span>
+          <code>/api/users/{user_id}/location</code>
+        </summary>
+        <div class="api_description">
+          Update the location of a user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_body">
+          Body: <code>ILocationInput</code>
+        </div>
+        <div class="api_return">
+          Returns: <code>ILocation</code>
+        </div>
+      </details>
+      <details class="auth-locked DELETE">
+        <summary>
+          <span class="method">DELETE</span>
+          <code>/api/users/{user_id}/location</code>
+        </summary>
+        <div class="api_description">
+          Remove location of a user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_return">
           Returns: <code>IBaseResponse</code>
         </div>
       </details>
@@ -290,7 +400,7 @@
             <li><code>user_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IMessage[]</code>
         </div>
       </details>
@@ -312,7 +422,7 @@
             <li><code>message_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IMessage</code>
         </div>
       </details>
@@ -330,7 +440,7 @@
         <div class="api_description">
           Get all groups
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IGroup[]</code>
         </div>
       </details>
@@ -347,7 +457,7 @@
         <div class="api_body">
           Body: <code>IGroupInput</code>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IGroup</code>
         </div>
       </details>
@@ -368,7 +478,7 @@
             <li><code>group_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IGroup</code>
         </div>
       </details>
@@ -389,7 +499,7 @@
         <div class="api_body">
           Body: <code>IGroupInput</code>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IGroup</code>
         </div>
       </details>
@@ -407,7 +517,7 @@
             <li><code>group_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IBaseResponse</code>
         </div>
       </details>
@@ -430,7 +540,7 @@
             <li><code>group_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IUser[]</code>
         </div>
       </details>
@@ -452,7 +562,7 @@
             <li><code>user_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IUser</code>
         </div>
       </details>
@@ -471,7 +581,7 @@
             <li><code>user_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IBaseResponse</code>
         </div>
       </details>
@@ -494,7 +604,7 @@
             <li><code>group_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IMessage[]</code>
         </div>
       </details>
@@ -516,7 +626,7 @@
             <li><code>message_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
-        <div class="api_retun">
+        <div class="api_return">
           Returns: <code>IMessage</code>
         </div>
       </details>
