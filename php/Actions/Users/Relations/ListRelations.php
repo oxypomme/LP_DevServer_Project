@@ -1,6 +1,6 @@
 <?php
 
-namespace Crisis\Actions\Relations;
+namespace Crisis\Actions\Users\Relations;
 
 use Crisis\Models\User;
 use Crisis\Models\Relation;

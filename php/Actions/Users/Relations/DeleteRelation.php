@@ -1,6 +1,6 @@
 <?php
 
-namespace Crisis\Actions\Relations;
+namespace Crisis\Actions\Users\Relations;
 
 use Crisis\Models\Relation;
 use Crisis\Actions\ProtectedInvokableEMAction;
@@ -22,8 +22,14 @@ class DeleteRelationextends extends ProtectedInvokableEMAction
       return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
     }
 
-    $this->em->remove($relation);
-    $this->em->flush();
+    try {
+      //TODO: Remove relation from users
+      $this->em->remove($relation);
+      $this->em->flush();
+    } catch (\Exception $e) {
+      $this->em->rollback();
+      throw $e;
+    }
 
     return $this->createResponse(['status' => 200, 'message' => 'OK']);
   }

@@ -83,14 +83,15 @@ class Slim implements \UMA\DIC\ServiceProvider
 
                         $group->group('/relations', function (RouteCollectorProxy $group) {
                             // Group for user's relations
-                            $group->get('[/]', Actions\Relations\ListRelations::class);
-                            $group->post('[/]', Actions\Relations\NewRelation::class);
+                            $group->get('[/]', Actions\Users\Relations\ListRelations::class);
+                            $group->post('[/]', Actions\Users\Relations\NewRelation::class);
 
                             $group->group('/{relation_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's relation
-                                $group->get('[/]', Actions\Relations\GetRelation::class);
-                                $group->delete('[/]', Actions\Relations\DeleteRelation::class);
+                                $group->get('[/]', Actions\Users\Relations\GetRelation::class);
+                                $group->delete('[/]', Actions\Users\Relations\DeleteRelation::class);
                             });
+                        });
                         });
 
                         $group->group('/messages', function (RouteCollectorProxy $group) {
