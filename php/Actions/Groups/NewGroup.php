@@ -14,6 +14,7 @@ class NewGroup extends ProtectedInvokableEMAction
   {
     // Check authorisations
     $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
+    if (!$this->checkUser((int) $jwtPayload['user_id'])) {
       return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
     }
 
@@ -22,7 +23,7 @@ class NewGroup extends ProtectedInvokableEMAction
     /** @var User $user */
     $user = $this->em
       ->getRepository(User::class)
-      ->find((int) $args['user_id']);
+      ->find((int) $jwtPayload['user_id']);
 
     $group = new Group(
       (string) $parsedBody['name'],
