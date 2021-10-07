@@ -2,7 +2,7 @@
 
 namespace Crisis\Models;
 
-use Doctrine\ORM\PersistentCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @Entity
@@ -28,14 +28,14 @@ class Group
   protected \DateTime $creationDate;
 
   /**
-   * @ManyToOne(targetEntity="User", inversedBy="ownedGroups")
+   * @ManyToOne(targetEntity="User", inversedBy="ownedGroups", fetch="EAGER")
    */
   protected User $owner;
   /**
-   * @ManyToMany(targetEntity="User", mappedBy="groups")
+   * @ManyToMany(targetEntity="User", mappedBy="groups", fetch="EAGER")
    * @var User[]
    */
-  protected PersistentCollection $members;
+  protected Collection $members;
 
   public function __construct(string $name, User $owner)
   {

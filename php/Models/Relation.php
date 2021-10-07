@@ -23,11 +23,11 @@ class Relation
   protected \DateTime $date;
 
   /**
-   * @ManyToOne(targetEntity="User", inversedBy="outRelations")
+   * @ManyToOne(targetEntity="User", inversedBy="outRelations", fetch="EAGER")
    */
   protected User $sender;
   /**
-   * @ManyToOne(targetEntity="User", inversedBy="inRelations")
+   * @ManyToOne(targetEntity="User", inversedBy="inRelations", fetch="EAGER")
    */
   protected User $target;
 

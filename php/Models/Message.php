@@ -32,11 +32,11 @@ class Message
   public \DateTime $edit_date;
 
   /**
-   * @ManyToOne(targetEntity="User", inversedBy="outMessages")
+   * @ManyToOne(targetEntity="User", inversedBy="outMessages", fetch="EAGER")
    */
   protected User $sender;
   /**
-   * @ManyToOne(targetEntity="User", inversedBy="inMessages")
+   * @ManyToOne(targetEntity="User", inversedBy="inMessages", fetch="EAGER")
    */
   protected User $target;
 

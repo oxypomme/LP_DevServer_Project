@@ -4,7 +4,7 @@ namespace Crisis\Models;
 
 use DateTime;
 use JsonSerializable;
-use Doctrine\ORM\PersistentCollection;
+use Doctrine\Common\Collections\Collection;
 use function password_hash;
 
 /**
@@ -61,36 +61,36 @@ class User
   protected \DateTime $registerDate;
 
   /**
-   * @OneToMany(targetEntity="Relation", mappedBy="sender")
+   * @OneToMany(targetEntity="Relation", mappedBy="sender", fetch="EAGER")
    * @var Relation[]
    */
-  protected PersistentCollection $outRelations;
+  protected Collection $outRelations;
   /**
    * @OneToMany(targetEntity="Relation", mappedBy="target", fetch="EAGER")
    * @var Relation[]
    */
-  protected PersistentCollection $inRelations;
+  protected Collection $inRelations;
   /**
-   * @OneToMany(targetEntity="Message", mappedBy="sender")
+   * @OneToMany(targetEntity="Message", mappedBy="sender", fetch="EAGER")
    * @var Message[]
    */
-  protected PersistentCollection $outMessages;
+  protected Collection $outMessages;
   /**
-   * @OneToMany(targetEntity="Message", mappedBy="target")
+   * @OneToMany(targetEntity="Message", mappedBy="target", fetch="EAGER")
    * @var Message[]
    */
-  protected PersistentCollection $inMessages;
+  protected Collection $inMessages;
   /**
-   * @OneToMany(targetEntity="Group", mappedBy="owner")
+   * @OneToMany(targetEntity="Group", mappedBy="owner", fetch="EAGER")
    * @var Group[]
    */
-  protected PersistentCollection $ownedGroups;
+  protected Collection $ownedGroups;
   /**
-   * @ManyToMany(targetEntity="Group", inversedBy="members")
+   * @ManyToMany(targetEntity="Group", inversedBy="members", fetch="EAGER")
    * @JoinTable(name="users_groups")
    * @var Group[]
    */
-  protected PersistentCollection $groups;
+  protected Collection $groups;
 
   public function __construct(string $username, string $password, string $email, string $phone, DateTime $birthdate, string $address, string $city, string $country)
   {

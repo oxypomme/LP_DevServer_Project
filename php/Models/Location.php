@@ -28,7 +28,7 @@ class Location
   public \DateTime $lastUpdate;
 
   /**
-   * @OneToOne(targetEntity="User")
+   * @OneToOne(targetEntity="User", fetch="EAGER")
    */
   public User $user;
 
