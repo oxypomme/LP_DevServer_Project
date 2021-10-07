@@ -16,7 +16,7 @@ class ListRelations extends InvokableEMAction
     $relations = $this->em
       ->getRepository(User::class)
       ->find((int) $args['user_id'])
-      ->groups;
+      ->relations;
 
     $res = [];
     foreach ($relations as $relation) {
