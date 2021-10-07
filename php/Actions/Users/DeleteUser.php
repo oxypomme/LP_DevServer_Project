@@ -20,8 +20,18 @@ class DeleteUser extends ProtectedInvokableEMAction
     $user = $this->em
       ->getRepository(User::class)
       ->find((int) $args['user_id']);
-    $this->em->remove($user);
-    $this->em->flush();
+
+    try {
+      //TODO: Remove user from relations
+      //TODO: Remove user from groups
+      //TODO: Remove user from locations
+      //TODO: Remove user from messages
+      $this->em->remove($user);
+      $this->em->flush();
+    } catch (\Exception $e) {
+      $this->em->rollback();
+      throw $e;
+    }
 
     return $this->createResponse(['status' => 200, 'message' => 'OK']);
   }

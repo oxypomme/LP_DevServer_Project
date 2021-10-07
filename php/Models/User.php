@@ -61,6 +61,11 @@ class User
   protected \DateTime $registerDate;
 
   /**
+   * @OneToOne(targetEntity="Location", fetch="EAGER")
+   */
+  // public Location $location;
+
+  /**
    * @OneToMany(targetEntity="Relation", mappedBy="sender", fetch="EAGER")
    * @var Relation[]
    */

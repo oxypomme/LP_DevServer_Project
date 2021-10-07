@@ -22,8 +22,14 @@ class DeleteGroup extends ProtectedInvokableEMAction
       return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
     }
 
-    $this->em->remove($group);
-    $this->em->flush();
+    try {
+      // TODO: Remove group from all members
+      $this->em->remove($group);
+      $this->em->flush();
+    } catch (\Exception $e) {
+      $this->em->rollback();
+      throw $e;
+    }
 
     return $this->createResponse(['status' => 200, 'message' => 'OK']);
   }
