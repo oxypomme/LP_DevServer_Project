@@ -8,6 +8,7 @@ COPY . ./
 RUN apk update \ 
   && apk upgrade -U -a \
   # Build client
+  && if [ -d dist ]; then rmdir dist; fi \
   && if [ -f .env.prod ]; then mv -f .env.prod .env; fi \
   && npm i \
   && export NODE_ENV=production \

@@ -6,7 +6,6 @@ README.md
 !.env.prod
 !.htaccess
 *.drawio
-dist/
 
 # Dependencies
 vendor/

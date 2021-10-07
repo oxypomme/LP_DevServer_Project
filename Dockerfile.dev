@@ -1,0 +1,14 @@
+FROM php:7.4.3-alpine
+
+WORKDIR /app
+
+# Upgrade
+RUN apk update \
+  && apk upgrade -U -a \
+  # Setup startup
+  && echo "php /app/dev/public/socket.php &" > start.sh \
+  && echo "php -S localhost:8080 /app/dev/public/index.php" >> start.sh \
+  && chmod +x start.sh
+
+EXPOSE 80
+CMD /app/start.sh
