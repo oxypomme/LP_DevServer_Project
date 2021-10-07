@@ -71,13 +71,13 @@ class Slim implements \UMA\DIC\ServiceProvider
 
                         $group->group('/groups', function (RouteCollectorProxy $group) {
                             // Group for user's groups
-                            $group->get('[/]', Actions\NotImplementedAction::class); // TODO Create Action
-                            $group->post('[/]', Actions\NotImplementedAction::class);  // TODO Create Action
+                            $group->get('[/]', Actions\Users\Groups\ListUserGroups::class); // TODO Implement Action
+                            $group->post('[/]', Actions\Users\Groups\AddUserGroup::class);  // TODO Implement Action
 
                             $group->group('/{group_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's group
-                                $group->get('[/]', Actions\NotImplementedAction::class); // TODO Create Action
-                                $group->delete('[/]', Actions\NotImplementedAction::class);  // TODO Create Action
+                                $group->get('[/]', Actions\Users\Groups\GetUserGroup::class); // TODO Implement Action
+                                $group->delete('[/]', Actions\Users\Groups\RemoveUserGroup::class);  // TODO Implement Action
                             });
                         });
 
