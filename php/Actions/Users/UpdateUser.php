@@ -3,14 +3,20 @@
 namespace Crisis\Actions\Users;
 
 use Crisis\Models\User;
-use Crisis\Actions\InvokableEMAction;
+use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-class UpdateUser extends InvokableEMAction
+class UpdateUser extends ProtectedInvokableEMAction
 {
   public function handle(Request $request, Response $response, array $args): Response
   {
+    // Check authorisations
+    $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
+    if (!$this->checkUser((int) $jwtPayload['user_id'], (int) $args['user_id'])) {
+      return $this->createResponse(['stauts' => 401, 'message' => 'Unauthorized'], 401);
+    }
+
     $parsedBody = $this->getParsedBody($request);
 
     /** @var User $user */
