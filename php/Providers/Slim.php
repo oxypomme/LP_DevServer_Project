@@ -71,34 +71,13 @@ class Slim implements \UMA\DIC\ServiceProvider
 
                         $group->group('/groups', function (RouteCollectorProxy $group) {
                             // Group for user's groups
-                            $group->get('[/]', Actions\Groups\ListGroups::class);
-                            $group->post('[/]', Actions\Groups\NewGroup::class);
+                            $group->get('[/]', Actions\NotImplementedAction::class); // TODO Create Action
+                            $group->post('[/]', Actions\NotImplementedAction::class);  // TODO Create Action
 
                             $group->group('/{group_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's group
-                                $group->get('[/]', Actions\Groups\GetGroup::class);
-                                $group->put('[/]', Actions\Groups\UpdateGroup::class);
-                                $group->delete('[/]', Actions\Groups\DeleteGroup::class);
-
-                                $group->group('/members', function (RouteCollectorProxy $group) {
-                                    // Group for members of a group
-                                    $group->get('[/]', Actions\Groups\Members\ListMembers::class);   // TODO Implement Action
-                                    $group->post('[/]', Actions\Groups\Members\NewMember::class);  // TODO Implement Action
-
-                                    $group->group('/{group_user_id:[0-9]+}', function (RouteCollectorProxy $group) {
-                                        // Group for specific user in a group
-                                        $group->get('[/]',  Actions\Groups\Members\GetMember::class);  // TODO Implement Action
-                                        $group->put('[/]', Actions\Groups\Members\UpdateMember::class);   // TODO Implement Action
-                                        $group->delete('[/]', Actions\Groups\Members\DeleteMember::class);    // TODO Implement Action
-                                    });
-                                });
-
-                                $group->group('/messages', function (RouteCollectorProxy $group) {
-                                    // Group for messages of a group
-                                    $group->get('[/]', Actions\Groups\Messages\ListGroupMessages::class); // TODO Implement Action
-
-                                    $group->get('/{message_id:[0-9]+}[/]', Actions\Groups\Messages\GetGroupMessages::class); // TODO Implement Action
-                                });
+                                $group->get('[/]', Actions\NotImplementedAction::class); // TODO Create Action
+                                $group->delete('[/]', Actions\NotImplementedAction::class);  // TODO Create Action
                             });
                         });
 
@@ -119,6 +98,37 @@ class Slim implements \UMA\DIC\ServiceProvider
                             $group->get('[/]', Actions\Messages\ListMessages::class); // TODO Implement Action
 
                             $group->get('/{message_id:[0-9]+}[/]', Actions\Messages\GetMessage::class); // TODO Implement Action
+                        });
+                    });
+                });
+
+                $group->group('/groups', function (RouteCollectorProxy $group) {
+                    // Group for groups
+                    // $group->get('[/]', Actions\Groups\ListGroups::class);
+                    $group->post('[/]', Actions\Groups\NewGroup::class);
+
+                    $group->group('/{group_id:[0-9]+}', function (RouteCollectorProxy $group) {
+                        // Group for specific group
+                        $group->get('[/]', Actions\Groups\GetGroup::class);
+                        $group->put('[/]', Actions\Groups\UpdateGroup::class);
+                        $group->delete('[/]', Actions\Groups\DeleteGroup::class);
+
+                        $group->group('/members', function (RouteCollectorProxy $group) {
+                            // Group for members of a group
+                            $group->get('[/]', Actions\Groups\Members\ListMembers::class);   // TODO Implement Action
+
+                            $group->group('/{group_user_id:[0-9]+}', function (RouteCollectorProxy $group) {
+                                // Group for specific user in a group
+                                $group->get('[/]',  Actions\Groups\Members\GetMember::class);  // TODO Implement Action
+                                $group->delete('[/]', Actions\Groups\Members\DeleteMember::class);    // TODO Implement Action
+                            });
+                        });
+
+                        $group->group('/messages', function (RouteCollectorProxy $group) {
+                            // Group for messages of a group
+                            $group->get('[/]', Actions\Groups\Messages\ListGroupMessages::class); // TODO Implement Action
+
+                            $group->get('/{message_id:[0-9]+}[/]', Actions\Groups\Messages\GetGroupMessages::class); // TODO Implement Action
                         });
                     });
                 });
