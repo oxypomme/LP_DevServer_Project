@@ -119,7 +119,7 @@
     </section>
 
     <section>
-      <h2>Groups</h2>
+      <h2>Users - Groups</h2>
 
       <details class="auth-locked GET">
         <summary>
@@ -140,7 +140,7 @@
           <code>/api/users/{user_id}/groups</code>
         </summary>
         <div class="api_description">
-          Create a group with user.
+          Add a group to a user
         </div>
         <div class="api_body">
           Body: <code>IGroupInput</code>
@@ -151,6 +151,368 @@
       </details>
 
       <hr />
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/users/{user_id}/groups/{group_id}</code>
+        </summary>
+        <div class="api_description">
+          Get specific user's group
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IGroup</code>
+        </div>
+      </details>
+      <details class="auth-locked DELETE">
+        <summary>
+          <span class="method">DELETE</span>
+          <code>/api/users/{user_id}/groups/{group_id}</code>
+        </summary>
+        <div class="api_description">
+          Remove user from group
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IBaseResponse</code>
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>Users - Relations</h2>
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/users/{user_id}/relations</code>
+        </summary>
+        <div class="api_description">
+          Get all relations of a user
+        </div>
+        <div class="api_retun">
+          Returns: <code>IRelation[]</code>
+        </div>
+      </details>
+
+      <details class="auth-locked POST">
+        <summary>
+          <span class="method">POST</span>
+          <code>/api/users/{user_id}/relations</code>
+        </summary>
+        <div class="api_description">
+          Add a relation to a user
+        </div>
+        <div class="api_body">
+          Body: <code>IRelationInput</code>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IRelation</code>
+        </div>
+      </details>
+
+      <hr />
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/users/{user_id}/relations/{relation_id}</code>
+        </summary>
+        <div class="api_description">
+          Get specific user relation
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>relation_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IRelation</code>
+        </div>
+      </details>
+      <details class="auth-locked DELETE">
+        <summary>
+          <span class="method">DELETE</span>
+          <code>/api/users/{user_id}/relations/{relation_id}</code>
+        </summary>
+        <div class="api_description">
+          Remove relation of a user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>relation_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IBaseResponse</code>
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>User - Messages</h2>
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/users/{user_id}/messages</code>
+        </summary>
+        <div class="api_description">
+          Get all messages who concern a user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IMessage[]</code>
+        </div>
+      </details>
+
+      <hr />
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/users/{user_id}/messages/{message_id}</code>
+        </summary>
+        <div class="api_description">
+          Get specific message who concern a user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>message_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IMessage</code>
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>Groups</h2>
+
+      <!--
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/groups</code>
+        </summary>
+        <div class="api_description">
+          Get all groups
+        </div>
+        <div class="api_retun">
+          Returns: <code>IGroup[]</code>
+        </div>
+      </details>
+      -->
+
+      <details class="auth-locked POST">
+        <summary>
+          <span class="method">POST</span>
+          <code>/api/groups</code>
+        </summary>
+        <div class="api_description">
+          Create a group
+        </div>
+        <div class="api_body">
+          Body: <code>IGroupInput</code>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IGroup</code>
+        </div>
+      </details>
+
+      <hr />
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/groups/{group_id}</code>
+        </summary>
+        <div class="api_description">
+          Get specific group
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IGroup</code>
+        </div>
+      </details>
+      <details class="auth-locked PUT">
+        <summary>
+          <span class="method">PUT</span>
+          <code>/api/groups/{group_id}</code>
+        </summary>
+        <div class="api_description">
+          Update a specific group
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_body">
+          Body: <code>IGroupInput</code>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IGroup</code>
+        </div>
+      </details>
+      <details class="auth-locked DELETE">
+        <summary>
+          <span class="method">DELETE</span>
+          <code>/api/groups/{group_id}</code>
+        </summary>
+        <div class="api_description">
+          Delete a group
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IBaseResponse</code>
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>Groups - Members</h2>
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/groups/{group_id}/members</code>
+        </summary>
+        <div class="api_description">
+          Get all group's members
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IUser[]</code>
+        </div>
+      </details>
+
+      <hr />
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/groups/{group_id}/members/{user_id}</code>
+        </summary>
+        <div class="api_description">
+          Get specific group's user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IUser</code>
+        </div>
+      </details>
+      <details class="auth-locked DELETE">
+        <summary>
+          <span class="method">DELETE</span>
+          <code>/api/groups/{group_id}/members/{user_id}</code>
+        </summary>
+        <div class="api_description">
+          Remove a user from a group
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IBaseResponse</code>
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>Group - Messages</h2>
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/groups/{group_id}/messages</code>
+        </summary>
+        <div class="api_description">
+          Get all messages of a group
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IMessage[]</code>
+        </div>
+      </details>
+
+      <hr />
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/groups/{group_id}/messages/{message_id}</code>
+        </summary>
+        <div class="api_description">
+          Get specific message of a group
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>group_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>message_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_retun">
+          Returns: <code>IMessage</code>
+        </div>
+      </details>
     </section>
   </div>
 
