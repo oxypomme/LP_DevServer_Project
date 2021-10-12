@@ -19,7 +19,7 @@ class Group
    */
   protected int $id;
   /** 
-   * @Column(type="string") 
+   * @Column(type="string", unique=true) 
    */
   public string $name;
   /** 
@@ -47,6 +47,7 @@ class Group
   public function addToGroup(User $user)
   {
     $users[] = $user;
+    $user->addGroup($this);
   }
 
   public function __get(string $name)
@@ -64,10 +65,6 @@ class Group
 
   public function __set(string $name, $value)
   {
-    if (!property_exists($this, $name)) {
-      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-    }
-
     switch ($name) {
       case 'creationDate':
       case 'id':
@@ -80,6 +77,9 @@ class Group
         break;
 
       default:
+        if (!property_exists($this, $name)) {
+          throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
+        }
         $this->$name = $value;
         break;
     }

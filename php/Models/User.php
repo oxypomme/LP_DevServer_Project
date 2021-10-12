@@ -145,16 +145,11 @@ class User
 
   public function __get(string $name)
   {
-    if (!property_exists($this, $name)) {
-      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-    }
-
     switch ($name) {
-      case 'groups':
-        // return array_merge($this->groups, $this->ownedGroups);
-        // break;
-
       default:
+        if (!property_exists($this, $name)) {
+          throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
+        }
         return $this->$name;
         break;
     }
@@ -162,10 +157,6 @@ class User
 
   public function __set(string $name, $value)
   {
-    if (!property_exists($this, $name)) {
-      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-    }
-
     switch ($name) {
       case 'registerDate':
       case 'id':
@@ -176,12 +167,10 @@ class User
         $this->password = password_hash((string) $value, PASSWORD_DEFAULT);
         break;
 
-      case 'groups':
-        $value->addToGroup($this);
-        $this->groups[] = $value;
-        break;
-
       default:
+        if (!property_exists($this, $name)) {
+          throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
+        }
         $this->$name;
         break;
     }
