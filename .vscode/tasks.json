@@ -13,7 +13,8 @@
       "type": "npm",
       "script": "serve",
       "label": "npm: serve",
-      "detail": "gulp serve"
+      "detail": "gulp serve",
+      "dependsOn": ["npm: build"]
     },
     {
       "label": "php: sockets",
@@ -22,13 +23,14 @@
     },
     {
       "label": "Dev Server",
-      "dependsOn": ["npm: build", "npm: serve", "php: sockets"]
+      "dependsOn": ["npm: serve", "php: sockets"]
     },
     {
       "type": "npm",
       "script": "docker",
       "label": "npm: docker",
-      "detail": "gulp docker"
+      "detail": "gulp docker",
+      "dependsOn": ["npm: build"]
     },
     {
       // docker-compose --env-file .env.dev -f "docker-compose.dev.yml" up -d --build
@@ -45,7 +47,7 @@
     },
     {
       "label": "Dev Server - Docker",
-      "dependsOn": ["npm: build", "npm: docker", "docker-dev"]
+      "dependsOn": ["npm: docker", "docker-dev"]
     },
     {
       "label": "php: server",
