@@ -7,9 +7,10 @@ RUN apk update \
   && apk upgrade -U -a \
   && docker-php-ext-install pdo pdo_mysql \
   # Setup startup
-  && echo "php /app/dev/public/socket.php &" > start.sh \
-  && echo "php /app/dev/vendor/bin/doctrine orm:schema-tool:create" >> start.sh \
-  && echo "php -S 0.0.0.0:8080 /app/dev/public/index.php" >> start.sh \
+  && echo "cd /app/dev" > start.sh \
+  && echo "php public/socket.php &" >> start.sh \
+  && echo "php vendor/bin/doctrine orm:schema-tool:create" >> start.sh \
+  && echo "php -S 0.0.0.0:8080 public/index.php" >> start.sh \
   && chmod +x start.sh
 
 EXPOSE 8080
