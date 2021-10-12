@@ -71,12 +71,12 @@ class Slim implements \UMA\DIC\ServiceProvider
 
                         $group->group('/groups', function (RouteCollectorProxy $group) {
                             // Group for user's groups
-                            $group->get('[/]', Actions\Users\Groups\ListUserGroups::class); // TODO Implement Action
-                            $group->post('[/]', Actions\Users\Groups\AddUserGroup::class);  // TODO Implement Action
+                            $group->get('[/]', Actions\Users\Groups\ListUserGroups::class);
 
                             $group->group('/{group_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user's group
-                                $group->get('[/]', Actions\Users\Groups\GetUserGroup::class); // TODO Implement Action
+                                $group->post('[/]', Actions\Users\Groups\AddUserGroup::class);
+                                $group->get('[/]', Actions\Users\Groups\GetUserGroup::class);
                                 $group->delete('[/]', Actions\Users\Groups\RemoveUserGroup::class);  // TODO Implement Action
                             });
                         });
@@ -123,11 +123,11 @@ class Slim implements \UMA\DIC\ServiceProvider
 
                         $group->group('/members', function (RouteCollectorProxy $group) {
                             // Group for members of a group
-                            $group->get('[/]', Actions\Groups\Members\ListMembers::class);   // TODO Implement Action
+                            $group->get('[/]', Actions\Groups\Members\ListMembers::class);
 
                             $group->group('/{group_user_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user in a group
-                                $group->get('[/]',  Actions\Groups\Members\GetMember::class);  // TODO Implement Action
+                                $group->get('[/]',  Actions\Groups\Members\GetMember::class);
                                 $group->delete('[/]', Actions\Groups\Members\DeleteMember::class);    // TODO Implement Action
                             });
                         });

@@ -30,15 +30,19 @@ class NewRelation extends ProtectedInvokableEMAction
       ->getRepository(User::class)
       ->find((int) $parsedBody['target_id']);
 
-    $relation = new Relation(
-      $user,
-      $target
-    );
-    $this->em->persist($relation);
-    $this->em->flush();
+    if (!is_null($target)) {
+      $relation = new Relation(
+        $user,
+        $target
+      );
+      $this->em->persist($relation);
+      $this->em->flush();
 
-    // TODO: missing id
+      // TODO: missing id
 
-    return $this->createResponse($relation);
+      return $this->createResponse($relation);
+    }
+
+    return $this->createResponse(['status' => 404, 'message' => 'Target not found'], 404);
   }
 }
