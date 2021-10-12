@@ -2,6 +2,7 @@
 
 namespace Crisis\Actions;
 
+use Crisis\Models\User;
 use Crisis\Actions\InvokableEMAction;
 
 abstract class ProtectedInvokableEMAction extends InvokableEMAction
@@ -21,7 +22,7 @@ abstract class ProtectedInvokableEMAction extends InvokableEMAction
 
     $res = !is_null($user);
     if (!is_null($requested_user_id)) {
-      $res = $res && $auth_user_id != $requested_user_id;
+      $res = $res && $auth_user_id == $requested_user_id;
     }
 
     return $res;
