@@ -42,3 +42,14 @@ task("serve", function () {
   watch("src/**/*.ts", series(pruneJS, transpileTS));
   watch("src/**/*.scss", series(pruneCSS, transpileSCSS));
 });
+
+task("docker", function () {
+  browserSync({
+    proxy: `127.0.0.1:${process.env.HTTP_PORT}`,
+  });
+  watch(["php/**/*", "src/**/*"]).on("change", function () {
+    browserSync.reload();
+  });
+  watch("src/**/*.ts", series(pruneJS, transpileTS));
+  watch("src/**/*.scss", series(pruneCSS, transpileSCSS));
+});

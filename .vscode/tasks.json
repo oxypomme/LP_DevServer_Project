@@ -4,14 +4,10 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "php: server",
-      "type": "shell",
-      "command": "php -S localhost:8080 ./public/index.php"
-    },
-    {
-      "label": "php: sockets",
-      "type": "shell",
-      "command": "php ./public/socket.php"
+      "type": "npm",
+      "script": "build",
+      "label": "npm: build",
+      "detail": "gulp build"
     },
     {
       "type": "npm",
@@ -20,24 +16,51 @@
       "detail": "gulp serve"
     },
     {
-      "type": "npm",
-      "script": "build",
-      "label": "npm: build",
-      "detail": "gulp build"
+      "label": "php: sockets",
+      "type": "shell",
+      "command": "php ./public/socket.php"
     },
     {
       "label": "Dev Server",
       "dependsOn": ["npm: build", "npm: serve", "php: sockets"]
     },
     {
-      // docker-compose --env-file ./.env.prod up --build --d
-      "label": "Run docker-compose up",
+      "type": "npm",
+      "script": "docker",
+      "label": "npm: docker",
+      "detail": "gulp docker"
+    },
+    {
+      // docker-compose --env-file .env.dev -f "docker-compose.dev.yml" up -d --build
+      "label": "docker-dev",
       "type": "docker-compose",
       "dockerCompose": {
+        "files": ["docker-compose.dev.yml"],
+        "envFiles": [".env.dev"],
         "up": {
           "detached": true,
-          "build": true,
-          "customOptions": "--env-file ./.env.prod"
+          "build": true
+        }
+      }
+    },
+    {
+      "label": "Dev Server - Docker",
+      "dependsOn": ["npm: build", "npm: docker", "docker-dev"]
+    },
+    {
+      "label": "php: server",
+      "type": "shell",
+      "command": "php -S localhost:8080 ./public/index.php"
+    },
+    {
+      // docker-compose --env-file ./.env.prod up --build --d
+      "label": "docker-up",
+      "type": "docker-compose",
+      "dockerCompose": {
+        "envFiles": [".env.prod"],
+        "up": {
+          "detached": true,
+          "build": true
         }
       }
     }

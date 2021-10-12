@@ -7,8 +7,8 @@ RUN apk update \
   && apk upgrade -U -a \
   # Setup startup
   && echo "php /app/dev/public/socket.php &" > start.sh \
-  && echo "php -S localhost:8080 /app/dev/public/index.php" >> start.sh \
+  && echo "php -S 0.0.0.0:8080 /app/dev/public/index.php" >> start.sh \
   && chmod +x start.sh
 
-EXPOSE 80
+EXPOSE 8080
 CMD /app/start.sh
