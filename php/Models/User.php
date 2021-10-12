@@ -61,43 +61,41 @@ class User
   protected \DateTime $registerDate;
 
   /**
-   * @OneToOne(targetEntity="Location")
+   * @OneToOne(targetEntity="Location", fetch="EAGER")
    */
   // public Location $location;
 
   /**
-   * @OneToMany(targetEntity="Relation", mappedBy="sender")
+   * @OneToMany(targetEntity="Relation", mappedBy="sender", fetch="EAGER")
    * @var Relation[]
    */
   protected Collection $outRelations;
   /**
-   * @OneToMany(targetEntity="Relation", mappedBy="target")
+   * @OneToMany(targetEntity="Relation", mappedBy="target", fetch="EAGER")
    * @var Relation[]
    */
   protected Collection $inRelations;
   /**
-   * @OneToMany(targetEntity="Message", mappedBy="sender")
+   * @OneToMany(targetEntity="Message", mappedBy="sender", fetch="EAGER")
    * @var Message[]
    */
   protected Collection $outMessages;
   /**
-   * @OneToMany(targetEntity="Message", mappedBy="target")
+   * @OneToMany(targetEntity="Message", mappedBy="target", fetch="EAGER")
    * @var Message[]
    */
   protected Collection $inMessages;
   /**
-   * @OneToMany(targetEntity="Group", mappedBy="owner")
+   * @OneToMany(targetEntity="Group", mappedBy="owner", fetch="EAGER")
    * @var Group[]
    */
   protected Collection $ownedGroups;
   /**
-   * @ManyToMany(targetEntity="Group", inversedBy="members")
+   * @ManyToMany(targetEntity="Group", inversedBy="members", fetch="EAGER")
    * @JoinTable(name="users_groups")
    * @var Group[]
    */
   protected Collection $groups;
-
-  protected array $messages;
 
   public function __construct(string $username, string $password, string $email, string $phone, DateTime $birthdate, string $address, string $city, string $country)
   {
