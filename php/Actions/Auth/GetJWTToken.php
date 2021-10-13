@@ -37,7 +37,7 @@ class GetJWTToken extends InvokableEMAction
         return $this->createResponse([
           'status' => 200,
           'token' => $token->getToken(),
-          'issued' => $now->format('c'),
+          'created_at' => $now->format('c'),
           'expires' => $expiration->format('c')
         ]);
       };

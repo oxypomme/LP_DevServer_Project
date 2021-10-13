@@ -56,9 +56,9 @@ class User implements JsonSerializable
    */
   public int $status;
   /** 
-   * @Column(type="datetime", name="register_date", options={"default": "CURRENT_TIMESTAMP"}) 
+   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  public \DateTime $registerDate;
+  public \DateTime $created_at;
 
   /**
    * @OneToOne(targetEntity="Location", fetch="EAGER", cascade={"remove"})
@@ -108,7 +108,7 @@ class User implements JsonSerializable
     $this->city = $city;
     $this->country = $country;
     $this->status = \Crisis\EStatus::SAFE;
-    $this->registerDate = new DateTime();
+    $this->created_at = new DateTime();
   }
 
   public function setLocation(Location $loc): void
@@ -246,7 +246,7 @@ class User implements JsonSerializable
       'city' => $this->city,
       'country' => $this->country,
       'status' => $this->status,
-      'registerDate' => $this->registerDate->format('c'),
+      'created_at' => $this->created_at->format('c'),
     ];
     return $res;
   }

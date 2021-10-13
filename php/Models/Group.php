@@ -22,9 +22,9 @@ class Group implements JsonSerializable
    */
   public string $name;
   /** 
-   * @Column(type="datetime", name="creation_date", options={"default": "CURRENT_TIMESTAMP"}) 
+   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  public \DateTime $creationDate;
+  public \DateTime $created_at;
 
   /**
    * @ManyToOne(targetEntity="User", inversedBy="ownedGroups", fetch="EAGER")
@@ -41,7 +41,7 @@ class Group implements JsonSerializable
     $this->name = $name;
     $this->owner = $owner;
     $owner->addOwnedGroup($this);
-    $this->creationDate = new \DateTime();
+    $this->created_at = new \DateTime();
   }
 
   public function getOwner(): User
@@ -74,8 +74,8 @@ class Group implements JsonSerializable
     $res = [
       'id' => $this->id,
       'name' => $this->name,
-      'creationDate' => $this->creationDate->format('c'),
-      'owner' => $this->getOwner()
+      'owner' => $this->getOwner(),
+      'created_at' => $this->created_at->format('c')
     ];
     return $res;
   }

@@ -27,7 +27,7 @@ class Location implements JsonSerializable
   /** 
    * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  public \DateTime $lastUpdate;
+  public \DateTime $updated_at;
 
   /**
    * @OneToOne(targetEntity="User", fetch="EAGER")
@@ -38,7 +38,7 @@ class Location implements JsonSerializable
   {
     $this->long = $long;
     $this->lat = $lat;
-    $this->lastUpdate = new \DateTime();
+    $this->updated_at = new \DateTime();
     $this->user = $user;
     $user->setLocation($this);
   }
@@ -54,8 +54,8 @@ class Location implements JsonSerializable
       'id' => $this->id,
       'long' => $this->long,
       'lat' => $this->lat,
-      'lastUpdate' => $this->date->format('c'),
-      'user' => $this->getUser()
+      'user' => $this->getUser(),
+      'updated_at' => $this->updated_at->format('c')
     ];
     return $res;
   }

@@ -27,11 +27,11 @@ class Message implements JsonSerializable
   /** 
    * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  public \DateTime $date;
+  public \DateTime $created_at;
   /** 
    * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  public \DateTime $edit_date;
+  public \DateTime $updated_at;
 
   /**
    * @ManyToOne(targetEntity="User", inversedBy="outMessages", fetch="EAGER")
@@ -46,8 +46,8 @@ class Message implements JsonSerializable
   {
     $this->content = $content;
     $this->attachement = $attachement;
-    $this->date = new \DateTime();
-    $this->edit_date = new \DateTime();
+    $this->created_at = new \DateTime();
+    $this->updated_at = new \DateTime();
     $this->sender = $sender;
     $sender->addOutMessage($this);
     $this->target = $target;
@@ -68,10 +68,10 @@ class Message implements JsonSerializable
     $res = [
       'id' => $this->id,
       'content' => $this->content,
-      'date' => $this->date->format('c'),
-      'edit_date' => $this->edit_date->format('c'),
       'sender' => $this->getSender(),
-      'target' => $this->getTarget()
+      'target' => $this->getTarget(),
+      'created_at' => $this->created_at->format('c'),
+      'updated_at' => $this->updated_at->format('c')
     ];
     return $res;
   }

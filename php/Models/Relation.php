@@ -22,7 +22,7 @@ class Relation implements JsonSerializable
   /** 
    * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  public \DateTime $date;
+  public \DateTime $created_at;
 
   /**
    * @ManyToOne(targetEntity="User", inversedBy="outRelations", fetch="EAGER")
@@ -35,7 +35,7 @@ class Relation implements JsonSerializable
 
   public function __construct(User $sender, User $target)
   {
-    $this->date = new \DateTime();
+    $this->created_at = new \DateTime();
     $this->sender = $sender;
     $sender->addOutRelation($this);
     $this->target = $target;
@@ -55,9 +55,9 @@ class Relation implements JsonSerializable
   {
     $res = [
       'id' => $this->id,
-      'date' => $this->date->format('c'),
       'sender' => $this->getSender(),
-      'target' => $this->getTarget()
+      'target' => $this->getTarget(),
+      'created_at' => $this->created_at->format('c')
     ];
     return $res;
   }
