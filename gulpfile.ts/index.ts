@@ -19,7 +19,7 @@ function pruneCSS() {
 }
 const prune = parallel(pruneJS, pruneCSS);
 
-// TODO? : Resize images ?
+// TODO?: Resize images ?
 
 task("build", series(prune, parallel(transpileTS, transpileSCSS)));
 

@@ -157,6 +157,19 @@ class User
     }
   }
 
+  /** @return Message[] */
+  public function getMergedMessages(): array
+  {
+    return array_merge($this->outMessages->getValues(), $this->inMessages->getValues());
+  }
+  public function getMessages(): array
+  {
+    return [
+      'outMessages' => $this->outMessages->getValues(),
+      'inMessages' => $this->inMessages->getValues()
+    ];
+  }
+
   public function addOutMessage(Message $msg): void
   {
     if ($this->outMessages->contains($msg)) {

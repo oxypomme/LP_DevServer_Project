@@ -2,7 +2,6 @@
 
 namespace Crisis\Actions\Users\Relations;
 
-
 use Crisis\Models\User;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
