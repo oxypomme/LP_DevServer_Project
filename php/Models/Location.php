@@ -13,7 +13,7 @@ class Location
    * @Column(type="integer") 
    * @GeneratedValue
    */
-  protected int $id;
+  public int $id;
   /** 
    * @Column(type="float") 
    */
@@ -39,13 +39,5 @@ class Location
     $this->lastUpdate = new \DateTime();
     $this->user = $user;
     $user->setLocation($this);
-  }
-
-  public function __get(string $name)
-  {
-    if (!property_exists($this, $name)) {
-      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-    }
-    return $this->$name;
   }
 }

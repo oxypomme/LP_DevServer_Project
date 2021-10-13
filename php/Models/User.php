@@ -100,7 +100,7 @@ class User
   public function __construct(string $username, string $password, string $email, string $phone, DateTime $birthdate, string $address, string $city, string $country)
   {
     $this->username = $username;
-    $this->password = password_hash((string) $password, PASSWORD_DEFAULT);
+    $this->setPassword($password);
     $this->email = $email;
     $this->phone = $phone;
     $this->birthdate = $birthdate;
@@ -116,6 +116,16 @@ class User
     if ($this->location != $loc) {
       $this->location = $loc;
     }
+  }
+
+  public function setPassword(string $password): void
+  {
+    $this->password = password_hash((string) $password, PASSWORD_DEFAULT);
+  }
+
+  public function checkPassword(string $password): bool
+  {
+    return password_verify($password, $this->password);
   }
 
   /** @return Relation[] */
@@ -222,13 +232,5 @@ class User
       $this->groups->removeElement($group);
       $group->removeToGroup($this);
     }
-  }
-
-  public function __get(string $name)
-  {
-    if (!property_exists($this, $name)) {
-      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-    }
-    return $this->$name;
   }
 }

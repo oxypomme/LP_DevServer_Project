@@ -25,7 +25,7 @@ class UpdateUser extends ProtectedInvokableEMAction
       ->find((int) $args['user_id']);
 
     $user->username = (string) $parsedBody['username'];
-    $user->password = (string) $parsedBody['password'];
+    $user->setPassword((string) $parsedBody['password']);
     $user->email = (string) $parsedBody['email'];
     $user->phone = (string) $parsedBody['phone'];
     $user->birthdate = new \DateTime((string) $parsedBody['birthdate']);

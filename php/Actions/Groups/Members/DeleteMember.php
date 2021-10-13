@@ -20,7 +20,7 @@ class DeleteMember extends ProtectedInvokableEMAction
 
     // Check authorisations
     $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
-    if (!$this->checkUser((int) $jwtPayload['user_id'], $group->owner->id)) {
+    if (!$this->checkUser((int) $jwtPayload['user_id'], $group->getOwner()->id)) {
       return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
     }
 

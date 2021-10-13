@@ -18,7 +18,7 @@ class DeleteGroup extends ProtectedInvokableEMAction
 
     // Check authorisations
     $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
-    if (!$this->checkUser((int) $jwtPayload['user_id'], $group->owner->id)) {
+    if (!$this->checkUser((int) $jwtPayload['user_id'], $group->getOwner()->id)) {
       return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
     }
 
@@ -26,7 +26,7 @@ class DeleteGroup extends ProtectedInvokableEMAction
       foreach ($group->members as $member) {
         $member->removeGroup($group);
       }
-      $group->owner->removeOwnedGroup($group);
+      $group->getOwner()->removeOwnedGroup($group);
 
       $this->em->remove($group);
       $this->em->flush();

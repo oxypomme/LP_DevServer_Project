@@ -40,11 +40,12 @@ class Relation
     $target->addInRelation($this);
   }
 
-  public function __get(string $name)
+  public function getSender(): User
   {
-    if (!property_exists($this, $name)) {
-      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-    }
-    return $this->$name;
+    return $this->sender;
+  }
+  public function getTarget(): User
+  {
+    return $this->target;
   }
 }

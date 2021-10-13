@@ -43,6 +43,15 @@ class Group
     $this->creationDate = new \DateTime();
   }
 
+  public function getOwner(): User
+  {
+    return $this->owner;
+  }
+  public function setOwner(User $owner): void
+  {
+    $this->owner = $owner;
+  }
+
   public function addToGroup(User $user): void
   {
     if (!$this->members->contains($user)) {
@@ -57,13 +66,5 @@ class Group
       $this->members->removeElement($user);
       $user->removeGroup($this);
     }
-  }
-
-  public function __get(string $name)
-  {
-    if (!property_exists($this, $name)) {
-      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-    }
-    return $this->$name;
   }
 }

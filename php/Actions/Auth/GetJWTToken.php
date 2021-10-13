@@ -19,7 +19,7 @@ class GetJWTToken extends InvokableEMAction
       ->findOneBy(['username' => (string) $parsedBody['username']]);
 
     if ($user) {
-      if (password_verify($parsedBody['password'], $user->password)) {
+      if ($user->checkPassword($parsedBody['password'])) {
         $factory = new \PsrJwt\Factory\Jwt();
 
         $builder = $factory->builder();

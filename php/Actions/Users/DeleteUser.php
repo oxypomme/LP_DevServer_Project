@@ -23,7 +23,7 @@ class DeleteUser extends ProtectedInvokableEMAction
       ->find((int) $args['user_id']);
 
     try {
-      foreach ($user->groups as $group) {
+      foreach ($user->getGroups()['groups'] as $group) {
         $group->removeToGroup($user);
       }
 

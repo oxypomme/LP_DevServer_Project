@@ -19,7 +19,7 @@ class UpdateGroup extends ProtectedInvokableEMAction
 
     // Check authorisations
     $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
-    if (!$this->checkUser((int) $jwtPayload['user_id'], $group->owner->id)) {
+    if (!$this->checkUser((int) $jwtPayload['user_id'], $group->getOwner()->id)) {
       return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
     }
 
@@ -30,7 +30,7 @@ class UpdateGroup extends ProtectedInvokableEMAction
       ->getRepository(User::class)
       ->find((int) $parsedBody['owner_id']);
 
-    $group->owner = $user;
+    $group->setOwner($user);
     $group->name = (string) $parsedBody['name'];
 
     $this->em->persist($group);
