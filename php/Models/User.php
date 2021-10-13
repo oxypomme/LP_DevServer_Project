@@ -11,7 +11,7 @@ use function password_hash;
  * @Entity
  * @Table(name="users")
  */
-class User
+class User implements JsonSerializable
 {
   /** 
    * @Id
@@ -232,5 +232,22 @@ class User
       $this->groups->removeElement($group);
       $group->removeToGroup($this);
     }
+  }
+
+  public function jsonSerialize()
+  {
+    $res = [
+      'id' => $this->id,
+      'username' => $this->username,
+      'email' => $this->email,
+      'phone' => $this->phone,
+      'birthdate' => $this->birthdate->format('c'),
+      'address' => $this->address,
+      'city' => $this->city,
+      'country' => $this->country,
+      'status' => $this->status,
+      'registerDate' => $this->registerDate->format('c'),
+    ];
+    return $res;
   }
 }

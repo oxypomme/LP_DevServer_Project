@@ -3,12 +3,13 @@
 namespace Crisis\Models;
 
 use Doctrine\Common\Collections\Collection;
+use JsonSerializable;
 
 /**
  * @Entity
  * @Table(name="`groups`")
  */
-class Group
+class Group implements JsonSerializable
 {
   /**
    * @Id 
@@ -66,5 +67,16 @@ class Group
       $this->members->removeElement($user);
       $user->removeGroup($this);
     }
+  }
+
+  public function jsonSerialize()
+  {
+    $res = [
+      'id' => $this->id,
+      'name' => $this->name,
+      'creationDate' => $this->creationDate->format('c'),
+      'owner' => $this->getOwner()
+    ];
+    return $res;
   }
 }

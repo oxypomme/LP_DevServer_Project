@@ -2,6 +2,8 @@
 
 namespace Crisis\Models;
 
+use JsonSerializable;
+
 /**
  * @Entity
  * @Table(
@@ -9,7 +11,7 @@ namespace Crisis\Models;
  *  uniqueConstraints={@UniqueConstraint(columns={"sender_id", "target_id"})}
  * )
  */
-class Relation
+class Relation implements JsonSerializable
 {
   /**
    * @Id 
@@ -47,5 +49,16 @@ class Relation
   public function getTarget(): User
   {
     return $this->target;
+  }
+
+  public function jsonSerialize()
+  {
+    $res = [
+      'id' => $this->id,
+      'date' => $this->date->format('c'),
+      'sender' => $this->getSender(),
+      'target' => $this->getTarget()
+    ];
+    return $res;
   }
 }

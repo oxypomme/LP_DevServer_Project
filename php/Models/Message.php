@@ -2,11 +2,13 @@
 
 namespace Crisis\Models;
 
+use JsonSerializable;
+
 /**
  * @Entity
  * @Table(name="messages")
  */
-class Message
+class Message implements JsonSerializable
 {
   /** 
    * @Id
@@ -42,7 +44,7 @@ class Message
 
   public function __construct(string $content, string $attachement, User $sender, User $target)
   {
-    $this->conent = $content;
+    $this->content = $content;
     $this->attachement = $attachement;
     $this->date = new \DateTime();
     $this->edit_date = new \DateTime();
@@ -59,5 +61,18 @@ class Message
   public function getTarget(): User
   {
     return $this->target;
+  }
+
+  public function jsonSerialize()
+  {
+    $res = [
+      'id' => $this->id,
+      'content' => $this->content,
+      'date' => $this->date->format('c'),
+      'edit_date' => $this->edit_date->format('c'),
+      'sender' => $this->getSender(),
+      'target' => $this->getTarget()
+    ];
+    return $res;
   }
 }

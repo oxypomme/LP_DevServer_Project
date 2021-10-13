@@ -2,11 +2,13 @@
 
 namespace Crisis\Models;
 
+use JsonSerializable;
+
 /**
  * @Entity
  * @Table(name="locations")
  */
-class Location
+class Location implements JsonSerializable
 {
   /**
    * @Id 
@@ -39,5 +41,22 @@ class Location
     $this->lastUpdate = new \DateTime();
     $this->user = $user;
     $user->setLocation($this);
+  }
+
+  public function getUser(): User
+  {
+    return $this->user;
+  }
+
+  public function jsonSerialize()
+  {
+    $res = [
+      'id' => $this->id,
+      'long' => $this->long,
+      'lat' => $this->lat,
+      'lastUpdate' => $this->date->format('c'),
+      'user' => $this->getUser()
+    ];
+    return $res;
   }
 }
