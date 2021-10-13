@@ -23,17 +23,6 @@ class ListRelations extends ProtectedInvokableEMAction
       ->getRepository(User::class)
       ->find((int) $args['user_id']);
 
-    $res = [
-      'outRelations' => [],
-      'inRelations' => []
-    ];
-    foreach ($user->outRelations as $relation) {
-      $res['outRelations'][] = $relation;
-    }
-    foreach ($user->inRelations as $relation) {
-      $res['inRelations'][] = $relation;
-    }
-
-    return $this->createResponse($res);
+    return $this->createResponse($user->getRelations());
   }
 }

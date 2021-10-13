@@ -111,72 +111,99 @@ class User
     $this->registerDate = new DateTime();
   }
 
-  public function setLocation(Location $loc)
+  public function setLocation(Location $loc): void
   {
     if ($this->location != $loc) {
       $this->location = $loc;
     }
   }
 
-  public function addOutRelation(Relation $rel)
+  /** @return Relation[] */
+  public function getMergedRelations(): array
+  {
+    return array_merge($this->outRelations->getValues(), $this->inRelations->getValues());
+  }
+  public function getRelations(): array
+  {
+    return [
+      'outRelations' => $this->outRelations->getValues(),
+      'inRelations' => $this->inRelations->getValues()
+    ];
+  }
+
+  public function addOutRelation(Relation $rel): void
   {
     if (!$this->outRelations->contains($rel)) {
       $this->outRelations->add($rel);
     }
   }
-  public function removeOutRelation(Relation $rel)
+  public function removeOutRelation(Relation $rel): void
   {
     if ($this->outRelations->contains($rel)) {
       $this->outRelations->add($rel);
     }
   }
-  public function addInRelation(Relation $rel)
+
+  public function addInRelation(Relation $rel): void
   {
     if (!$this->inRelations->contains($rel)) {
       $this->inRelations->removeElement($rel);
     }
   }
-  public function removeInRelation(Relation $rel)
+  public function removeInRelation(Relation $rel): void
   {
     if ($this->inRelations->contains($rel)) {
       $this->inRelations->removeElement($rel);
     }
   }
 
-  public function addOutMessage(Message $msg)
+  public function addOutMessage(Message $msg): void
   {
     if ($this->outMessages->contains($msg)) {
       $this->outMessages->add($msg);
     }
   }
-  public function addInMessage(Message $msg)
+  public function addInMessage(Message $msg): void
   {
     if ($this->inMessages->contains($msg)) {
       $this->inMessages->add($msg);
     }
   }
 
-  public function addOwnedGroup(Group $group)
+  /** @return Group[] */
+  public function getMergedGroups(): array
+  {
+    return array_merge($this->ownedGroups->getValues(), $this->groups->getValues());
+  }
+  public function getGroups(): array
+  {
+    return [
+      'ownedGroups' => $this->ownedGroups->getValues(),
+      'groups' => $this->groups->getValues()
+    ];
+  }
+
+  public function addOwnedGroup(Group $group): void
   {
     if (!$this->ownedGroups->contains($group)) {
       $this->ownedGroups->add($group);
     }
   }
-  public function removeOwnedGroup(Group $group)
+  public function removeOwnedGroup(Group $group): void
   {
     if ($this->ownedGroups->contains($group)) {
       $this->ownedGroups->removeElement($group);
     }
   }
 
-  public function addGroup(Group $group)
+  public function addGroup(Group $group): void
   {
     if (!$this->groups->contains($group)) {
       $this->groups->add($group);
       $group->addToGroup($this);
     }
   }
-  public function removeGroup(Group $group)
+  public function removeGroup(Group $group): void
   {
     if ($this->groups->contains($group)) {
       $this->groups->removeElement($group);

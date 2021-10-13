@@ -22,9 +22,7 @@ class RemoveUserGroup extends ProtectedInvokableEMAction
       ->getRepository(User::class)
       ->find((int) $args['user_id']);
 
-    $rawGroups = $user->groups;
-
-    foreach ($rawGroups as $group) {
+    foreach ($user->groups as $group) {
       if ($group->id == $args['group_id']) {
         $group->removeToGroup($user);
         $this->em->persist($group);

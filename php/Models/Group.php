@@ -43,7 +43,7 @@ class Group
     $this->creationDate = new \DateTime();
   }
 
-  public function addToGroup(User $user)
+  public function addToGroup(User $user): void
   {
     if (!$this->members->contains($user)) {
       $this->members->add($user);
@@ -51,7 +51,7 @@ class Group
     }
   }
 
-  public function removeToGroup(User $user)
+  public function removeToGroup(User $user): void
   {
     if ($this->members->contains($user)) {
       $this->members->removeElement($user);

@@ -16,6 +16,8 @@ abstract class ProtectedInvokableEMAction extends InvokableEMAction
    */
   public function checkUser(int $auth_user_id, int $requested_user_id = null): bool
   {
+    // TODO: Expire date
+
     $user = $this->em
       ->getRepository(User::class)
       ->find($auth_user_id);
