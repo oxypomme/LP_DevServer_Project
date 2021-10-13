@@ -3,7 +3,6 @@
 namespace Crisis\Actions\Users\Groups;
 
 use Crisis\Models\User;
-use Crisis\Models\Group;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -27,9 +26,11 @@ class RemoveUserGroup extends ProtectedInvokableEMAction
 
     foreach ($rawGroups as $group) {
       if ($group->id == $args['group_id']) {
-        // $group->removeToGroup($user);
-        // return $this->createResponse($this->getFullObject($group));
-        return $this->createResponse(['status' => 501, 'message' => 'Not Implemented'], 501);
+        $group->removeToGroup($user);
+        $this->em->persist($group);
+        $this->em->flush();
+
+        return $this->createResponse($group);
       }
     }
 

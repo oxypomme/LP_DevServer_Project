@@ -9,7 +9,7 @@ abstract class InvokableEMAction extends InvokableJSONAction
   protected EntityManager $em;
 
   /**
-   * @deprecated Use \Crisis\Reflection::getFullObject instead
+   * @deprecated Use \Crisis\Reflection::getFullObject instead, or just don't use it
    */
   protected function getFullObject(object $obj, array $excluded = []): object
   {

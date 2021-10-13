@@ -18,16 +18,11 @@ class ListUserGroups extends ProtectedInvokableEMAction
     }
 
     /** @var User $user */
-    $rawGroups = $this->em
+    $user = $this->em
       ->getRepository(User::class)
       ->find((int) $args['user_id'])
       ->groups;
 
-    $groups = [];
-    foreach ($rawGroups as $group) {
-      $groups[] = $this->getFullObject($group);
-    }
-
-    return $this->createResponse($groups);
+    return $this->createResponse($user->groups);
   }
 }

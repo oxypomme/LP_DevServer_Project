@@ -17,6 +17,6 @@ class GetRelation extends InvokableEMAction
       ->getRepository(Relation::class)
       ->find((int) $args['relation_id']);
 
-    return $this->createResponse($this->getFullObject($relation));
+    return $this->createResponse($relation);
   }
 }

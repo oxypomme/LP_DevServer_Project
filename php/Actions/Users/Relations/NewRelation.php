@@ -38,8 +38,6 @@ class NewRelation extends ProtectedInvokableEMAction
       $this->em->persist($relation);
       $this->em->flush();
 
-      // TODO: missing id
-
       return $this->createResponse($relation);
     }
 

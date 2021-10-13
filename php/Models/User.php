@@ -18,7 +18,7 @@ class User
    * @Column(type="integer")
    * @GeneratedValue
    */
-  protected int $id;
+  public int $id;
   /** 
    * @Column(type="string", unique=true)
    */
@@ -58,12 +58,12 @@ class User
   /** 
    * @Column(type="datetime", name="register_date", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  protected \DateTime $registerDate;
+  public \DateTime $registerDate;
 
   /**
    * @OneToOne(targetEntity="Location", fetch="EAGER", cascade={"remove"})
    */
-  // public Location $location;
+  // protected Location $location;
 
   /**
    * @OneToMany(targetEntity="Relation", mappedBy="sender", fetch="EAGER", cascade={"remove"})
@@ -184,24 +184,11 @@ class User
     }
   }
 
-  public function __set(string $name, $value)
+  public function __get(string $name)
   {
-    switch ($name) {
-      case 'registerDate':
-      case 'id':
-        throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
-        break;
-
-      case 'password':
-        $this->password = password_hash((string) $value, PASSWORD_DEFAULT);
-        break;
-
-      default:
-        if (!property_exists($this, $name)) {
-          throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-        }
-        $this->$name;
-        break;
+    if (!property_exists($this, $name)) {
+      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
     }
+    return $this->$name;
   }
 }

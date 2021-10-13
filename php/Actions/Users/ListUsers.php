@@ -12,14 +12,9 @@ class ListUsers extends InvokableEMAction
     public function handle(Request $request, Response $response, array $args): Response
     {
         /** @var User[] $users */
-        $rawUsers = $this->em
+        $users = $this->em
             ->getRepository(User::class)
             ->findAll();
-
-        $users = [];
-        foreach ($rawUsers as $user) {
-            $users[] = $this->getFullObject($user, ['password']);
-        }
 
         return $this->createResponse($users);
     }

@@ -20,7 +20,7 @@ abstract class Reflection
 
     foreach ($props as $prop) {
       $propname = $prop->name;
-      if (in_array($propname, array_merge($excluded, ['__initializer__', '__cloner__', '__isInitialized__'], ['outMessages', 'inMessages']))) {
+      if (in_array($propname, array_merge($excluded))) {
         continue;
       }
 

@@ -26,7 +26,7 @@ class GetUserGroup extends ProtectedInvokableEMAction
 
     foreach ($rawGroups as $group) {
       if ($group->id == (int) $args['group_id']) {
-        return $this->createResponse($this->getFullObject($group));
+        return $this->createResponse($group);
       }
     }
 

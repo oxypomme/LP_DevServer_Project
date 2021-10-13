@@ -26,8 +26,6 @@ class NewUser extends InvokableEMAction
     $this->em->persist($user);
     $this->em->flush();
 
-    // TODO: missing id
-
     return $this->createResponse($user);
   }
 }

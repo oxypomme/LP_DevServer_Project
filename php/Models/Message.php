@@ -13,7 +13,7 @@ class Message
    * @Column(type="integer")
    * @GeneratedValue
    */
-  protected int $id;
+  public int $id;
   /** 
    * @Column(type="text") 
    */
@@ -25,7 +25,7 @@ class Message
   /** 
    * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  protected \DateTime $date;
+  public \DateTime $date;
   /** 
    * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
@@ -54,39 +54,9 @@ class Message
 
   public function __get(string $name)
   {
-    switch ($name) {
-      default:
-        if (!property_exists($this, $name)) {
-          throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-        }
-        return $this->$name;
-        break;
+    if (!property_exists($this, $name)) {
+      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
     }
-  }
-
-  public function __set(string $name, $value)
-  {
-    switch ($name) {
-      case 'date':
-      case 'id':
-        throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
-        break;
-
-      case 'sender':
-        $value->addOutMessage($this);
-        $this->sender = $value;
-        break;
-      case 'target':
-        $value->addInMessage($this);
-        $this->target = $value;
-        break;
-
-      default:
-        if (!property_exists($this, $name)) {
-          throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-        }
-        $this->$name = $value;
-        break;
-    }
+    return $this->$name;
   }
 }

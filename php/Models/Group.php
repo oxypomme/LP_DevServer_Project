@@ -6,9 +6,7 @@ use Doctrine\Common\Collections\Collection;
 
 /**
  * @Entity
- * @Table(
- *  name="chat_groups"
- * )
+ * @Table(name="`groups`")
  */
 class Group
 {
@@ -17,7 +15,7 @@ class Group
    * @Column(type="integer") 
    * @GeneratedValue
    */
-  protected int $id;
+  public int $id;
   /** 
    * @Column(type="string", unique=true) 
    */
@@ -25,7 +23,7 @@ class Group
   /** 
    * @Column(type="datetime", name="creation_date", options={"default": "CURRENT_TIMESTAMP"}) 
    */
-  protected \DateTime $creationDate;
+  public \DateTime $creationDate;
 
   /**
    * @ManyToOne(targetEntity="User", inversedBy="ownedGroups", fetch="EAGER")
@@ -33,7 +31,7 @@ class Group
   protected User $owner;
   /**
    * @ManyToMany(targetEntity="User", mappedBy="groups", fetch="EAGER")
-   * @var User[]
+   * @var Collection<int, User> $members
    */
   protected Collection $members;
 
@@ -61,25 +59,11 @@ class Group
     }
   }
 
-  public function __set(string $name, $value)
+  public function __get(string $name)
   {
-    switch ($name) {
-      case 'creationDate':
-      case 'id':
-        throw new \Crisis\KeyNotFoundError("Property ${name} is not accessible");
-        break;
-
-      case 'owner':
-        $value->addGroup($this);
-        $this->owner = $value;
-        break;
-
-      default:
-        if (!property_exists($this, $name)) {
-          throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-        }
-        $this->$name = $value;
-        break;
+    if (!property_exists($this, $name)) {
+      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
     }
+    return $this->$name;
   }
 }

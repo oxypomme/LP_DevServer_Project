@@ -32,8 +32,6 @@ class NewGroup extends ProtectedInvokableEMAction
     $this->em->persist($group);
     $this->em->flush();
 
-    // TODO: missing id
-
     return $this->createResponse($group);
   }
 }

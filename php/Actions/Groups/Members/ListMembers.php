@@ -11,16 +11,11 @@ class ListMembers extends InvokableEMAction
 {
   public function handle(Request $request, Response $response, array $args): Response
   {
-    /** @var User[] $rawMembers */
-    $rawMembers = $this->em
+    /** @var Group $group */
+    $group = $this->em
       ->getRepository(Group::class)
       ->find((int) $args['group_id']);
 
-    $members = [];
-    foreach ($rawMembers as $member) {
-      $members[] = \Crisis\Reflection::getFullObject($member, ['password']);
-    }
-
-    return $this->createResponse($members);
+    return $this->createResponse($group->members);
   }
 }

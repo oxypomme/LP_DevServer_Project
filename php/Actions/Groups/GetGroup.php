@@ -11,11 +11,13 @@ class GetGroup extends InvokableEMAction
 {
   public function handle(Request $request, Response $response, array $args): Response
   {
+    // TODO: Visible only by owner/members ?
+
     /** @var Group $group */
     $group = $this->em
       ->getRepository(Group::class)
       ->find((int) $args['group_id']);
 
-    return $this->createResponse($this->getFullObject($group));
+    return $this->createResponse($group);
   }
 }

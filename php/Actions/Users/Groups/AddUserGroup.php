@@ -34,7 +34,8 @@ class AddUserGroup extends ProtectedInvokableEMAction
       $group->addToGroup($user);
       $this->em->persist($group);
       $this->em->flush();
-      return $this->createResponse($this->getFullObject($group));
+
+      return $this->createResponse($group);
     }
 
     return $this->createResponse(['status' => 404, 'message' => 'Group not found'], 404);

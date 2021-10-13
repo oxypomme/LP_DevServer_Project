@@ -2,7 +2,6 @@
 
 namespace Crisis\Actions\Groups\Members;
 
-use Crisis\Models\User;
 use Crisis\Models\Group;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,15 +17,14 @@ class GetMember extends ProtectedInvokableEMAction
       return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
     }
 
-    /** @var User[] $rawMembers */
-    $rawMembers = $this->em
+    /** @var Group $group */
+    $group = $this->em
       ->getRepository(Group::class)
-      ->find((int) $args['group_id'])
-      ->members;
+      ->find((int) $args['group_id']);
 
-    foreach ($rawMembers as $member) {
+    foreach ($group->members as $member) {
       if ($member->id == (int) $args['member_id']) {
-        return $this->createResponse(\Crisis\Reflection::getFullObject($member));
+        return $this->createResponse($member);
       }
     }
 
