@@ -77,7 +77,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                                 // Group for specific user's group
                                 $group->post('[/]', Actions\Users\Groups\AddUserGroup::class);
                                 $group->get('[/]', Actions\Users\Groups\GetUserGroup::class);
-                                $group->delete('[/]', Actions\Users\Groups\RemoveUserGroup::class);  // TODO Implement Action
+                                $group->delete('[/]', Actions\Users\Groups\RemoveUserGroup::class);
                             });
                         });
 
@@ -128,7 +128,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                             $group->group('/{group_user_id:[0-9]+}', function (RouteCollectorProxy $group) {
                                 // Group for specific user in a group
                                 $group->get('[/]',  Actions\Groups\Members\GetMember::class);
-                                $group->delete('[/]', Actions\Groups\Members\DeleteMember::class);    // TODO Implement Action
+                                $group->delete('[/]', Actions\Groups\Members\DeleteMember::class);
                             });
                         });
 
