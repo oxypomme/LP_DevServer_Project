@@ -637,6 +637,56 @@
     <h2>API Types</h2>
     <details>
       <summary>
+        <code>IBaseReponse</code>
+      </summary>
+      <code>
+        <pre>{
+  status: number,
+  message: string
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>ILogin</code>
+      </summary>
+      <code>
+        <pre>{
+  username: string,
+  password: string
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>IToken</code>
+      </summary>
+      <code>
+        <pre>{
+  status: number,
+  token: string,
+  created_at: string,
+  expires: string
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>EStatus</code>
+      </summary>
+      <code>
+        <pre>{
+  SAFE = 0,
+  UNSAFE
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
         <code>IUser</code>
       </summary>
       <code>
@@ -645,21 +695,16 @@
   username: string,
   email: string,
   phone: string | number,
-  birthdate: IDateTime,
+  birthdate: string,
   address: string,
   city: string,
   country: string,
   status: EStatus,
-  registerDate: IDateTime,
-  outRelations: IRelation[],
-  inRelations: IRelation[],
-  outMessages: IMessage[],
-  inMessages: IMessage[],
-  ownedGroups: IGroup[],
-  groups: IGroup[]
+  created_at: string
 }</pre>
       </code>
     </details>
+
     <details>
       <summary>
         <code>IUserInput</code>
@@ -674,6 +719,99 @@
     address: string,
     city: string,
     country: string
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>IGroup</code>
+      </summary>
+      <code>
+        <pre>{
+  id: number,
+  name: string,
+  owner: IUser,
+  created_at: string
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>IGroupInput</code>
+      </summary>
+      <code>
+        <pre>{
+  name: string
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>IRelation</code>
+      </summary>
+      <code>
+        <pre>{
+  id: number,
+  sender: IUser,
+  target: IUser,
+  created_at: string
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>IRelationInput</code>
+      </summary>
+      <code>
+        <pre>{
+  target: number
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>ILocation</code>
+      </summary>
+      <code>
+        <pre>{
+  id: number,
+  long: number,
+  lat: number,
+  user: IUser,
+  updated_at: string
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>ILocationInput</code>
+      </summary>
+      <code>
+        <pre>{
+  long: number,
+  lat: number
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>IMessage</code>
+      </summary>
+      <code>
+        <pre>{
+  id: number,
+  content: string,
+  sender: IUser,
+  target: IUser,
+  created_at: string
+  updated_at: string
 }</pre>
       </code>
     </details>

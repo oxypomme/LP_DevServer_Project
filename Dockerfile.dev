@@ -13,5 +13,5 @@ RUN apk update \
   && echo "php -S 0.0.0.0:8080 public/index.php" >> start.sh \
   && chmod +x start.sh
 
-EXPOSE 8080
+EXPOSE 8080 8090
 CMD /app/start.sh
