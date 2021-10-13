@@ -35,13 +35,13 @@ class Relation
   {
     $this->date = new \DateTime();
     $this->sender = $sender;
+    $sender->addOutRelation($this);
     $this->target = $target;
+    $target->addInRelation($this);
   }
 
   public function __get(string $name)
   {
-    switch ($name) {
-      default:
         if (!property_exists($this, $name)) {
           throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
         }

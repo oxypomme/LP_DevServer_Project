@@ -41,25 +41,23 @@ class Group
   {
     $this->name = $name;
     $this->owner = $owner;
+    $owner->addOwnedGroup($this);
     $this->creationDate = new \DateTime();
   }
 
   public function addToGroup(User $user)
   {
-    $users[] = $user;
-    $user->addGroup($this);
+    if (!$this->members->contains($user)) {
+      $this->members->add($user);
+      $user->addGroup($this);
+    }
   }
 
-  public function __get(string $name)
+  public function removeToGroup(User $user)
   {
-    if (!property_exists($this, $name)) {
-      throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-    }
-
-    switch ($name) {
-      default:
-        return $this->$name;
-        break;
+    if ($this->members->contains($user)) {
+      $this->members->removeElement($user);
+      $user->removeGroup($this);
     }
   }
 

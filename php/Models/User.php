@@ -61,39 +61,39 @@ class User
   protected \DateTime $registerDate;
 
   /**
-   * @OneToOne(targetEntity="Location", fetch="EAGER")
+   * @OneToOne(targetEntity="Location", fetch="EAGER", cascade={"remove"})
    */
   // public Location $location;
 
   /**
-   * @OneToMany(targetEntity="Relation", mappedBy="sender", fetch="EAGER")
-   * @var Relation[]
+   * @OneToMany(targetEntity="Relation", mappedBy="sender", fetch="EAGER", cascade={"remove"})
+   * @var Collection<int, Relation> $outRelations
    */
   protected Collection $outRelations;
   /**
-   * @OneToMany(targetEntity="Relation", mappedBy="target", fetch="EAGER")
-   * @var Relation[]
+   * @OneToMany(targetEntity="Relation", mappedBy="target", fetch="EAGER", cascade={"remove"})
+   * @var Collection<int, Relation> $inRelations
    */
   protected Collection $inRelations;
   /**
-   * @OneToMany(targetEntity="Message", mappedBy="sender", fetch="EAGER")
-   * @var Message[]
+   * @OneToMany(targetEntity="Message", mappedBy="sender", fetch="EAGER", cascade={"remove"})
+   * @var Collection<int, Message> $outMessages
    */
   protected Collection $outMessages;
   /**
-   * @OneToMany(targetEntity="Message", mappedBy="target", fetch="EAGER")
-   * @var Message[]
+   * @OneToMany(targetEntity="Message", mappedBy="target", fetch="EAGER", cascade={"remove"})
+   * @var Collection<int, Message> $inMessages
    */
   protected Collection $inMessages;
   /**
-   * @OneToMany(targetEntity="Group", mappedBy="owner", fetch="EAGER")
-   * @var Group[]
+   * @OneToMany(targetEntity="Group", mappedBy="owner", fetch="EAGER", cascade={"remove"})
+   * @var Collection<int, Group> $ownedGroups
    */
   protected Collection $ownedGroups;
   /**
    * @ManyToMany(targetEntity="Group", inversedBy="members", fetch="EAGER")
    * @JoinTable(name="users_groups")
-   * @var Group[]
+   * @var Collection<int, Group> $groups
    */
   protected Collection $groups;
 
@@ -111,47 +111,76 @@ class User
     $this->registerDate = new DateTime();
   }
 
+  public function setLocation(Location $loc)
+  {
+    if ($this->location != $loc) {
+      $this->location = $loc;
+    }
+  }
+
   public function addOutRelation(Relation $rel)
   {
-    $this->outRelations[] = $rel;
+    if (!$this->outRelations->contains($rel)) {
+      $this->outRelations->add($rel);
+    }
+  }
+  public function removeOutRelation(Relation $rel)
+  {
+    if ($this->outRelations->contains($rel)) {
+      $this->outRelations->add($rel);
+    }
   }
   public function addInRelation(Relation $rel)
   {
-    $this->inRelations[] = $rel;
+    if (!$this->inRelations->contains($rel)) {
+      $this->inRelations->removeElement($rel);
+    }
+  }
+  public function removeInRelation(Relation $rel)
+  {
+    if ($this->inRelations->contains($rel)) {
+      $this->inRelations->removeElement($rel);
+    }
   }
 
   public function addOutMessage(Message $msg)
   {
-    $this->outMessages[] = $msg;
+    if ($this->outMessages->contains($msg)) {
+      $this->outMessages->add($msg);
+    }
   }
   public function addInMessage(Message $msg)
   {
-    $this->inMessages[] = $msg;
+    if ($this->inMessages->contains($msg)) {
+      $this->inMessages->add($msg);
+    }
   }
 
   public function addOwnedGroup(Group $group)
   {
-    $this->ownedGroups[] = $group;
+    if (!$this->ownedGroups->contains($group)) {
+      $this->ownedGroups->add($group);
+    }
   }
+  public function removeOwnedGroup(Group $group)
+  {
+    if ($this->ownedGroups->contains($group)) {
+      $this->ownedGroups->removeElement($group);
+    }
+  }
+
   public function addGroup(Group $group)
   {
-    $this->groups[] = $group;
+    if (!$this->groups->contains($group)) {
+      $this->groups->add($group);
+      $group->addToGroup($this);
+    }
   }
-
-  public function getRelations()
+  public function removeGroup(Group $group)
   {
-    return $this->inRelations;
-  }
-
-  public function __get(string $name)
-  {
-    switch ($name) {
-      default:
-        if (!property_exists($this, $name)) {
-          throw new \Crisis\KeyNotFoundError("Property ${name} doen't exists");
-        }
-        return $this->$name;
-        break;
+    if ($this->groups->contains($group)) {
+      $this->groups->removeElement($group);
+      $group->removeToGroup($this);
     }
   }
 

@@ -23,7 +23,9 @@ class DeleteRelationextends extends ProtectedInvokableEMAction
     }
 
     try {
-      //TODO: Remove relation from users
+      $relation->sender->removeOutRelation($relation);
+      $relation->target->removeInRelation($relation);
+
       $this->em->remove($relation);
       $this->em->flush();
     } catch (\Exception $e) {

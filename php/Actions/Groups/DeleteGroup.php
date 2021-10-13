@@ -23,7 +23,11 @@ class DeleteGroup extends ProtectedInvokableEMAction
     }
 
     try {
-      // TODO: Remove group from all members
+      foreach ($group->members as $member) {
+        $member->removeGroup($group);
+      }
+      $group->owner->removeOwnedGroup($group);
+
       $this->em->remove($group);
       $this->em->flush();
     } catch (\Exception $e) {

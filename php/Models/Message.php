@@ -47,7 +47,9 @@ class Message
     $this->date = new \DateTime();
     $this->edit_date = new \DateTime();
     $this->sender = $sender;
+    $sender->addOutMessage($this);
     $this->target = $target;
+    $target->addInMessage($this);
   }
 
   public function __get(string $name)

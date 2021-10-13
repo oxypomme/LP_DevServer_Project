@@ -38,6 +38,7 @@ class Location
     $this->lat = $lat;
     $this->lastUpdate = new \DateTime();
     $this->user = $user;
+    $user->setLocation($this);
   }
 
   public function __get(string $name)
