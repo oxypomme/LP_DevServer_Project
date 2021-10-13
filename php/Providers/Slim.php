@@ -103,9 +103,9 @@ class Slim implements \UMA\DIC\ServiceProvider
 
                         $group->group('/messages', function (RouteCollectorProxy $group) {
                             // Group for user's messages
-                            $group->get('[/]', Actions\Messages\ListMessages::class); // TODO Implement Action
+                            $group->get('[/]', Actions\Users\Messages\ListMessages::class); // TODO Implement Action
 
-                            $group->get('/{message_id:[0-9]+}[/]', Actions\Messages\GetMessage::class); // TODO Implement Action
+                            $group->get('/{message_id:[0-9]+}[/]', Actions\Users\Messages\GetMessage::class); // TODO Implement Action
                         });
                     });
                 });
