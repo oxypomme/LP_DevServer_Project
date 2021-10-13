@@ -3,7 +3,6 @@ version: "3.8"
 services:
   db:
     image: mysql
-    restart: always
     volumes:
       - "./docker/db:/var/lib/mysql"
     environment:
@@ -21,8 +20,10 @@ services:
       - 8090:8090
   phpmyadmin:
     image: phpmyadmin
-    restart: always
     ports:
       - 8085:80
     environment:
       - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=${DB_USER}
+      - PMA_PASSWORD=${DB_PASSWORD}
