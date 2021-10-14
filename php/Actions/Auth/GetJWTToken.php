@@ -7,6 +7,7 @@ use Crisis\Actions\InvokableEMAction;
 use DateTime;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpException;
 
 class GetJWTToken extends InvokableEMAction
 {
@@ -35,7 +36,6 @@ class GetJWTToken extends InvokableEMAction
           ->build();
 
         return $this->createResponse([
-          'status' => 200,
           'token' => $token->getToken(),
           'created_at' => $now->format('c'),
           'expires' => $expiration->format('c')
@@ -43,6 +43,6 @@ class GetJWTToken extends InvokableEMAction
       };
     }
 
-    return $this->createResponse(['status' => 401, 'message' => 'Bad Creditentials'], 401);
+    throw new HttpException($request, 'Bad Creditentials', 401);
   }
 }

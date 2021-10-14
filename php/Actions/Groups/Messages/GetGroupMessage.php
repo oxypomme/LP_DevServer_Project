@@ -6,6 +6,7 @@ use Crisis\Models\Group;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpException;
 
 class GetGroupMessage extends ProtectedInvokableEMAction
 {
@@ -24,6 +25,6 @@ class GetGroupMessage extends ProtectedInvokableEMAction
       }
     }
 
-    return $this->createResponse(['status' => 404, 'message' => 'Message not found'], 404);
+    throw new HttpException($request, 'Message not found', 404);
   }
 }

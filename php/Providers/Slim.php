@@ -27,11 +27,34 @@ class Slim implements \UMA\DIC\ServiceProvider
 
             $app = \Slim\Factory\AppFactory::create(null, $c);
 
-            $app->addErrorMiddleware(
+            $errorMiddleware = $app->addErrorMiddleware(
                 $settings['slim']['displayErrorDetails'],
                 $settings['slim']['logErrors'],
                 $settings['slim']['logErrorDetails']
             );
+
+            // Matching Slim Errors to Base Response
+            $errorHandler = $errorMiddleware->getDefaultErrorHandler();
+            if ($errorHandler instanceof \Slim\Handlers\ErrorHandler) {
+                $errorHandler->registerErrorRenderer('application/json', function (\Throwable $exception, bool $displayErrorDetails): string {
+                    $res = [
+                        'status' => $exception->getCode(),
+                        'payload' => $exception->getMessage()
+                    ];
+                    if ($displayErrorDetails) {
+                        $res['trace'] = [];
+                        foreach ($exception->getTrace() as $key => $trace) {
+                            $res['trace'][] = "#{$key}"
+                                . $trace['file']
+                                . '(' . $trace['line'] . '): '
+                                . $trace['class']
+                                . $trace['type']
+                                . $trace['function'];
+                        }
+                    }
+                    return \json_encode($res);
+                });
+            }
 
             // Minify HTML if production
             if ($_ENV['PHP_ENV'] == "production") {
@@ -59,7 +82,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                 return $renderer->render($response, "api_doc.phtml", ['title' => 'Documentation']);
             });
 
-            $app->group('/api', function (RouteCollectorProxy $group) {
+            $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
                 //Group for API calls
                 $group->group('/users', function (RouteCollectorProxy $group) {
                     // Group for user list

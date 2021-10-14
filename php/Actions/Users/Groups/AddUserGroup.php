@@ -7,6 +7,7 @@ use Crisis\Models\Group;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpException;
 
 class AddUserGroup extends ProtectedInvokableEMAction
 {
@@ -15,7 +16,7 @@ class AddUserGroup extends ProtectedInvokableEMAction
     // Check authorisations
     $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
     if (!$this->checkUser((int) $jwtPayload['user_id'], (int) $args['user_id'])) {
-      return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
+      throw new HttpException($request, 'Unauthorized', 401);
     }
 
     $parsedBody = $this->getParsedBody($request);
@@ -38,6 +39,6 @@ class AddUserGroup extends ProtectedInvokableEMAction
       return $this->createResponse($group);
     }
 
-    return $this->createResponse(['status' => 404, 'message' => 'Group not found'], 404);
+    throw new HttpException($request, 'Group not found', 404);
   }
 }

@@ -7,6 +7,7 @@ use Crisis\Models\Relation;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpException;
 
 class NewRelation extends ProtectedInvokableEMAction
 {
@@ -15,7 +16,7 @@ class NewRelation extends ProtectedInvokableEMAction
     // Check authorisations
     $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
     if (!$this->checkUser((int) $jwtPayload['user_id'], (int) $args['user_id'])) {
-      return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
+      throw new HttpException($request, 'Unauthorized', 401);
     }
 
     $parsedBody = $this->getParsedBody($request);
@@ -41,6 +42,6 @@ class NewRelation extends ProtectedInvokableEMAction
       return $this->createResponse($relation);
     }
 
-    return $this->createResponse(['status' => 404, 'message' => 'Target not found'], 404);
+    throw new HttpException($request, 'Target not found', 404);
   }
 }

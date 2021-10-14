@@ -17,8 +17,13 @@
   </nav>
 
   <div class="api_doc">
+    <p>
+      All <i>Returns</i> designate the type of the payload. Each response is a <code>IBaseReponse</code>
+    </p>
+
     <section id="auth">
       <h2>Auth</h2>
+
       <details class="POST">
         <summary>
           <span class="method">POST</span>
@@ -37,95 +42,96 @@
     </section>
 
     <section id="users">
-      <h2>Users</h3>
-        <details class="auth-locked GET">
-          <summary>
-            <span class="method">GET</span>
-            <code>/api/users</code>
-          </summary>
-          <div class="api_description">
-            Get all users
-          </div>
-          <div class="api_return">
-            Returns: <code>IUser[]</code>
-          </div>
-        </details>
+      <h2>Users</h2>
 
-        <details class="POST">
-          <summary>
-            <span class="method">POST</span>
-            <code>/api/users</code>
-          </summary>
-          <div class="api_description">
-            Create a user.
-          </div>
-          <div class="api_body">
-            Body: <code>IUserInput</code>
-          </div>
-          <div class="api_return">
-            Returns: <code>IUser</code>
-          </div>
-        </details>
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/users</code>
+        </summary>
+        <div class="api_description">
+          Get all users
+        </div>
+        <div class="api_return">
+          Returns: <code>IUser[]</code>
+        </div>
+      </details>
 
-        <hr />
+      <details class="POST">
+        <summary>
+          <span class="method">POST</span>
+          <code>/api/users</code>
+        </summary>
+        <div class="api_description">
+          Create a user.
+        </div>
+        <div class="api_body">
+          Body: <code>IUserInput</code>
+        </div>
+        <div class="api_return">
+          Returns: <code>IUser</code>
+        </div>
+      </details>
 
-        <details class="auth-locked GET">
-          <summary>
-            <span class="method">GET</span>
-            <code>/api/users/{user_id}</code>
-          </summary>
-          <div class="api_description">
-            Get specific user
-          </div>
-          <div class="api_params">
-            Params:
-            <ul>
-              <li><code>user_id</code>: <code>/[0-9]+/</code></li>
-            </ul>
-          </div>
-          <div class="api_return">
-            Returns: <code>IUser</code>
-          </div>
-        </details>
-        <details class="auth-locked PUT">
-          <summary>
-            <span class="method">PUT</span>
-            <code>/api/users/{user_id}</code>
-          </summary>
-          <div class="api_description">
-            Update specific user
-          </div>
-          <div class="api_params">
-            Params:
-            <ul>
-              <li><code>user_id</code>: <code>/[0-9]+/</code></li>
-            </ul>
-          </div>
-          <div class="api_body">
-            Body: <code>IUserInput</code>
-          </div>
-          <div class="api_return">
-            Returns: <code>IUser</code>
-          </div>
-        </details>
-        <details class="auth-locked DELETE">
-          <summary>
-            <span class="method">DELETE</span>
-            <code>/api/users/{user_id}</code>
-          </summary>
-          <div class="api_description">
-            Delete specific user
-          </div>
-          <div class="api_params">
-            Params:
-            <ul>
-              <li><code>user_id</code>: <code>/[0-9]+/</code></li>
-            </ul>
-          </div>
-          <div class="api_return">
-            Returns: <code>IUser</code>
-          </div>
-        </details>
+      <hr />
+
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/users/{user_id}</code>
+        </summary>
+        <div class="api_description">
+          Get specific user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_return">
+          Returns: <code>IUser</code>
+        </div>
+      </details>
+      <details class="auth-locked PUT">
+        <summary>
+          <span class="method">PUT</span>
+          <code>/api/users/{user_id}</code>
+        </summary>
+        <div class="api_description">
+          Update specific user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_body">
+          Body: <code>IUserInput</code>
+        </div>
+        <div class="api_return">
+          Returns: <code>IUser</code>
+        </div>
+      </details>
+      <details class="auth-locked DELETE">
+        <summary>
+          <span class="method">DELETE</span>
+          <code>/api/users/{user_id}</code>
+        </summary>
+        <div class="api_description">
+          Delete specific user
+        </div>
+        <div class="api_params">
+          Params:
+          <ul>
+            <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+          </ul>
+        </div>
+        <div class="api_return">
+          Returns: <code>IUser</code>
+        </div>
+      </details>
     </section>
 
     <section id="users-groups">
@@ -637,12 +643,27 @@
     <h2>API Types</h2>
     <details>
       <summary>
+        <code>IAPIResult</code>
+      </summary>
+      <code>
+        <pre>string 
+  | IToken 
+  | IUser | IUser[] 
+  | IGroup | IGroup[] 
+  | IRelation | IRelation[] 
+  | ILocation 
+  | IMessage | IMessage[]</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
         <code>IBaseReponse</code>
       </summary>
       <code>
         <pre>{
   status: number,
-  message: string
+  payload: IAPIResult
 }</pre>
       </code>
     </details>
@@ -665,7 +686,6 @@
       </summary>
       <code>
         <pre>{
-  status: number,
   token: string,
   created_at: string,
   expires: string

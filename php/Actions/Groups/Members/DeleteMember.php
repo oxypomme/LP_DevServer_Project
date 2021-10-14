@@ -8,6 +8,7 @@ use Crisis\Models\Group;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpException;
 
 class DeleteMember extends ProtectedInvokableEMAction
 {
@@ -21,7 +22,7 @@ class DeleteMember extends ProtectedInvokableEMAction
     // Check authorisations
     $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
     if (!$this->checkUser((int) $jwtPayload['user_id'], $group->getOwner()->id)) {
-      return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
+      throw new HttpException($request, 'Unauthorized', 401);
     }
 
     /** @var User $user */
@@ -37,6 +38,6 @@ class DeleteMember extends ProtectedInvokableEMAction
       return $this->createResponse($group);
     }
 
-    return $this->createResponse(['status' => 404, 'message' => 'Member not found'], 404);
+    throw new HttpException($request, 'Member not found', 404);
   }
 }

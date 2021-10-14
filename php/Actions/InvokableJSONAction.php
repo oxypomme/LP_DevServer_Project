@@ -36,7 +36,10 @@ abstract class InvokableJSONAction extends InvokableAction
       $data = new \stdClass();
     }
 
-    $body = Psr7\Stream::create($this->_json_encode($data) . PHP_EOL);
+    $body = Psr7\Stream::create($this->_json_encode([
+      'status' => $status,
+      'payload' => $data
+    ]) . PHP_EOL);
 
     return new Psr7\Response(
       $status,

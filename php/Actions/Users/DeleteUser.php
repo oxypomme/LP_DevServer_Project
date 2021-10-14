@@ -6,6 +6,7 @@ use Crisis\Models\User;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpException;
 
 class DeleteUser extends ProtectedInvokableEMAction
 {
@@ -14,7 +15,7 @@ class DeleteUser extends ProtectedInvokableEMAction
     // Check authorisations
     $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
     if (!$this->checkUser((int) $jwtPayload['user_id'], (int) $args['user_id'])) {
-      return $this->createResponse(['status' => 401, 'message' => 'Unauthorized'], 401);
+      throw new HttpException($request, 'Unauthorized', 401);
     }
 
     /** @var User $user */
@@ -34,6 +35,6 @@ class DeleteUser extends ProtectedInvokableEMAction
       throw $e;
     }
 
-    return $this->createResponse(['status' => 200, 'message' => 'OK']);
+    return $this->createResponse('OK');
   }
 }

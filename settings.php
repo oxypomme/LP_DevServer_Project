@@ -11,7 +11,7 @@ return [
         'slim' => [
             // Returns a detailed HTML page with error details and
             // a stack trace. Should be disabled in production.
-            'displayErrorDetails' => true,
+            'displayErrorDetails' => ($_ENV['PHP_ENV'] != "production"),
 
             // Whether to display errors on the internal PHP log or not.
             'logErrors' => true,
