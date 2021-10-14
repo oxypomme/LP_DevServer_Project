@@ -9,3 +9,7 @@ interface IErrorResponse extends IBaseResponse {
 interface ILoginResponse extends IErrorResponse {
   token?: string;
 }
+
+interface IUserInputResponse extends IErrorResponse {
+  user?: string;
+}
