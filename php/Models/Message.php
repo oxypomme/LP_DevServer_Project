@@ -81,14 +81,20 @@ class Message implements JsonSerializable
 
   public function jsonSerialize()
   {
-    return [
+    $res = [
       'id' => $this->id,
       'content' => $this->content,
       'sender' => $this->getSender(),
-      'target' => $this->getTarget(),
       // 'group' => $this->getGroup(),
       'created_at' => $this->created_at->format('c'),
       'updated_at' => $this->updated_at->format('c')
     ];
+    if ($this->attachement) {
+      $res['attachement'] = $this->attachement;
+    }
+    if ($this->getTarget()) {
+      $res['target'] = $this->getTarget();
+    }
+    return $res;
   }
 }
