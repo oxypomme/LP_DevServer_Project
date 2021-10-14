@@ -17,20 +17,21 @@ class Location implements JsonSerializable
    */
   public int $id;
   /** 
-   * @Column(type="float") 
+   * @Column(name="`long`", type="float") 
    */
-  public float $long;
+  protected float $long;
   /** 
    * @Column(type="float") 
    */
-  public float $lat;
+  protected float $lat;
   /** 
    * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */
   public \DateTime $updated_at;
 
   /**
-   * @OneToOne(targetEntity="User", fetch="EAGER")
+   * @OneToOne(targetEntity="User", inversedBy="location", fetch="EAGER")
+   * @JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected User $user;
 
@@ -41,6 +42,20 @@ class Location implements JsonSerializable
     $this->updated_at = new \DateTime();
     $this->user = $user;
     $user->setLocation($this);
+  }
+
+  public function update(float $long = null, float $lat = null): self
+  {
+    if (!is_null($long)) {
+      $this->long = $long;
+    }
+    if (!is_null($lat)) {
+      $this->lat = $lat;
+    }
+    if (!is_null($long) || !is_null($lat)) {
+      $this->updated_at = new \DateTime();
+    }
+    return $this;
   }
 
   public function getUser(): User

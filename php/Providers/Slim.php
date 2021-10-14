@@ -97,10 +97,10 @@ class Slim implements \UMA\DIC\ServiceProvider
 
                         $group->group('/location', function (RouteCollectorProxy $group) {
                             // Group for user's location
-                            $group->get('[/]', Actions\Users\Location\GetUserLocation::class); // TODO Implement Action
-                            $group->post('[/]', Actions\Users\Location\NewUserLocation::class); // TODO Implement Action
-                            $group->put('[/]', Actions\Users\Location\UpdateUserLocation::class); // TODO Implement Action
-                            $group->delete('[/]', Actions\Users\Location\DeleteUserLocation::class); // TODO Implement Action
+                            $group->get('[/]', Actions\Users\Location\GetUserLocation::class);
+                            $group->post('[/]', Actions\Users\Location\NewUserLocation::class);
+                            $group->put('[/]', Actions\Users\Location\UpdateUserLocation::class);
+                            $group->delete('[/]', Actions\Users\Location\DeleteUserLocation::class);
                         });
 
                         $group->group('/messages', function (RouteCollectorProxy $group) {

@@ -61,9 +61,9 @@ class User implements JsonSerializable
   public \DateTime $created_at;
 
   /**
-   * @OneToOne(targetEntity="Location", fetch="EAGER", cascade={"remove"})
+   * @OneToOne(targetEntity="Location", mappedBy="user", fetch="EAGER", cascade={"remove"})
    */
-  // protected Location $location;
+  protected ?Location $location = null;
 
   /**
    * @OneToMany(targetEntity="Relation", mappedBy="sender", fetch="EAGER", cascade={"remove"})
@@ -111,11 +111,16 @@ class User implements JsonSerializable
     $this->created_at = new DateTime();
   }
 
-  public function setLocation(Location $loc): void
+  public function setLocation(?Location $loc): void
   {
     if ($this->location != $loc) {
       $this->location = $loc;
     }
+  }
+
+  public function getLocation(): Location
+  {
+    return $this->location;
   }
 
   public function setPassword(string $password): void

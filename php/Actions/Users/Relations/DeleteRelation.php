@@ -7,7 +7,7 @@ use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-class DeleteRelationextends extends ProtectedInvokableEMAction
+class DeleteRelation extends ProtectedInvokableEMAction
 {
   public function handle(Request $request, Response $response, array $args): Response
   {
