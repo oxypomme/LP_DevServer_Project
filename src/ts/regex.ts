@@ -20,8 +20,6 @@ if(document.getElementById("register-username") as HTMLFormElement){
     const email =  document.getElementById("email") as HTMLFormElement;
     const emailError =  document.getElementById("email-error") as HTMLFormElement;
     email.addEventListener("keyup", ()=> {
-        
-        console.log("checkEmail");
 
         if (email.value.match(regexEmail)) {
             emailError.style.display = 'none';
@@ -126,7 +124,6 @@ if(document.getElementById("register-username") as HTMLFormElement){
         return correct;
     });
 
-
     const confirmPassword =  document.getElementById("confirm-password") as HTMLFormElement;
     const confirmPasswordError =  document.getElementById("confirm-password-error") as HTMLFormElement;
     confirmPassword.addEventListener("keyup", ()=> {
@@ -139,5 +136,5 @@ if(document.getElementById("register-username") as HTMLFormElement){
         }
 
         return correct;
-    });  
+    });
 }
