@@ -16,6 +16,6 @@ class ListMembers extends InvokableEMAction
       ->getRepository(Group::class)
       ->find((int) $args['group_id']);
 
-    return $this->createResponse($group->members);
+    return $this->createResponse($group->getMembers());
   }
 }

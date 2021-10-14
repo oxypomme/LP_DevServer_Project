@@ -53,6 +53,11 @@ class Group implements JsonSerializable
     $this->owner = $owner;
   }
 
+  /** @return User[] */
+  public function getMembers(): array
+  {
+    return $this->members->getValues();
+  }
   public function addToGroup(User $user): void
   {
     if (!$this->members->contains($user)) {
@@ -60,7 +65,6 @@ class Group implements JsonSerializable
       $user->addGroup($this);
     }
   }
-
   public function removeToGroup(User $user): void
   {
     if ($this->members->contains($user)) {

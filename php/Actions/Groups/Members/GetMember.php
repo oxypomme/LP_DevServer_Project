@@ -22,7 +22,7 @@ class GetMember extends ProtectedInvokableEMAction
       ->getRepository(Group::class)
       ->find((int) $args['group_id']);
 
-    foreach ($group->members as $member) {
+    foreach ($group->getMembers() as $member) {
       if ($member->id == (int) $args['member_id']) {
         return $this->createResponse($member);
       }
