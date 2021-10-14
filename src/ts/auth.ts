@@ -26,6 +26,7 @@ if (loginForm && !loginForm.onsubmit) {
       const resp = await loginUser(username, password);
       if (resp.status === 200 && resp.token) {
         localStorage.setItem("authToken", resp.token);
+        document.location.href="http://localhost:3000/welcome";
       } else {
         const result = document.querySelector("#login-result");
 
