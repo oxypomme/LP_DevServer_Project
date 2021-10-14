@@ -47,6 +47,9 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $group->get('register', function (Request $request, Response $response, array $args) use ($renderer) {
                     return $renderer->render($response, "register.phtml", ['title' => 'Signup']);
                 });
+                $group->get('welcome', function (Request $request, Response $response, array $args) use ($renderer) {
+                    return $renderer->render($response, "welcome.phtml", ['title' => 'Welcome']);
+                });
                 $group->post('auth', Actions\Auth\GetJWTToken::class);
             });
 
