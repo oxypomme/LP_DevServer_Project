@@ -39,10 +39,16 @@ class Message implements JsonSerializable
   protected User $sender;
   /**
    * @ManyToOne(targetEntity="User", inversedBy="inMessages", fetch="EAGER")
+   *  @ORM\JoinColumn(name="target_id", referencedColumnName="id", nullable=false)
    */
-  protected User $target;
+  protected ?User $target;
+  /**
+   * @ManyToOne(targetEntity="Group", inversedBy="messages", fetch="EAGER")
+   *  @ORM\JoinColumn(name="group_id", referencedColumnName="id", nullable=false)
+   */
+  protected ?Group $group;
 
-  public function __construct(string $content, string $attachement, User $sender, User $target)
+  public function __construct(string $content, string $attachement, User $sender, User $target = null, Group $group = null)
   {
     $this->content = $content;
     $this->attachement = $attachement;
@@ -50,29 +56,39 @@ class Message implements JsonSerializable
     $this->updated_at = new \DateTime();
     $this->sender = $sender;
     $sender->addOutMessage($this);
-    $this->target = $target;
-    $target->addInMessage($this);
+    if ($target) {
+      $this->target = $target;
+      $target->addInMessage($this);
+    }
+    if ($group) {
+      $this->group = $group;
+      $group->addMessage($this);
+    }
   }
 
   public function getSender(): User
   {
     return $this->sender;
   }
-  public function getTarget(): User
+  public function getTarget(): ?User
   {
     return $this->target;
+  }
+  public function getGroup(): ?Group
+  {
+    return $this->group;
   }
 
   public function jsonSerialize()
   {
-    $res = [
+    return [
       'id' => $this->id,
       'content' => $this->content,
       'sender' => $this->getSender(),
       'target' => $this->getTarget(),
+      // 'group' => $this->getGroup(),
       'created_at' => $this->created_at->format('c'),
       'updated_at' => $this->updated_at->format('c')
     ];
-    return $res;
   }
 }

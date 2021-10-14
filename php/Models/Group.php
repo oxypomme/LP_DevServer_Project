@@ -35,6 +35,11 @@ class Group implements JsonSerializable
    * @var Collection<int, User> $members
    */
   protected Collection $members;
+  /**
+   * @OneToMany(targetEntity="Message", mappedBy="group", fetch="EAGER", cascade={"remove"})
+   * @var Collection<int, Message> $messages
+   */
+  protected Collection $messages;
 
   public function __construct(string $name, User $owner)
   {
@@ -73,14 +78,27 @@ class Group implements JsonSerializable
     }
   }
 
-  public function jsonSerialize()
+  /** @return Message[] */
+  public function getMessages(): array
   {
-    $res = [
+    return $this->messages->getValues();
+  }
+  public function addMessage(Message $msg): void
+  {
+    if (!$this->messages->contains($msg)) {
+      $this->messages->add($msg);
+    }
+  }
+
+  public function jsonSerialize(): array
+  {
+    return [
       'id' => $this->id,
       'name' => $this->name,
       'owner' => $this->getOwner(),
+      'members' => $this->getMembers(),
+      'messages' => $this->getMessages(),
       'created_at' => $this->created_at->format('c')
     ];
-    return $res;
   }
 }

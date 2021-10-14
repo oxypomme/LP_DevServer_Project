@@ -138,7 +138,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                             // Group for messages of a group
                             $group->get('[/]', Actions\Groups\Messages\ListGroupMessages::class); // TODO Implement Action
 
-                            $group->get('/{message_id:[0-9]+}[/]', Actions\Groups\Messages\GetGroupMessages::class); // TODO Implement Action
+                            $group->get('/{message_id:[0-9]+}[/]', Actions\Groups\Messages\GetGroupMessage::class);
                         });
                     });
                 });

@@ -732,6 +732,8 @@
   id: number,
   name: string,
   owner: IUser,
+  members: IUser[],
+  messages: IMessage[],
   created_at: string
 }</pre>
       </code>
@@ -809,7 +811,7 @@
   id: number,
   content: string,
   sender: IUser,
-  target: IUser,
+  target?: IUser,
   created_at: string
   updated_at: string
 }</pre>
