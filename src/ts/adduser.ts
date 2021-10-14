@@ -8,7 +8,7 @@ export async function setUser(
     city: string,
     country: string,
     password: string,
-): Promise<IUserInputResponse> {
+): Promise<IResponse<IUser>> {
     return await (
       await fetch("/api/users", {
         method: "POST",

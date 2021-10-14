@@ -1,7 +1,7 @@
 export async function loginUser(
   username: string,
   password: string
-): Promise<ILoginResponse> {
+): Promise<IResponse<IToken>> {
   return await (
     await fetch("/auth", {
       method: "POST",
@@ -23,15 +23,15 @@ if (loginForm && !loginForm.onsubmit) {
     const username = data.get("username") as string;
     const password = data.get("password") as string;
     if (username && password) {
-      const resp = await loginUser(username, password);
-      if (resp.status === 200 && resp.token) {
-        localStorage.setItem("authToken", resp.token);
-        document.location.href="http://localhost:3000/welcome";
+      const { status, payload } = await loginUser(username, password);
+      if (status === 200 && typeof payload !== "string") {
+        localStorage.setItem("authToken", payload.token);
+        document.location.href = "http://localhost:3000/welcome";
       } else {
         const result = document.querySelector("#login-result");
 
-        if (result && resp.message) {
-          result.innerHTML = resp.message;
+        if (result) {
+          result.innerHTML = payload as string;
         }
       }
     }
