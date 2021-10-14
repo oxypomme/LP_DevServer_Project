@@ -1,7 +1,7 @@
 const regexUsername = /^[a-zA-Z]{2,20}$/;
 const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const regexPhone = /^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/;
-const regexAdress = /^[a-zA-Z]([-'\s]?[a-zA-Z]){4,99}$/;
+const regexAdress = /^[a-zA-Z\-0-9]([-'\s]?[a-zA-Z\-0-9]){4,99}$/;
 const regexCityAndCountry = /^[a-zA-Z]([-'\s]?[a-zA-Z]){1,49}$/;
 
 
@@ -96,7 +96,6 @@ if(document.getElementById("register-username") as HTMLFormElement){
         let mdp = password.value;
         passwordError.style.display = 'none';
 
-        // on teste la présence de chiffre et de lettres
         if (mdp.search(/\d/) !== -1 && mdp.search(/[a-zA-Z]/) !== -1) {
             passwordError.style.display = "none";
             numberLetterError.style.display = "none";
@@ -105,7 +104,6 @@ if(document.getElementById("register-username") as HTMLFormElement){
             numberLetterError.style.display = "inline-block";
         }
 
-        // on teste la présence de caractère spécial
         if (mdp.search(/[!#$%&?+=()@*."]/) !== -1) {
             passwordError.style.display = "none";
             specCharacError.style.display = "none";
@@ -114,7 +112,6 @@ if(document.getElementById("register-username") as HTMLFormElement){
             specCharacError.style.display = "inline-block";
         }
 
-        // on teste la longueur du mot de passe
         if (mdp.length >= 5 && mdp.length <= 15) {
             betweenError.style.display = "none";
         } else {
