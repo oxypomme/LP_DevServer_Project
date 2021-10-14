@@ -4,7 +4,6 @@ namespace Crisis\Actions\Auth;
 
 use Crisis\Models\User;
 use Crisis\Actions\InvokableEMAction;
-use DateTime;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpException;
@@ -26,7 +25,7 @@ class GetJWTToken extends InvokableEMAction
 
         $builder = $factory->builder();
 
-        $now = new DateTime();
+        $now = new \DateTime();
         $expiration = (clone $now)->add(new \DateInterval('PT2H'));
 
         $token = $builder->setSecret($_ENV['JWT_SECRET'])

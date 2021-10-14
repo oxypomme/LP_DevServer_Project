@@ -18,11 +18,24 @@
 
   <div class="api_doc">
     <p>
-      All <i>Returns</i> designate the type of the payload. Each response is a <code>IBaseReponse</code>
+      All <i>Returns</i> designate the type of the payload. Each response is a <code>IBaseResponse</code>
     </p>
 
     <section id="auth">
       <h2>Auth</h2>
+
+      <details class="GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/auth</code>
+        </summary>
+        <div class="api_description">
+          Check if a JWT (Auth Bearer) is valid
+        </div>
+        <div class="api_return">
+          Returns: <code>IBaseResponse</code>
+        </div>
+      </details>
 
       <details class="POST">
         <summary>
@@ -658,7 +671,7 @@
 
     <details>
       <summary>
-        <code>IBaseReponse</code>
+        <code>IBaseResponse</code>
       </summary>
       <code>
         <pre>{

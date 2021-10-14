@@ -33,6 +33,14 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $settings['slim']['logErrorDetails']
             );
 
+            // Minify HTML if production
+            if ($_ENV['PHP_ENV'] == "production") {
+                $app->add(new \Slim\Middleware\Minify());
+            }
+
+            // Prepare JWT
+            $jwtAuthMiddleware = \PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], 'jwt', ['status' => 401, 'payload' => 'Auth Failed']);
+
             // Matching Slim Errors to Base Response
             $errorHandler = $errorMiddleware->getDefaultErrorHandler();
             if ($errorHandler instanceof \Slim\Handlers\ErrorHandler) {
@@ -56,13 +64,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                 });
             }
 
-            // Minify HTML if production
-            if ($_ENV['PHP_ENV'] == "production") {
-                $app->add(new \Slim\Middleware\Minify());
-            }
-
             // Slim routes here
-
             $app->group('/', function (RouteCollectorProxy $group) use ($renderer) {
                 $group->get('', function (Request $request, Response $response, array $args) use ($renderer) {
                     return $renderer->render($response, "home.phtml", ['title' => 'Signin']);
@@ -73,7 +75,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $group->get('welcome', function (Request $request, Response $response, array $args) use ($renderer) {
                     return $renderer->render($response, "welcome.phtml", ['title' => 'Welcome']);
                 });
-                $group->post('auth', Actions\Auth\GetJWTToken::class);
+                $group->post('auth[/]', Actions\Auth\GetJWTToken::class);
             });
 
             // Theses routes are not in group because they can't be protected by Auth
@@ -82,6 +84,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                 return $renderer->render($response, "api_doc.phtml", ['title' => 'Documentation']);
             });
 
+            $app->get('/auth[/]', Actions\Auth\CheckJWTToken::class)->add($jwtAuthMiddleware);
             $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
                 //Group for API calls
                 $group->group('/users', function (RouteCollectorProxy $group) {
@@ -165,7 +168,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                         });
                     });
                 });
-            })->add(\PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], 'jwt', ['status' => 401, 'message' => 'Auth Failed']));
+            })->add($jwtAuthMiddleware);
 
 
             $app->get('/static/{file:.*}', function (Request $request, Response $response, $args) {
