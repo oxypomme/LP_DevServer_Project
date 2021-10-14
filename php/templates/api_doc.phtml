@@ -33,7 +33,7 @@
           Check if a JWT (Auth Bearer) is valid
         </div>
         <div class="api_return">
-          Returns: <code>IBaseResponse</code>
+          Returns: <code>string</code>
         </div>
       </details>
 
@@ -228,7 +228,7 @@
           </ul>
         </div>
         <div class="api_return">
-          Returns: <code>IBaseResponse</code>
+          Returns: <code>string</code>
         </div>
       </details>
     </section>
@@ -314,7 +314,7 @@
           </ul>
         </div>
         <div class="api_return">
-          Returns: <code>IBaseResponse</code>
+          Returns: <code>string</code>
         </div>
       </details>
     </section>
@@ -397,7 +397,7 @@
           </ul>
         </div>
         <div class="api_return">
-          Returns: <code>IBaseResponse</code>
+          Returns: <code>string</code>
         </div>
       </details>
     </section>
@@ -537,7 +537,7 @@
           </ul>
         </div>
         <div class="api_return">
-          Returns: <code>IBaseResponse</code>
+          Returns: <code>string</code>
         </div>
       </details>
     </section>
@@ -601,7 +601,7 @@
           </ul>
         </div>
         <div class="api_return">
-          Returns: <code>IBaseResponse</code>
+          Returns: <code>string</code>
         </div>
       </details>
     </section>
@@ -656,10 +656,11 @@
     <h2>API Types</h2>
     <details>
       <summary>
-        <code>IAPIResult</code>
+        <code>APIResult</code>
       </summary>
       <code>
-        <pre>string 
+        <pre>
+  | string 
   | IToken 
   | IUser | IUser[] 
   | IGroup | IGroup[] 
@@ -676,7 +677,7 @@
       <code>
         <pre>{
   status: number,
-  payload: IAPIResult
+  payload: APIResult
 }</pre>
       </code>
     </details>
