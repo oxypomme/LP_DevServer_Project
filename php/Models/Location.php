@@ -65,13 +65,12 @@ class Location implements JsonSerializable
 
   public function jsonSerialize()
   {
-    $res = [
+    return [
       'id' => $this->id,
       'long' => $this->long,
       'lat' => $this->lat,
       'user' => $this->getUser(),
       'updated_at' => $this->updated_at->format('c')
     ];
-    return $res;
   }
 }

@@ -53,12 +53,11 @@ class Relation implements JsonSerializable
 
   public function jsonSerialize()
   {
-    $res = [
+    return [
       'id' => $this->id,
       'sender' => $this->getSender(),
       'target' => $this->getTarget(),
       'created_at' => $this->created_at->format('c')
     ];
-    return $res;
   }
 }

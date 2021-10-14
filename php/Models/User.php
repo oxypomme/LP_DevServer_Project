@@ -63,7 +63,7 @@ class User implements JsonSerializable
   /**
    * @OneToOne(targetEntity="Location", mappedBy="user", fetch="EAGER", cascade={"remove"})
    */
-  protected ?Location $location = null;
+  protected ?Location $location;
 
   /**
    * @OneToMany(targetEntity="Relation", mappedBy="sender", fetch="EAGER", cascade={"remove"})
@@ -118,7 +118,7 @@ class User implements JsonSerializable
     }
   }
 
-  public function getLocation(): Location
+  public function getLocation(): ?Location
   {
     return $this->location;
   }
@@ -241,7 +241,7 @@ class User implements JsonSerializable
 
   public function jsonSerialize()
   {
-    $res = [
+    return [
       'id' => $this->id,
       'username' => $this->username,
       'email' => $this->email,
@@ -253,6 +253,5 @@ class User implements JsonSerializable
       'status' => $this->status,
       'created_at' => $this->created_at->format('c'),
     ];
-    return $res;
   }
 }
