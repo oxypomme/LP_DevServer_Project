@@ -18,10 +18,7 @@ class DeleteRelation extends ProtectedInvokableEMAction
       ->find((int) $args['relation_id']);
 
     // Check authorisations
-    $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
-    if (!$this->checkUser((int) $jwtPayload['user_id'], $relation->getSender()->id)) {
-      throw new HttpException($request, 'Unauthorized', 401);
-    }
+    $this->checkUser($request, $relation->getSender()->id);
 
     try {
       $relation->getSender()->removeOutRelation($relation);

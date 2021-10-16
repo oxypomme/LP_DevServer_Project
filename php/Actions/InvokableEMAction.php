@@ -12,6 +12,7 @@ abstract class InvokableEMAction extends InvokableJSONAction
 
   public function __construct(\UMA\DIC\Container $cnt)
   {
+    parent::__construct($cnt);
     $this->em = $cnt->get(\Doctrine\ORM\EntityManager::class);
 
     if ($_ENV['PHP_ENV'] != "production") {

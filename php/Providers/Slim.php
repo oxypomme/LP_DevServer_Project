@@ -39,7 +39,7 @@ class Slim implements \UMA\DIC\ServiceProvider
             }
 
             // Prepare JWT
-            $jwtAuthMiddleware = \PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], 'jwt', ['status' => 401, 'payload' => 'Auth Failed']);
+            $jwtAuthMiddleware = \PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], '', ['status' => 401, 'payload' => 'Auth Failed']);
 
             // Matching Slim Errors to Base Response
             $errorHandler = $errorMiddleware->getDefaultErrorHandler();
@@ -162,7 +162,7 @@ class Slim implements \UMA\DIC\ServiceProvider
 
                         $group->group('/messages', function (RouteCollectorProxy $group) {
                             // Group for messages of a group
-                            $group->get('[/]', Actions\Groups\Messages\ListGroupMessages::class); // TODO Implement Action
+                            $group->get('[/]', Actions\Groups\Messages\ListGroupMessages::class);
 
                             $group->get('/{message_id:[0-9]+}[/]', Actions\Groups\Messages\GetGroupMessage::class);
                         });

@@ -7,6 +7,13 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 abstract class InvokableAction
 {
+  protected array $settings;
+
+  public function __construct(\UMA\DIC\Container $cnt)
+  {
+    $this->settings = $cnt->get('settings');
+  }
+
   abstract public function handle(Request $request, Response $response, array $args): Response;
 
   public function getParsedBody(Request &$request): array

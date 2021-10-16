@@ -28,8 +28,9 @@ class GetJWTToken extends InvokableEMAction
         $now = new \DateTime();
         $expiration = (clone $now)->add(new \DateInterval('PT2H'));
 
-        $token = $builder->setSecret($_ENV['JWT_SECRET'])
-          ->setPayloadClaim('user_id', $user->id)
+        $token = $builder->setSecret($this->settings['jwt']['secret'])
+          ->setSubject($user->id)
+          //->setIssuer('')
           ->setIssuedAt($now->getTimestamp())
           ->setExpiration($expiration->getTimestamp())
           ->build();

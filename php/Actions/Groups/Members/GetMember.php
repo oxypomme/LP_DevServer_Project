@@ -13,10 +13,7 @@ class GetMember extends ProtectedInvokableEMAction
   public function handle(Request $request, Response $response, array $args): Response
   {
     // Check authorisations
-    $jwtPayload = (new \PsrJwt\Helper\Request())->getTokenPayload($request, 'jwt');
-    if (!$this->checkUser((int) $jwtPayload['user_id'], (int) $args['user_id'])) {
-      throw new HttpException($request, 'Unauthorized', 401);
-    }
+    $this->checkUser($request, (int) $args['user_id']);
 
     /** @var Group $group */
     $group = $this->em
