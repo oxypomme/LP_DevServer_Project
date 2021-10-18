@@ -1,3 +1,5 @@
+import { StatusCodes } from "http-status-codes";
+
 type APIResult =
   | IToken
   | IUser
@@ -11,7 +13,7 @@ type APIResult =
   | IMessage[];
 
 interface IResponse<T extends APIResult> {
-  status: number;
+  status: StatusCodes;
   payload: string | T;
 }
 

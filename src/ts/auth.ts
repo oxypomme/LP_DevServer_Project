@@ -1,17 +1,6 @@
-export async function loginUser(
-  username: string,
-  password: string
-): Promise<IResponse<IToken>> {
-  return await (
-    await fetch("/auth", {
-      method: "POST",
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    })
-  ).json();
-}
+import { StatusCodes } from "http-status-codes";
+import { fetchAPI } from "./api/fetch";
+import { IToken } from "./api/responses";
 
 const loginForm = document.getElementById("login-form") as HTMLFormElement;
 
@@ -23,8 +12,11 @@ if (loginForm && !loginForm.onsubmit) {
     const username = data.get("username") as string;
     const password = data.get("password") as string;
     if (username && password) {
-      const { status, payload } = await loginUser(username, password);
-      if (status === 200 && typeof payload !== "string") {
+      const { status, payload } = await fetchAPI<IToken>("POST /auth", {
+        username,
+        password,
+      });
+      if (status === StatusCodes.OK && typeof payload !== "string") {
         localStorage.setItem("authToken", payload.token);
         document.location.href = "/welcome";
       } else {

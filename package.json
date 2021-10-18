@@ -50,7 +50,9 @@
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "http-status-codes": "^2.1.4"
+  },
   "description": "",
   "bugs": {
     "url": "https://github.com/oxypomme/LP_DevServer_Project/issues"

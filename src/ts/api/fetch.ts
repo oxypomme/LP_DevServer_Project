@@ -1,3 +1,5 @@
+import { APIResult, IResponse } from "./responses";
+
 type HttpMethods = "GET" | "POST" | "PUT" | "DELETE";
 
 type AuthEndpoints = "auth";
@@ -23,20 +25,29 @@ type GroupEndpoints =
   | BaseGroupEndpoints
   | `groups/${number}/${GroupMembersEndpoints | MessagesEndpoints}`;
 
-type ApiEndoints = AuthEndpoints | UserEndpoints | GroupEndpoints;
+type ApiEndoints = AuthEndpoints | `api/${UserEndpoints | GroupEndpoints}`;
 
-type ApiInput = `${HttpMethods} /api/${ApiEndoints}`;
+type ApiInput = `${HttpMethods} /${ApiEndoints}`;
 
-const fetchAPI = (endpoint: ApiInput, init?: RequestInit) => {
+export const fetchAPI = async <T extends APIResult>(
+  endpoint: ApiInput,
+  body?: unknown,
+  init?: RequestInit,
+  headers?: HeadersInit
+): Promise<IResponse<T>> => {
   const [, method, path] = endpoint.match(/(?<method>\S*)\s(?<path>\S*)/) ?? [];
 
-  return fetch(path, {
-    method,
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("authToken"),
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    ...init,
-  });
+  return (
+    await fetch(path, {
+      method,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authToken"),
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        ...headers,
+      },
+      body: JSON.stringify(body),
+      ...init,
+    })
+  ).json();
 };
