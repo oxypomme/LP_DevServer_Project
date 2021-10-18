@@ -1,5 +1,5 @@
-import { fetchAPI } from "./api/fetch";
-import { IUser } from "./api/responses";
+import { fetchAPI } from "./api";
+import { IUser } from "./types/responses";
 
 const registerForm = document.getElementById("signup-form") as HTMLFormElement;
 if (registerForm && !registerForm.onsubmit) {

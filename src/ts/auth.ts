@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-import { fetchAPI } from "./api/fetch";
-import { IToken } from "./api/responses";
+import { fetchAPI } from "./api";
+import { IToken } from "./types/responses";
 
 const loginForm = document.getElementById("login-form") as HTMLFormElement;
 

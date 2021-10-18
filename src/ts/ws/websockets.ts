@@ -1,4 +1,4 @@
-import WindowEnv from "./windowEnv";
+import WindowEnv from "../windowEnv";
 
 try {
   const ws = new WebSocket(

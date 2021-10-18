@@ -1,4 +1,4 @@
-import { APIResult, IResponse } from "./responses";
+import { APIResult, IResponse } from "../types/responses";
 
 type HttpMethods = "GET" | "POST" | "PUT" | "DELETE";
 
