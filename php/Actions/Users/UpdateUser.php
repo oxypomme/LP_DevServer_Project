@@ -6,7 +6,6 @@ use Crisis\Models\User;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpException;
 
 class UpdateUser extends ProtectedInvokableEMAction
 {

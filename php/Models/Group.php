@@ -12,17 +12,17 @@ use JsonSerializable;
 class Group implements JsonSerializable
 {
   /**
-   * @Id 
-   * @Column(type="integer") 
+   * @Id
+   * @Column(type="integer")
    * @GeneratedValue
    */
   public int $id;
-  /** 
-   * @Column(type="string", unique=true) 
+  /**
+   * @Column(type="string", unique=true)
    */
   public string $name;
-  /** 
-   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
+  /**
+   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
    */
   public \DateTime $created_at;
 
@@ -87,6 +87,12 @@ class Group implements JsonSerializable
   {
     if (!$this->messages->contains($msg)) {
       $this->messages->add($msg);
+    }
+  }
+  public function removeMessage(Message $msg): void
+  {
+    if ($this->messages->contains($msg)) {
+      $this->messages->remove($msg);
     }
   }
 

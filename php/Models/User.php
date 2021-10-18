@@ -13,50 +13,50 @@ use function password_hash;
  */
 class User implements JsonSerializable
 {
-  /** 
+  /**
    * @Id
    * @Column(type="integer")
    * @GeneratedValue
    */
   public int $id;
-  /** 
+  /**
    * @Column(type="string", unique=true)
    */
   public string $username;
-  /** 
-   * @Column(type="string") 
+  /**
+   * @Column(type="string")
    */
   protected string $password;
-  /** 
-   * @Column(type="string", unique=true) 
+  /**
+   * @Column(type="string", unique=true)
    */
   public string $email;
-  /** 
-   * @Column(type="string") 
+  /**
+   * @Column(type="string")
    */
   public string $phone;
-  /** 
-   * @Column(type="datetime") 
+  /**
+   * @Column(type="datetime")
    */
   public \DateTime $birthdate;
-  /** 
-   * @Column(type="string") 
+  /**
+   * @Column(type="string")
    */
   public string $address;
-  /** 
-   * @Column(type="string") 
+  /**
+   * @Column(type="string")
    */
   public string $city;
-  /** 
-   * @Column(type="string") 
+  /**
+   * @Column(type="string")
    */
   public string $country;
-  /** 
+  /**
    * @Column(type="integer", options={"default": 0})
    */
   public int $status;
-  /** 
-   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
+  /**
+   * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
    */
   public \DateTime $created_at;
 
@@ -191,10 +191,23 @@ class User implements JsonSerializable
       $this->outMessages->add($msg);
     }
   }
+  public function removeOutMessage(Message $msg): void
+  {
+    if ($this->outMessages->contains($msg)) {
+      $this->outMessages->removeElement($msg);
+    }
+  }
+
   public function addInMessage(Message $msg): void
   {
     if ($this->inMessages->contains($msg)) {
       $this->inMessages->add($msg);
+    }
+  }
+  public function removeInMessage(Message $msg): void
+  {
+    if ($this->inMessages->contains($msg)) {
+      $this->inMessages->removeElement($msg);
     }
   }
 
@@ -209,6 +222,10 @@ class User implements JsonSerializable
       'ownedGroups' => $this->ownedGroups->getValues(),
       'groups' => $this->groups->getValues()
     ];
+  }
+  public function inGroup(Group $group): bool
+  {
+    return $this->ownedGroups->contains($group) || $this->groups->contains($group);
   }
 
   public function addOwnedGroup(Group $group): void

@@ -1,5 +1,11 @@
 import WindowEnv from "../windowEnv";
-import { IPing, IWSPacket, IWSPayload, WSPacketTypes } from "./types";
+import { IPing, IWSPacket, IWSPayload } from "./types";
+
+enum WSPacketTypes {
+  ERROR = "error",
+  MESSAGE = "message",
+  PING = "ping",
+}
 
 function send(type: WSPacketTypes, data: IWSPayload): void {
   const event: IWSPacket = {
