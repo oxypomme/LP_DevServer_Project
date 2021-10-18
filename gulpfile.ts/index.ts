@@ -26,12 +26,12 @@ task("build", series(prune, parallel(transpileTS, transpileSCSS)));
 task("serve", function () {
   server(
     {
-      port: process.env.HTTP_PORT,
+      port: process.env.HTTP_PORT ?? 80,
       router: "public/index.php",
     },
     function () {
       browserSync({
-        proxy: `127.0.0.1:${process.env.HTTP_PORT}`,
+        proxy: `127.0.0.1:${process.env.HTTP_PORT ?? 80}`,
       });
     }
   );

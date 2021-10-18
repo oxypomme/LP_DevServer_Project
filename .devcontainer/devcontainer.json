@@ -1,0 +1,30 @@
+{
+  "name": "LP_DevServer_Project - Dev",
+  // "build": {
+  //   "dockerfile": "Dockerfile"
+  // },
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "php",
+  "shutdownAction": "stopCompose",
+  "extensions": [
+    "bmewburn.vscode-intelephense-client",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "felixfbecker.php-debug",
+    "felixfbecker.php-intellisense",
+    "felixfbecker.php-pack",
+    "stylelint.vscode-stylelint",
+    "VisualStudioExptTeam.vscodeintellicode"
+  ],
+  "settings": {
+    "material-icon-theme.folders.associations": {
+      "gulpfile.ts": "gulp"
+    }
+  },
+  "features": {
+    "node": {
+      "version": "lts"
+    }
+  }
+}
