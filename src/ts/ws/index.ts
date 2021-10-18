@@ -3,8 +3,10 @@ import { IPing, IWSPacket, IWSPayload } from "./types";
 
 enum WSPacketTypes {
   ERROR = "error",
-  MESSAGE = "message",
   PING = "ping",
+  MESSAGE = "message",
+  MESSAGE_EDITED = "message_edit",
+  MESSAGE_DELETION = "message_deletion",
 }
 
 function send(type: WSPacketTypes, data: IWSPayload): void {
@@ -17,10 +19,42 @@ function send(type: WSPacketTypes, data: IWSPayload): void {
   ws?.send(JSON.stringify(event));
 }
 
-function ping() {
+export function ping(): void {
   send(WSPacketTypes.PING, {
     startTime: new Date().getTime(),
   } as IPing);
+}
+
+export function sendMessage(
+  content: string,
+  attachement: string,
+  target?: number,
+  group?: number
+): void {
+  send(WSPacketTypes.MESSAGE, {
+    content,
+    attachement,
+    target,
+    group,
+  } as IMessageInput);
+}
+
+export function editMessage(
+  id: number,
+  content: string,
+  attachement: string
+): void {
+  send(WSPacketTypes.MESSAGE_EDITED, {
+    id,
+    content,
+    attachement,
+  } as IMessageInput);
+}
+
+export function delMessage(id: number): void {
+  send(WSPacketTypes.MESSAGE_DELETION, {
+    id,
+  } as IMessageInput);
 }
 
 let ws: WebSocket | null = null;
@@ -68,6 +102,18 @@ if (ws) {
             new Date().getTime() - (event.payload as IPing).startTime
           }ms`
         );
+        break;
+
+      case WSPacketTypes.MESSAGE:
+        // TODO
+        break;
+
+      case WSPacketTypes.MESSAGE_EDITED:
+        // TODO
+        break;
+
+      case WSPacketTypes.MESSAGE_DELETION:
+        // TODO
         break;
 
       default:
