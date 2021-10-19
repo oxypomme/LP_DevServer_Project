@@ -3,12 +3,18 @@ import { fetchAPI } from "./api";
 import { IToken } from "./types/responses";
 
 const loginForm = document.getElementById("login-form") as HTMLFormElement;
+const signoutBtn = document.getElementById(
+  "signout-button"
+) as HTMLButtonElement;
 
 function onAuthed(token: string) {
   localStorage.setItem("authToken", token);
   document.location.href = "/welcome";
 }
-function redirectToAuth() {
+/**
+ * Remove sotred token and redirect to auth page
+ */
+export function redirectToAuth(): void {
   localStorage.removeItem("authToken");
   document.location.href = "/";
 }
@@ -68,3 +74,10 @@ const nonProtected = ["/", "/register", "/api"];
     };
   }
 })();
+
+if (signoutBtn && !signoutBtn.onclick) {
+  signoutBtn.onclick = (e) => {
+    e.preventDefault();
+    redirectToAuth();
+  };
+}
