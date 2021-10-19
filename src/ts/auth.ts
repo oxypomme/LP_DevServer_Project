@@ -8,18 +8,29 @@ function onAuthed(token: string) {
   localStorage.setItem("authToken", token);
   document.location.href = "/welcome";
 }
+function redirectToAuth() {
+  localStorage.removeItem("authToken");
+  document.location.href = "/";
+}
+
 (async () => {
-  if (loginForm && !loginForm.onsubmit) {
-    // Checking if previous token is still valid
-    const prevToken = localStorage.getItem("authToken");
-    if (prevToken) {
-      const { status: authStatus } = await fetchAPI("GET /auth");
+  // Checking if previous token is still valid
+  const prevToken = localStorage.getItem("authToken");
+  if (prevToken) {
+    const { status: authStatus } = await fetchAPI("GET /auth");
+    if (loginForm) {
       if (authStatus === StatusCodes.OK) {
         onAuthed(prevToken);
         return;
       }
+    } else if (authStatus !== StatusCodes.OK) {
+      redirectToAuth();
     }
+  } else if (!loginForm) {
+    redirectToAuth();
+  }
 
+  if (loginForm && !loginForm.onsubmit) {
     // Adding action to the login form
     loginForm.onsubmit = async (e) => {
       e.preventDefault();
