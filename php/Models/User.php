@@ -268,6 +268,7 @@ class User implements JsonSerializable
       'city' => $this->city,
       'country' => $this->country,
       'status' => $this->status,
+      'location' => $this->getLocation(),
       'created_at' => $this->created_at->format('c'),
     ];
   }

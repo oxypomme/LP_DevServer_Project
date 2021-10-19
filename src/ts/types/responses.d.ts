@@ -33,6 +33,7 @@ interface IUser {
   city: string;
   country: string;
   status: EStatus;
+  location: ILocation;
   created_at: string;
 }
 
@@ -56,7 +57,7 @@ interface ILocation {
   id: number;
   long: number;
   lat: number;
-  user: IUser;
+  // user: IUser;
   updated_at: string;
 }
 

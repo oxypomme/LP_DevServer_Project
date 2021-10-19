@@ -69,7 +69,7 @@ class Location implements JsonSerializable
       'id' => $this->id,
       'long' => $this->long,
       'lat' => $this->lat,
-      'user' => $this->getUser(),
+      // 'user' => $this->getUser(),
       'updated_at' => $this->updated_at->format('c')
     ];
   }
