@@ -108,6 +108,7 @@ class User implements JsonSerializable
     $this->city = $city;
     $this->country = $country;
     $this->status = \Crisis\EStatus::SAFE;
+    $this->location = null;
     $this->created_at = new DateTime();
   }
 
