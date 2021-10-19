@@ -13,20 +13,27 @@ function redirectToAuth() {
   document.location.href = "/";
 }
 
+const nonProtected = ["/", "/register"];
+
 (async () => {
   // Checking if previous token is still valid
   const prevToken = localStorage.getItem("authToken");
+  const isRouteProtected = !nonProtected.includes(location.pathname);
+  // If token is set
   if (prevToken) {
     const { status: authStatus } = await fetchAPI("GET /auth");
-    if (loginForm) {
-      if (authStatus === StatusCodes.OK) {
-        onAuthed(prevToken);
-        return;
-      }
-    } else if (authStatus !== StatusCodes.OK) {
+    // If token isn't valid
+    if (authStatus !== StatusCodes.OK) {
       redirectToAuth();
+      return;
     }
-  } else if (!loginForm) {
+    // If on a non protected route and token is valid
+    if (!isRouteProtected && authStatus === StatusCodes.OK) {
+      onAuthed(prevToken);
+      return;
+    }
+  } else if (isRouteProtected) {
+    // If token isn't set & route protected
     redirectToAuth();
   }
 

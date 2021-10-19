@@ -20,7 +20,7 @@ function send(type: WSPacketTypes, data: IWSPayload): void {
 }
 
 function error(error: any) {
-  console.error(error);
+  console.error("[WS]", error);
 }
 
 export function ping(): void {
