@@ -11,7 +11,7 @@ const profileForm = document.getElementById("profile-form") as HTMLFormElement;
     );
     if (status === StatusCodes.OK && typeof user !== "string") {
       const usernameEl =
-        profileForm.querySelector<HTMLInputElement>("#profile-username");
+        profileForm.querySelector<HTMLInputElement>("#register-username");
       if (usernameEl) usernameEl.value = user.username;
 
       const emailEl = profileForm.querySelector<HTMLInputElement>("#email");

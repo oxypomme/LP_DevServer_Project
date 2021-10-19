@@ -5,8 +5,18 @@
 <div class="signin">
   <p>Need account ? <a href="register">Go signup</a></p>
   <form id="login-form" class="grid-form">
-    <input type="text" name="username" id="username" placeholder="Username">
-    <input type="password" name="password" id="password" placeholder="password">
+    <div class="field">
+      <input type="text" name="username" id="username" placeholder=" ">
+      <label for="username">
+        Username
+      </label>
+    </div>
+    <div class="field">
+      <input type="password" name="password" id="password" placeholder=" ">
+      <label for="password">
+        Password
+      </label>
+    </div>
     <input class="form-button" type="submit" value="Signin">
   </form>
   <div id="signin-result" class="message">

@@ -4,34 +4,79 @@
 
 <p>Already have an account ? <a href="/">Go signin</a></p>
 <form id="signup-form" class="grid-form">
-  <input type="text" name="username" id="register-username" placeholder="Username">
-  <span id="name-error" class="error-message">Username must have between 2 and 20 letters</span>
+  <div class="field">
+    <input required type="text" name="username" id="register-username" placeholder=" ">
+    <label for="username">
+      Username
+    </label>
+    <span id="name-error" class="error-message">Username must have between 2 and 20 letters</span>
+  </div>
 
-  <input type="text" name="email" id="email" placeholder="Email">
-  <span id="email-error" class="error-message">This email is not valid</span>
+  <div class="field">
+    <input required type="text" name="email" id="email" placeholder=" ">
+    <label for="email">
+      Email
+    </label>
+    <span id="email-error" class="error-message">This email is not valid</span>
+  </div>
 
-  <input type="text" name="phone" id="phone" placeholder="Phone">
-  <span id="phone-error" class="error-message">This phone number is not valid</span>
+  <div class="field">
+    <input required type="text" name="phone" id="phone" placeholder=" ">
+    <label for="phone">
+      Phone
+    </label>
+    <span id="phone-error" class="error-message">This phone number is not valid</span>
+  </div>
 
-  <input type="date" name="birthdate" id="birthdate" placeholder="Birthdate">
+  <div class="field">
+    <input required type="date" name="birthdate" id="birthdate">
+    <label for="birthdate">
+      Birthdate
+    </label>
+  </div>
 
-  <input type="text" name="address" id="address" placeholder="address">
-  <span id="address-error" class="error-message">This address is not valid</span>
+  <div class="field">
+    <input required type="text" name="address" id="address" placeholder=" ">
+    <label for="address">
+      Address
+    </label>
+    <span id="address-error" class="error-message">This address is not valid</span>
+  </div>
 
-  <input type="text" name="city" id="city" placeholder="City">
-  <span id="city-error" class="error-message">This city is not valid</span>
+  <div class="field">
+    <input required type="text" name="city" id="city" placeholder=" ">
+    <label for="city">
+      City
+    </label>
+    <span id="city-error" class="error-message">This city is not valid</span>
+  </div>
 
-  <input type="text" name="country" id="country" placeholder="Country">
-  <span id="country-error" class="error-message">This country is not valid</span>
+  <div class="field">
+    <input required type="text" name="country" id="country" placeholder=" ">
+    <label for="country">
+      Country
+    </label>
+    <span id="country-error" class="error-message">This country is not valid</span>
+  </div>
 
-  <input type="password" name="password" id="register-password" placeholder="password">
-  <span id="password-error" class="error-message">This password is too weak</span>
-  <span id="number-letter-error" class="error-message">It must have a number and letter</span>
-  <span id="spec-charac-error" class="error-message">It must have a special charachter</span>
-  <span id="between-error" class="error-message">It must have between 5 and 15 characeters</span>
+  <div class="field">
+    <input required type="password" name="password" id="register-password" placeholder=" ">
+    <label for="password">
+      Password
+    </label>
+    <span id="password-error" class="error-message">This password is too weak</span>
+    <span id="number-letter-error" class="error-message">It must have a number and letter</span>
+    <span id="spec-charac-error" class="error-message">It must have a special charachter</span>
+    <span id="between-error" class="error-message">It must have between 5 and 15 characeters</span>
+  </div>
 
-  <input type="password" name="confirm-password" id="confirm-password" placeholder="confirm password">
-  <span id="confirm-password-error" class="error-message">Passwords does not match</span>
+  <div class="field">
+    <input required type="password" name="confirm-password" id="confirm-password" placeholder=" ">
+    <label for="confirm-password">
+      Confirm
+    </label>
+    <span id="confirm-password-error" class="error-message">Passwords does not match</span>
+  </div>
 
   <input class="form-button" type="submit" value="Signup">
   <span id="submit-error" class="error-message">The form is not complete</span>
