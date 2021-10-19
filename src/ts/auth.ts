@@ -8,7 +8,6 @@ function onAuthed(token: string) {
   localStorage.setItem("authToken", token);
   document.location.href = "/welcome";
 }
-
 (async () => {
   if (loginForm && !loginForm.onsubmit) {
     // Checking if previous token is still valid
@@ -29,17 +28,21 @@ function onAuthed(token: string) {
       const username = data.get("username") as string;
       const password = data.get("password") as string;
       if (username && password) {
-        const { status, payload } = await fetchAPI<IToken>("POST /auth", {
-          username,
-          password,
-        });
-        if (status === StatusCodes.OK && typeof payload !== "string") {
-          onAuthed(payload.token);
-        } else {
+        try {
+          const { status, payload } = await fetchAPI<IToken>("POST /auth", {
+            username,
+            password,
+          });
+          if (status === StatusCodes.OK && typeof payload !== "string") {
+            onAuthed(payload.token);
+          } else {
+            throw payload;
+          }
+        } catch (error) {
           const result = document.querySelector("#login-result");
 
           if (result) {
-            result.innerHTML = payload as string;
+            result.innerHTML = error as string;
           }
         }
       }
