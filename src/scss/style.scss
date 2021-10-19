@@ -1,6 +1,7 @@
 @import "./_apiDoc.scss";
 
-body {
+/* Home */
+.signin {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,9 +13,10 @@ body {
   grid-gap: 5%;
   align-items: center;
 }
-
-form > input {
+#login-form > input{
   padding: 5%;
+}
+form > input {
   border-radius: 20px;
   border: white;
   &[type="submit"] {
@@ -28,4 +30,118 @@ form > input {
 .error-message{
   display: none;
   color: red;
+}
+
+/* MENU */
+header{
+  height: 5%;
+  margin: 0;
+}
+nav{
+  height: 100%;
+}
+nav ul {
+  height: 100%;
+  display : flex;
+  flex-direction : column;
+  list-style: none;
+  background-color : rgb(92, 92, 92);
+  padding:0; margin: 0;
+}
+nav ul li{
+  text-decoration: none;
+  height: 2em;  
+  line-height: 2em;
+  padding: .5em;
+  text-align : center;
+  border-bottom : 1px solid grey;
+}
+li:nth-child(n+1) {
+  border-top: 1px solid white;
+}
+li a {
+  color : white;
+  text-decoration : none;
+  padding: 2%
+}
+@media screen and (min-width: 42em) {
+  nav ul {
+    flex-direction : row;
+    justify-content: space-around;
+  }
+  li {
+    border: 0
+  }
+  li:nth-child(n+1) { border-top: 0}
+}
+
+@media screen and (min-width:64em) {
+  nav ul {
+    justify-content: flex-end;
+  }
+}
+
+/* Messages */
+.messages{
+  display: flex;
+  width: auto;
+  min-height: 95%;
+  height: auto;
+}
+.conversations{
+  background-color: rgb(212, 212, 212);
+  width: 30%;
+}
+.conversation{
+  padding: 1%;
+}
+.conversation:hover{
+  background-color: rgb(95, 95, 95);
+  color: white;
+}
+
+
+
+.conversation-messages{
+  background-color: rgb(233, 233, 233);
+  width: 100%;
+  min-height: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.conversation-messages .content{
+  min-height: 95%;
+}
+.message{
+  text-align: left;
+  padding: 1%;
+  background-color: white;
+}
+.my-message{
+  align-items: right;
+  background-color: black;
+  color: white;
+}
+.side{
+  color: rgb(139, 139, 139);
+  display: flex;
+}
+.side div{
+  margin-right: 0.5%;
+}
+#new-message{
+  width: 90%;
+}
+.form-message{
+  width: auto;
+}
+#message-form{
+  position: sticky;
+  bottom: 0;
+  background-color: grey;
+}
+#message-form > input{
+  padding: 1%;
+  margin: 3% 0 3% 0;
+  border-radius: 0;
 }

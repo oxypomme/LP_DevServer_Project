@@ -1,0 +1,55 @@
+<?php
+// This is a partial HTML file, it will be included in `layout.php` via the var $content
+?>
+
+<header>
+  <nav>
+    <ul>
+      <li><a href="welcome">Account</a></li>
+      <li><a href="">Search</a></li>
+      <li><a href="">Board</a></li>
+      <li><a href="">Groups</a></li>
+      <li><a href="">Messages</a></li>
+      <li><a href="">Map</a></li>
+      <li><a href="">Settings</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="messages">
+
+    <section class="conversations">
+        <div class="conversation">
+            <div class="name">Jean-Michel</div>
+            <div class="last-message side">Bonjour</div>
+        </div>
+    </section>
+
+    <div class="conversation-messages">
+        <div class="content">
+            <div class="message">
+                <div class="content">Bonjour</div>
+                <div class="side">
+                    <div class="name">Jean-Michel</div>
+                    <div class="send-at">19/10/21</div>
+                </div>
+            </div>
+            <div class="message my-message">
+                <div class="content"> Bonjour</div>
+                <div class="side">
+                    <div class="name">Julien</div>
+                    <div class="send-at">19/10/21</div>  
+                </div>
+            </div>
+        </div>
+        <form action="" id="message-form">
+            <input type="text" name="new-message" id="new-message" placeholder="Write here your message">
+            <input class="send-new-message" type="submit" value="Send">
+        </form>
+    </div>
+
+    
+
+</main>
+
+<footer></footer>
