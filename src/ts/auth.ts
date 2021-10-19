@@ -13,7 +13,7 @@ function redirectToAuth() {
   document.location.href = "/";
 }
 
-const nonProtected = ["/", "/register"];
+const nonProtected = ["/", "/register", "/api"];
 
 (async () => {
   // Checking if previous token is still valid

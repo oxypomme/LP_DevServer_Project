@@ -70,6 +70,19 @@
         </div>
       </details>
 
+      <details class="auth-locked GET">
+        <summary>
+          <span class="method">GET</span>
+          <code>/api/users/me</code>
+        </summary>
+        <div class="api_description">
+          Get authed user
+        </div>
+        <div class="api_return">
+          Returns: <code>IUser</code>
+        </div>
+      </details>
+
       <details class="POST">
         <summary>
           <span class="method">POST</span>
@@ -752,7 +765,8 @@
     birthdate: string,
     address: string,
     city: string,
-    country: string
+    country: string,
+    status?: EStatus
 }</pre>
       </code>
     </details>

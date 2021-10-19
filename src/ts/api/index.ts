@@ -12,6 +12,7 @@ type MessagesEndpoints = "messages" | `messages/${number}`;
 
 type UserEndpoints =
   | "users"
+  | "users/me"
   | `users/${number}`
   | `users/${number}/${
       | BaseGroupEndpoints
@@ -27,11 +28,11 @@ type GroupEndpoints =
 
 type ApiEndoints = AuthEndpoints | `api/${UserEndpoints | GroupEndpoints}`;
 
-type ApiInput = `${HttpMethods} /${ApiEndoints}`;
+type APIUrl = `${HttpMethods} /${ApiEndoints}`;
 
 export const fetchAPI = async <T extends APIResult>(
-  endpoint: ApiInput,
-  body?: unknown,
+  endpoint: APIUrl,
+  body?: APIInput,
   init?: RequestInit,
   headers?: HeadersInit
 ): Promise<IResponse<T>> => {

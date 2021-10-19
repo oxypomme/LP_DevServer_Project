@@ -79,7 +79,10 @@ class Slim implements \UMA\DIC\ServiceProvider
                     return $renderer->render($response, "messages.phtml", ['title' => 'Messages']);
                 });
                 $group->get('board', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "board.phtml", ['title' => 'board']);
+                    return $renderer->render($response, "board.phtml", ['title' => 'Board']);
+                });
+                $group->get('account', function (Request $request, Response $response, array $args) use ($renderer) {
+                    return $renderer->render($response, "account.phtml", ['title' => 'My Account']);
                 });
                 $group->post('auth[/]', Actions\Auth\GetJWTToken::class);
             });
@@ -91,11 +94,12 @@ class Slim implements \UMA\DIC\ServiceProvider
             });
 
             $app->get('/auth[/]', Actions\Auth\CheckJWTToken::class)->add($jwtAuthMiddleware);
-            $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
+            $app->group('/api', function (RouteCollectorProxy $group) {
                 //Group for API calls
                 $group->group('/users', function (RouteCollectorProxy $group) {
                     // Group for user list
                     $group->get('[/]', Actions\Users\ListUsers::class);
+                    $group->get('/me[/]', Actions\Users\GetCurrentUser::class);
 
                     $group->group('/{user_id:[0-9]+}', function (RouteCollectorProxy $group) {
                         // Group for specific user
