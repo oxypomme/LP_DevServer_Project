@@ -11,7 +11,7 @@ if (registerForm && !registerForm.onsubmit) {
     const email = data.get("email") as string;
     const phone = data.get("phone") as string;
     const birthdate = data.get("birthdate") as string;
-    const address = data.get("adress") as string;
+    const address = data.get("address") as string;
     const city = data.get("city") as string;
     const country = data.get("country") as string;
     const password = data.get("password") as string;

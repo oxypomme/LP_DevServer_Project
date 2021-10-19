@@ -2,7 +2,7 @@ const regexUsername = /^[a-zA-Z]{2,20}$/;
 const regexEmail =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const regexPhone = /^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/;
-const regexAdress = /^[a-zA-Z\-0-9]([-'\s]?[a-zA-Z\-0-9]){4,99}$/;
+const regexAddress = /^[a-zA-Z\-0-9]([-'\s]?[a-zA-Z\-0-9]){4,99}$/;
 const regexCityAndCountry = /^[a-zA-Z]([-'\s]?[a-zA-Z]){1,49}$/;
 
 if (document.getElementById("register-username") as HTMLFormElement) {
@@ -43,16 +43,16 @@ if (document.getElementById("register-username") as HTMLFormElement) {
     }
   });
 
-  const adress = document.getElementById("adress") as HTMLFormElement;
-  const adressError = document.getElementById(
-    "adress-error"
+  const address = document.getElementById("address") as HTMLFormElement;
+  const addressError = document.getElementById(
+    "address-error"
   ) as HTMLFormElement;
-  adress.addEventListener("keyup", () => {
-    if (adress.value.match(regexAdress)) {
-      adressError.style.display = "none";
+  address.addEventListener("keyup", () => {
+    if (address.value.match(regexAddress)) {
+      addressError.style.display = "none";
       return true;
     } else {
-      adressError.style.display = "inline-block";
+      addressError.style.display = "inline-block";
       return false;
     }
   });
