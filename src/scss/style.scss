@@ -1,5 +1,14 @@
 @import "./_apiDoc.scss";
 
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
 /* Home */
 .signin {
   display: flex;
@@ -13,7 +22,7 @@
   grid-gap: 5%;
   align-items: center;
 }
-#login-form > input{
+#login-form > input {
   padding: 5%;
 }
 form > input {
@@ -27,118 +36,121 @@ form > input {
   text-align: center;
 }
 
-.error-message{
+.error-message {
   display: none;
   color: red;
 }
 
 /* MENU */
-header{
+header {
   height: 5%;
   margin: 0;
 }
-nav{
+nav {
   height: 100%;
 }
 nav ul {
   height: 100%;
-  display : flex;
-  flex-direction : column;
+  display: flex;
+  flex-direction: column;
   list-style: none;
-  background-color : rgb(92, 92, 92);
-  padding:0; margin: 0;
+  background-color: rgb(92, 92, 92);
+  padding: 0;
+  margin: 0;
 }
-nav ul li{
+nav ul li {
   text-decoration: none;
-  height: 2em;  
+  height: 2em;
   line-height: 2em;
-  padding: .5em;
-  text-align : center;
-  border-bottom : 1px solid grey;
+  padding: 0.5em;
+  text-align: center;
+  border-bottom: 1px solid grey;
 }
-li:nth-child(n+1) {
+li:nth-child(n + 1) {
   border-top: 1px solid white;
 }
 li a {
-  color : white;
-  text-decoration : none;
-  padding: 2%
+  color: white;
+  text-decoration: none;
+  padding: 2%;
 }
 @media screen and (min-width: 42em) {
   nav ul {
-    flex-direction : row;
+    flex-direction: row;
     justify-content: space-around;
   }
   li {
-    border: 0
+    border: 0;
   }
-  li:nth-child(n+1) { border-top: 0}
+  li:nth-child(n + 1) {
+    border-top: 0;
+  }
 }
 
-@media screen and (min-width:64em) {
+@media screen and (min-width: 64em) {
   nav ul {
     justify-content: flex-end;
   }
 }
 
 /* Messages */
-.messages{
+.messages {
   display: flex;
   width: auto;
   min-height: 95%;
   height: auto;
 }
-.conversations{
+.conversations {
   background-color: rgb(212, 212, 212);
   width: 30%;
 }
-.conversation{
+.conversation {
   padding: 1%;
 }
-.conversation:hover{
+.conversation:hover {
   background-color: rgb(95, 95, 95);
   color: white;
 }
 
-.conversation-focus{
+.conversation-focus {
   background-color: rgb(233, 233, 233);
   width: 100%;
   min-height: 90%;
   display: flex;
   flex-direction: column;
 }
-.conversation-messages{
+.conversation-messages {
   min-height: 95%;
 }
-.message{
+.message {
   text-align: left;
   padding: 1%;
   background-color: white;
 }
-.my-message{
+.my-message {
   align-items: right;
   background-color: black;
   color: white;
 }
-.side{
+.side {
   color: rgb(139, 139, 139);
   display: flex;
 }
-.side div{
+.side div {
   margin-right: 0.5%;
 }
-#new-message{
+#new-message {
   width: 90%;
 }
-.form-message{
+.form-message {
   width: auto;
 }
-#message-form{
+#message-form {
   position: sticky;
   bottom: 0;
   background-color: grey;
 }
-#message-form > input{
+#message-form > input {
   padding: 1%;
   margin: 3% 0 3% 0;
   border-radius: 0;

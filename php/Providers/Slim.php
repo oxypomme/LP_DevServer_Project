@@ -67,10 +67,10 @@ class Slim implements \UMA\DIC\ServiceProvider
             // Slim routes here
             $app->group('/', function (RouteCollectorProxy $group) use ($renderer) {
                 $group->get('', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "home.phtml", ['title' => 'Signin']);
+                    return $renderer->render($response, "home.phtml", ['title' => 'Signin', 'nonav' => true]);
                 });
                 $group->get('register', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "register.phtml", ['title' => 'Signup']);
+                    return $renderer->render($response, "register.phtml", ['title' => 'Signup', 'nonav' => true]);
                 });
                 $group->get('welcome', function (Request $request, Response $response, array $args) use ($renderer) {
                     return $renderer->render($response, "welcome.phtml", ['title' => 'Welcome']);

@@ -2,52 +2,44 @@
 // This is a partial HTML file, it will be included in `layout.php` via the var $content
 ?>
 
-<header>
-  <h1>My Profile</h1>
-</header>
+<form id="profile-form" class="grid-form">
+  <input type="text" name="username" id="profile-username" placeholder="Username">
+  <span id="name-error" class="error-message">Username must have between 2 and 20 letters</span>
 
-<main>
-  <form id="profile-form" class="grid-form">
-    <input type="text" name="username" id="profile-username" placeholder="Username">
-    <span id="name-error" class="error-message">Username must have between 2 and 20 letters</span>
+  <input type="text" name="email" id="email" placeholder="Email">
+  <span id="email-error" class="error-message">This email is not valide</span>
 
-    <input type="text" name="email" id="email" placeholder="Email">
-    <span id="email-error" class="error-message">This email is not valide</span>
+  <input type="text" name="phone" id="phone" placeholder="Phone">
+  <span id="phone-error" class="error-message">This phone number is not valide</span>
 
-    <input type="text" name="phone" id="phone" placeholder="Phone">
-    <span id="phone-error" class="error-message">This phone number is not valide</span>
+  <input type="date" name="birthdate" id="birthdate" placeholder="Birthdate">
 
-    <input type="date" name="birthdate" id="birthdate" placeholder="Birthdate">
+  <input type="text" name="adress" id="adress" placeholder="Adress">
+  <span id="adress-error" class="error-message">This adress is not valide</span>
 
-    <input type="text" name="adress" id="adress" placeholder="Adress">
-    <span id="adress-error" class="error-message">This adress is not valide</span>
+  <input type="text" name="city" id="city" placeholder="City">
+  <span id="city-error" class="error-message">This city is not valide</span>
 
-    <input type="text" name="city" id="city" placeholder="City">
-    <span id="city-error" class="error-message">This city is not valide</span>
+  <input type="text" name="country" id="country" placeholder="Country">
+  <span id="country-error" class="error-message">This country is not valide</span>
 
-    <input type="text" name="country" id="country" placeholder="Country">
-    <span id="country-error" class="error-message">This country is not valide</span>
+  <select name="status">
+    <option value="0">Safe</option>
+    <option value="1">Contaminated</option>
+  </select>
 
-    <select name="status">
-      <option value="0">Safe</option>
-      <option value="1">Contaminated</option>
-    </select>
+  <input type="password" name="password" id="profile-password" placeholder="password">
+  <span id="password-error" class="error-message">This password is too weak</span>
+  <span id="number-letter-error" class="error-message">It must have a number and letter</span>
+  <span id="spec-charac-error" class="error-message">It must have a special charachter</span>
+  <span id="between-error" class="error-message">It must have between 5 and 15 characeters</span>
 
-    <input type="password" name="password" id="profile-password" placeholder="password">
-    <span id="password-error" class="error-message">This password is too weak</span>
-    <span id="number-letter-error" class="error-message">It must have a number and letter</span>
-    <span id="spec-charac-error" class="error-message">It must have a special charachter</span>
-    <span id="between-error" class="error-message">It must have between 5 and 15 characeters</span>
+  <input type="password" name="confirm-password" id="confirm-password" placeholder="confirm password">
+  <span id="confirm-password-error" class="error-message">Passwords does not match</span>
 
-    <input type="password" name="confirm-password" id="confirm-password" placeholder="confirm password">
-    <span id="confirm-password-error" class="error-message">Passwords does not match</span>
-
-    <input class="form-button" type="submit" value="Edit">
-    <span id="submit-error" class="error-message">The form is not complete</span>
-    <button id="delete-profile">Delete Profile</button>
-  </form>
-  <div id="login-result" class="message">
-  </div>
-</main>
-
-<footer></footer>
+  <input class="form-button" type="submit" value="Edit">
+  <span id="submit-error" class="error-message">The form is not complete</span>
+  <button id="delete-profile">Delete Profile</button>
+</form>
+<div id="login-result" class="message">
+</div>
