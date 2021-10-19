@@ -45,7 +45,7 @@ return [
 
         'socket' => [
             // Apache config depends on that
-            'port' => 8090
+            'port' => ($_ENV['PHP_ENV'] != "production" ? 8090 : 80)
         ],
 
         'jwt' => [
