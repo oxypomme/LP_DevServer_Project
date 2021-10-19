@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { fetchAPI } from "./api";
+import { redirectToAuth } from "./auth";
 import { IUser } from "./types/responses";
 
 const profileForm = document.getElementById("profile-form") as HTMLFormElement;
@@ -89,6 +90,18 @@ const profileForm = document.getElementById("profile-form") as HTMLFormElement;
           submitError.style.display = "inline-block";
         }
       };
+
+      const delBtn =
+        profileForm.querySelector<HTMLButtonElement>("#delete-profile");
+      if (delBtn)
+        delBtn.onclick = async (e) => {
+          e.preventDefault();
+          const { status } = await fetchAPI(`DELETE /api/users/${user.id}`);
+          if (status === StatusCodes.OK) {
+            redirectToAuth();
+          }
+          // TODO: error management
+        };
     }
   }
 })();
