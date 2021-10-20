@@ -1,4 +1,8 @@
-@import "./_apiDoc.scss";
+@import "./_apiDoc";
+
+@import "./components/forms";
+
+@import "./build";
 
 body {
   display: flex;
@@ -18,12 +22,14 @@ main {
 
 .grid-form {
   width: fit-content;
-  transform: translateX(50%);
   margin-top: 2rem;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-gap: 5%;
   align-items: center;
+}
+.grid-form:not(#login-form) {
+  transform: translateX(50%);
 }
 
 form > input {
@@ -33,60 +39,6 @@ form > input {
   background-color: #f1f1f1;
   &[type="submit"] {
     margin-top: 10%;
-  }
-}
-
-.field {
-  $left-margin: 0.5em;
-
-  position: relative;
-
-  > select,
-  > input {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 20px;
-    border: none;
-    background-color: #f1f1f1;
-    font-family: inherit;
-    font-size: medium;
-
-    + label {
-      position: absolute;
-      top: 0;
-      left: $left-margin;
-      top: calc(50% - 0.57em);
-      pointer-events: none;
-
-      color: #817d81;
-      // transition: top 0.25s, color 0.25s;
-      transition: transform 0.25s, color 0.25s;
-    }
-
-    &:focus + label,
-    &:not(:placeholder-shown) + label {
-      pointer-events: initial;
-      // top: -1.25em;
-      transform: translateX(calc(-100% - 2 * $left-margin));
-
-      color: inherit;
-    }
-
-    &[required] + label::after {
-      content: "*";
-      color: red;
-    }
-  }
-
-  .error-message {
-    position: absolute;
-    top: 0;
-    left: calc(100% + $left-margin);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 }
 

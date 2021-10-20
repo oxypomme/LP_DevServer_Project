@@ -1,0 +1,25 @@
+.field {
+  @include form-field-container();
+
+  > select,
+  > input {
+    @include form-field();
+
+    + label {
+      @include form-field-label();
+    }
+
+    &:focus + label,
+    &:not(:placeholder-shown) + label {
+      @include form-field-label--focused();
+    }
+
+    &[required] + label::after {
+      @include form-field-label--required();
+    }
+  }
+
+  .error-message {
+    @include form-field-error();
+  }
+}
