@@ -185,7 +185,6 @@ class Slim implements \UMA\DIC\ServiceProvider
                 });
             })->add($jwtAuthMiddleware);
 
-
             $app->get('/static/{file:.*}', function (Request $request, Response $response, $args) {
                 $filePath = APP_ROOT . '/dist/' . $args['file'];
 
@@ -209,10 +208,21 @@ class Slim implements \UMA\DIC\ServiceProvider
                 }
 
                 $newResponse = $response->withHeader('Content-Type', $mimeType . '; charset=UTF-8');
-
                 $newResponse->getBody()->write(file_get_contents($filePath));
 
                 return $newResponse;
+            });
+
+            $app->get('/favicon.ico', function (Request $request, Response $response, $args) {
+                $filePath = APP_ROOT . '/dist/res/favicon.ico';
+                if (!file_exists($filePath)) {
+                    return $response->withStatus(404, 'File Not Found');
+                }
+
+                $newResponse = $response; //->withHeader('Content-Type', $mimeType . '; charset=UTF-8');
+                $newResponse->getBody()->write(file_get_contents($filePath));
+
+                return $response;
             });
 
             return $app;
