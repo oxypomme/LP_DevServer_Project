@@ -1,12 +1,42 @@
 import { StatusCodes } from "http-status-codes";
 import { fetchAPI } from "../api";
-import { IMessage, IRelationList, IUser } from "../types/responses";
+import {
+  IMessage,
+  IRelationList,
+  IUser,
+  IMessageList,
+} from "../types/responses";
 
-function onFriendClick(e: Event, { id }: IUser) {
-  console.log("[MSG] [TODO] Show messages for", id);
+let current_id: number;
+let active_id: number;
+
+async function onFriendClick(e: Event, { id }: IUser) {
+  const messagesContainer = document.querySelector(
+    ".messages .conversation-messages"
+  );
+  if (current_id && messagesContainer) {
+    messagesContainer.innerHTML = "";
+    const { status, payload } = await fetchAPI<IMessageList>(
+      `GET /api/users/${current_id}/messages/${id}`
+    );
+    if (status === StatusCodes.OK && typeof payload !== "string") {
+      //? Maybe not in the right order
+      const messages = [...payload.outMessages, ...payload.inMessages].sort(
+        (a, b) =>
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
+      for (const message of messages) {
+        messagesContainer.appendChild(
+          messageToHTML(message, current_id === message.sender.id)
+        );
+      }
+    }
+  }
 }
 
 function friendToHTML(user: IUser): HTMLElement {
+  active_id = user.id;
+
   const container = document.createElement("div");
   container.classList.add("conversation");
   container.onclick = (e) => onFriendClick(e, user);
@@ -28,16 +58,21 @@ function onMessageClick(e: Event, { id }: IMessage) {
   console.log("[MSG] [TODO] Clicked on", id);
 }
 
-function messageToHTML(message: IMessage): HTMLElement {
+function messageToHTML(message: IMessage, isSelf = false): HTMLElement {
   const container = document.createElement("div");
   container.classList.add("message");
   container.onclick = (e) => onMessageClick(e, message);
+  if (isSelf) {
+    container.classList.add("my-message");
+  }
 
   const contentEl = document.createElement("div");
   contentEl.classList.add("content");
   contentEl.innerText = message.content;
+  container.appendChild(contentEl);
 
   const side = document.createElement("div");
+  side.classList.add("side");
 
   const name = document.createElement("div");
   name.classList.add("name");
@@ -65,6 +100,7 @@ function messageToHTML(message: IMessage): HTMLElement {
       return;
     }
     // ? Merge two requests
+    current_id = currentUser.id;
     const { status, payload } = await fetchAPI<IRelationList>(
       `GET /api/users/${currentUser.id}/relations`
     );

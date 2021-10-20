@@ -23,7 +23,7 @@ class Message implements JsonSerializable
   /** 
    * @Column(type="text", nullable=true) 
    */
-  public string $attachement;
+  public ?string $attachement;
   /** 
    * @Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}) 
    */

@@ -144,6 +144,8 @@ class User implements JsonSerializable
     $relations = [];
     $pendingOut = [];
     $pendingIn = [];
+
+    // Collection::fliter doesn't work so...
     foreach ($this->outRelations as $or) {
       // If relation is bi-directionnal
       if ($this->inRelations->exists(function (int $i, Relation $ir) use ($or) {
@@ -154,12 +156,13 @@ class User implements JsonSerializable
         $pendingOut[] = $or;
       }
     }
+
     foreach ($this->inRelations as $ir) {
       // If relation is uni-directionnal
       if (!$this->outRelations->exists(function (int $i, Relation $or) use ($ir) {
         return $or->getTarget()->id == $ir->getSender()->id;
       })) {
-        $pendingIn[] = $or;
+        $pendingIn[] = $ir;
       }
     }
 
@@ -203,13 +206,24 @@ class User implements JsonSerializable
   }
   public function getMessages(int $target_id): array
   {
+    $out = [];
+    $in = [];
+
+    foreach ($this->outMessages as $om) {
+      if ($om->getTarget()->id == $target_id) {
+        $out[] = $om;
+      }
+    }
+
+    foreach ($this->inMessages as $im) {
+      if ($im->getSender()->id == $target_id) {
+        $in[] = $im;
+      }
+    }
+
     return [
-      'outMessages' => $this->outMessages->filter(function (Message $msg) use ($target_id) {
-        return $msg->getTarget()->id == $target_id;
-      }),
-      'inMessages' => $this->inMessages->filter(function (Message $msg) use ($target_id) {
-        return $msg->getSender()->id == $target_id;
-      })
+      'outMessages' => $out,
+      'inMessages' => $in,
     ];
   }
 
