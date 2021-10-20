@@ -25,11 +25,13 @@ async function onFriendClick(e: Event, { id }: IUser) {
         (a, b) =>
           new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
       );
+      const frag = document.createDocumentFragment();
       for (const message of messages) {
-        messagesContainer.appendChild(
+        frag.appendChild(
           messageToHTML(message, current_id === message.sender.id)
         );
       }
+      messagesContainer.appendChild(frag);
     }
   }
 }
@@ -109,9 +111,11 @@ function messageToHTML(message: IMessage, isSelf = false): HTMLElement {
         ".messages > .conversations"
       );
       if (relationsContainer) {
+        const frag = document.createDocumentFragment();
         for (const { target } of payload.relations) {
-          relationsContainer.appendChild(friendToHTML(target));
+          frag.appendChild(friendToHTML(target));
         }
+        relationsContainer.appendChild(frag);
       }
     } else {
       //TODO: error management
