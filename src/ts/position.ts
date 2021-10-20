@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
+import { map, Map, marker, Marker, tileLayer } from "leaflet";
 import { fetchAPI } from "./api";
 import { ILocation, IUser } from "./types/responses";
-import { map, tileLayer, marker, Map, Marker } from "leaflet";
 
 let mymap: Map | null = null;
 const markers: { [user_id: string]: Marker } = {};
@@ -31,15 +31,16 @@ const markers: { [user_id: string]: Marker } = {};
   }
 
   if (authStatus === StatusCodes.OK) {
+    const { status, payload: user } = await fetchAPI<IUser>(
+      "GET /api/users/me"
+    );
+    if (status !== StatusCodes.OK || typeof user === "string") {
+      console.error("[MSG]", user);
+      return;
+    }
+
     navigator.geolocation.watchPosition(
       async ({ coords }) => {
-        const { status, payload: user } = await fetchAPI<IUser>(
-          "GET /api/users/me"
-        );
-        if (status !== StatusCodes.OK || typeof user === "string") {
-          throw user;
-        }
-
         const { status: locStatus, payload } = await fetchAPI<ILocation>(
           user.location
             ? `PUT /api/users/${user.id}/location`
@@ -49,6 +50,15 @@ const markers: { [user_id: string]: Marker } = {};
             lat: coords.latitude,
           } as ILocationInput
         );
+        // "Fake" user location to void multiple POST
+        if (!user.location) {
+          user.location = {
+            id: 0,
+            long: coords.longitude,
+            lat: coords.latitude,
+            updated_at: new Date().toISOString(),
+          };
+        }
 
         if (mymap) {
           const { status: usersStatus, payload: users } = await fetchAPI<
