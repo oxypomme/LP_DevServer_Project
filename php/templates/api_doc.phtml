@@ -264,7 +264,7 @@
           </ul>
         </div>
         <div class="api_return">
-          Returns: <code>IRelation[]</code>
+          Returns: <code>IRelationList</code>
         </div>
       </details>
 
@@ -421,19 +421,20 @@
       <details class="auth-locked GET">
         <summary>
           <span class="method">GET</span>
-          <code>/api/users/{user_id}/messages</code>
+          <code>/api/users/{user_id}/messages/{target_id}</code>
         </summary>
         <div class="api_description">
-          Get all messages who concern a user
+          Get all messages who concern a user and a target
         </div>
         <div class="api_params">
           Params:
           <ul>
             <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>target_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
         <div class="api_return">
-          Returns: <code>IMessage[]</code>
+          Returns: <code>IMessageList</code>
         </div>
       </details>
 
@@ -442,15 +443,16 @@
       <details class="auth-locked GET">
         <summary>
           <span class="method">GET</span>
-          <code>/api/users/{user_id}/messages/{message_id}</code>
+          <code>/api/users/{user_id}/messages/{target_id}/{message_id}</code>
         </summary>
         <div class="api_description">
-          Get specific message who concern a user
+          Get specific message who concern a user and a target
         </div>
         <div class="api_params">
           Params:
           <ul>
             <li><code>user_id</code>: <code>/[0-9]+/</code></li>
+            <li><code>target_id</code>: <code>/[0-9]+/</code></li>
             <li><code>message_id</code>: <code>/[0-9]+/</code></li>
           </ul>
         </div>
@@ -673,13 +675,13 @@
       </summary>
       <code>
         <pre>
-  | string 
-  | IToken 
-  | IUser | IUser[] 
-  | IGroup | IGroup[] 
-  | IRelation | IRelation[] 
-  | ILocation 
-  | IMessage | IMessage[]</pre>
+  | string
+  | IToken
+  | IUser | IUser[]
+  | IGroup | IGroup[]
+  | IRelation | IRelationList
+  | ILocation
+  | IMessage | IMessageList</pre>
       </code>
     </details>
 
@@ -815,6 +817,19 @@
 
     <details>
       <summary>
+        <code>IRelationList</code>
+      </summary>
+      <code>
+        <pre>{
+  relations: IRelation[];
+  pendingOut: IRelation[];
+  pendingIn: IRelation[];
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
         <code>IRelationInput</code>
       </summary>
       <code>
@@ -863,6 +878,18 @@
   target?: IUser,
   created_at: string
   updated_at: string
+}</pre>
+      </code>
+    </details>
+
+    <details>
+      <summary>
+        <code>IMessageList</code>
+      </summary>
+      <code>
+        <pre>{
+  outMessages: IMessage[];
+  inMessages: IMessage[];
 }</pre>
       </code>
     </details>

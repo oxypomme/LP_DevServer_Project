@@ -20,7 +20,7 @@ services:
       dockerfile: Dockerfile.ws
     restart: always
     depends_on:
-      db
+      - db
   web:
     build:
       context: .

@@ -20,6 +20,6 @@ class ListMessages extends ProtectedInvokableEMAction
       ->getRepository(User::class)
       ->find((int) $args['user_id']);
 
-    return $this->createResponse($user->getMessages());
+    return $this->createResponse($user->getMessages((int) $args['target_id']));
   }
 }

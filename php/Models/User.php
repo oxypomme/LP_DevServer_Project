@@ -141,9 +141,32 @@ class User implements JsonSerializable
   }
   public function getRelations(): array
   {
+    $relations = [];
+    $pendingOut = [];
+    $pendingIn = [];
+    foreach ($this->outRelations as $or) {
+      // If relation is bi-directionnal
+      if ($this->inRelations->exists(function (int $i, Relation $ir) use ($or) {
+        return $or->getTarget()->id == $ir->getSender()->id;
+      })) {
+        $relations[] = $or;
+      } else {
+        $pendingOut[] = $or;
+      }
+    }
+    foreach ($this->inRelations as $ir) {
+      // If relation is uni-directionnal
+      if (!$this->outRelations->exists(function (int $i, Relation $or) use ($ir) {
+        return $or->getTarget()->id == $ir->getSender()->id;
+      })) {
+        $pendingIn[] = $or;
+      }
+    }
+
     return [
-      'outRelations' => $this->outRelations->getValues(),
-      'inRelations' => $this->inRelations->getValues()
+      'relations' => $relations,
+      'pendingOut' => $pendingOut,
+      'pendingIn' => $pendingIn
     ];
   }
 
@@ -178,11 +201,15 @@ class User implements JsonSerializable
   {
     return array_merge($this->outMessages->getValues(), $this->inMessages->getValues());
   }
-  public function getMessages(): array
+  public function getMessages(int $target_id): array
   {
     return [
-      'outMessages' => $this->outMessages->getValues(),
-      'inMessages' => $this->inMessages->getValues()
+      'outMessages' => $this->outMessages->filter(function (Message $msg) use ($target_id) {
+        return $msg->getTarget()->id == $target_id;
+      }),
+      'inMessages' => $this->inMessages->filter(function (Message $msg) use ($target_id) {
+        return $msg->getSender()->id == $target_id;
+      })
     ];
   }
 

@@ -8,7 +8,7 @@ type BaseGroupEndpoints = "groups" | `groups/${number}`;
 
 type RelationEndpoints = "relations" | `relations/${number}`;
 
-type MessagesEndpoints = "messages" | `messages/${number}`;
+type MessagesEndpoints = `messages/${number}` | `messages/${number}/${number}`;
 
 type UserEndpoints =
   | "users"
