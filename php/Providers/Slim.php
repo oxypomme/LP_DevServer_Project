@@ -40,6 +40,12 @@ class Slim implements \UMA\DIC\ServiceProvider
 
             // Prepare JWT
             $jwtAuthMiddleware = \PsrJwt\Factory\JwtMiddleware::json($settings['jwt']['secret'], '', ['status' => 401, 'payload' => 'Auth Failed']);
+            // Prepare CSRF
+            session_start();
+            $responseFactory = $app->getResponseFactory();
+            $c->set('csrf', function () use ($responseFactory) {
+                return new \Slim\Csrf\Guard($responseFactory);
+            });
 
             // Matching Slim Errors to Base Response
             $errorHandler = $errorMiddleware->getDefaultErrorHandler();

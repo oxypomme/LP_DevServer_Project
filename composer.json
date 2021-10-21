@@ -13,7 +13,8 @@
     "cboden/ratchet": "^0.4.3",
     "rbdwllr/psr-jwt": "^1.0",
     "christianklisch/slim-minify": "^0.7.0",
-    "slim/psr7": "^1.5"
+    "slim/psr7": "^1.5",
+    "slim/csrf": "^1.2"
   },
   "autoload": {
     "psr-4": {
