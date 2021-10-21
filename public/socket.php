@@ -50,7 +50,12 @@ class ServerImpl implements MessageComponentInterface
 
   public function sendMessage(string $data, ?User $target = null, ?Group $group = null): void
   {
-    foreach ($this->clients as $client => $user) {
+    foreach ($this->clients as $value) {
+      /** @var ConnectionInterface $client */
+      $client = $this->clients->current();
+      /** @var User $user */
+      $user = $this->clients->getInfo();
+
       if (
         // Search for specific target
         (!is_null($target) && $user->id == $target->id)
