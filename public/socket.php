@@ -48,7 +48,7 @@ class ServerImpl implements MessageComponentInterface
     return null;
   }
 
-  public function sendMessage(string $data, ?User $target = null, ?Group $group = null)
+  public function sendMessage(string $data, ?User $target = null, ?Group $group = null): void
   {
     foreach ($this->clients as $client => $user) {
       if (
@@ -61,9 +61,13 @@ class ServerImpl implements MessageComponentInterface
 
         // If specific target, no need to continue
         if (!is_null($target)) {
-          break;
+          return;
         }
       }
+    }
+    // Throw error if target is not connected
+    if (!is_null($target)) {
+      throw new Error("No target found");
     }
   }
 
@@ -123,15 +127,21 @@ class ServerImpl implements MessageComponentInterface
 
         //TODO If target & group null
 
-        $this->em->persist($msg);
-        $this->em->flush();
-
         $data = [
           'type' => 'message',
           'payload' => $msg
         ];
 
-        $this->sendMessage(JSON::encode($data), $target, $group);
+        try {
+          $this->sendMessage(JSON::encode($data), $target, $group);
+
+          $this->em->persist($msg);
+          $this->em->flush();
+        } catch (\Throwable $th) {
+          // TODO: Error management
+          throw $th;
+        }
+
         break;
 
       case 'message_edit':
@@ -152,15 +162,20 @@ class ServerImpl implements MessageComponentInterface
         $msg->attachement = (string) $event->payload->attachement;
         $msg->updated_at = new \DateTime();
 
-        $this->em->persist($msg);
-        $this->em->flush();
-
         $data = [
           'type' => 'message_edit',
           'payload' => $msg
         ];
 
-        $this->sendMessage(JSON::encode($data), $msg->getTarget(), $msg->getGroup());
+        try {
+          $this->sendMessage(JSON::encode($data), $msg->getTarget(), $msg->getGroup());
+
+          $this->em->persist($msg);
+          $this->em->flush();
+        } catch (\Throwable $th) {
+          // TODO: Error management
+          throw $th;
+        }
         break;
 
       case 'message_deletion':
@@ -180,6 +195,18 @@ class ServerImpl implements MessageComponentInterface
         $target = $msg->getTarget();
         $group = $msg->getGroup();
 
+        $data = [
+          'type' => 'message_deletion',
+          'payload' => $msg
+        ];
+
+        try {
+          $this->sendMessage(JSON::encode($data), $target, $group);
+        } catch (\Throwable $th) {
+          // TODO: Error management
+          throw $th;
+        }
+
         try {
           $msg->getSender()->removeOutMessage($msg);
           $target->removeInMessage($msg);
@@ -195,13 +222,6 @@ class ServerImpl implements MessageComponentInterface
           ]));
           throw $th;
         }
-
-        $data = [
-          'type' => 'message_deletion',
-          'payload' => $msg
-        ];
-
-        $this->sendMessage(JSON::encode($data), $target, $group);
         break;
 
       default:
