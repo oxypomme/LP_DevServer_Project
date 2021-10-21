@@ -46,6 +46,19 @@ class Slim implements \UMA\DIC\ServiceProvider
             $c->set('csrf', function () use ($responseFactory) {
                 return new \Slim\Csrf\Guard($responseFactory);
             });
+            // Adding CORS
+            $app->options('/{routes:.+}', function ($request, $response, $args) {
+                return $response;
+            });
+            $app->add(function ($request, $handler) {
+                $response = $handler->handle($request);
+                return $response
+                    ->withHeader('Access-Control-Allow-Origin', 'https://oxypomme.fr') // Production Server
+                    ->withHeader('Vary', 'Origin')
+                    ->withHeader('Access-Control-Allow-Credentials', 'true')
+                    ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+                    ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            });
 
             // Matching Slim Errors to Base Response
             $errorHandler = $errorMiddleware->getDefaultErrorHandler();
@@ -229,6 +242,14 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $newResponse->getBody()->write(file_get_contents($filePath));
 
                 return $response;
+            });
+
+            /**
+             * Catch-all route to serve a 404 Not Found page if none of the routes match
+             * NOTE: make sure this route is defined last
+             */
+            $app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function ($request, $response) {
+                throw new \Slim\Exception\HttpNotFoundException($request);
             });
 
             return $app;
