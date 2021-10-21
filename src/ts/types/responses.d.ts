@@ -51,6 +51,7 @@ interface IRelation {
   sender: IUser;
   target: IUser;
   created_at: string;
+  isLogged: boolean;
 }
 
 interface IRelationList {

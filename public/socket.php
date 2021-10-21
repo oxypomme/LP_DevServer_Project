@@ -95,22 +95,35 @@ class ServerImpl implements MessageComponentInterface
     }
     unset($event->jwt);
 
+    // If first time connection
     if (!$this->clients->contains($conn)) {
       $this->clients->attach($conn, $sender);
+      // Notify his friend that he's connected
       $data = [
         'type' => 'connection_in',
         'payload' => [
           'id' => $sender->id
         ]
       ];
-      foreach ($sender->getRelations()['relations'] as $rel) {
+      $rels = $sender->getRelations();
+      $relations = [];
+      foreach ($rels['relations'] as $rel) {
         /** @var \Crisis\Models\Relation $rel */
+        $obj = $rel->jsonSerialize();
         try {
           $this->sendMessage(JSON::encode($data), $rel->getTarget());
+          $obj['isLogged'] = true;
         } catch (\Throwable $th) {
-          continue;
+          $obj['isLogged'] = false;
         }
+        $relations[] = $obj;
       }
+      // Notify him of his friends state
+      $rels['relations'] = $relations;
+      $conn->send(JSON::encode([
+        'type' => 'friends',
+        'payload' => $rels
+      ]));
     }
 
     echo sprintf("\nNew message from '%s': %s\n\n", $conn->resourceId, JSON::encode($event));

@@ -1,4 +1,4 @@
-import { IMessage } from "../types/responses";
+import { IMessage, IRelationList } from "../types/responses";
 
 interface IPing {
   startTime: number;
@@ -16,6 +16,7 @@ type IWSPayload =
   | IMessage
   | IMessageInput
   | IPing
+  | IRelationList
   | IConnection
   | IDisconnection;
 

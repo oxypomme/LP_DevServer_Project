@@ -1,5 +1,11 @@
+import { IRelationList } from "../types/responses";
 import WindowEnv from "../windowEnv";
-import { IPing, IWSPacket, IWSPayload } from "./types";
+import {
+  onFriendConnection,
+  onFriendDisconnection,
+  onFriendList,
+} from "./chat";
+import { IConnection, IPing, IWSPacket, IWSPayload } from "./types";
 
 enum WSPacketTypes {
   ERROR = "error",
@@ -7,6 +13,7 @@ enum WSPacketTypes {
   MESSAGE = "message",
   MESSAGE_EDITED = "message_edit",
   MESSAGE_DELETION = "message_deletion",
+  FRIEND_LIST = "friends",
   FRIEND_CONNECTION = "connection_in",
   FRIEND_DISCONNECTION = "connection_out",
 }
@@ -122,12 +129,16 @@ if (ws) {
         // TODO
         break;
 
+      case WSPacketTypes.FRIEND_LIST:
+        onFriendList((event.payload as IRelationList).relations);
+        break;
+
       case WSPacketTypes.FRIEND_CONNECTION:
-        // TODO
+        onFriendConnection((event.payload as IConnection).id);
         break;
 
       case WSPacketTypes.FRIEND_DISCONNECTION:
-        // TODO
+        onFriendDisconnection((event.payload as IConnection).id);
         break;
 
       default:

@@ -1,11 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { fetchAPI } from "../api";
-import {
-  IMessage,
-  IRelationList,
-  IUser,
-  IMessageList,
-} from "../types/responses";
+import { IMessage, IUser, IMessageList, IRelation } from "../types/responses";
 
 let current_id: number;
 let active_id: number;
@@ -36,12 +31,16 @@ async function onFriendClick(e: Event, { id }: IUser) {
   }
 }
 
-function friendToHTML(user: IUser): HTMLElement {
+function friendToHTML(user: IUser, isConnected: boolean): HTMLElement {
   active_id = user.id;
 
   const container = document.createElement("div");
   container.classList.add("conversation");
+  container.dataset.friend = user.id.toString();
   container.onclick = (e) => onFriendClick(e, user);
+  if (isConnected) {
+    container.classList.add("connected");
+  }
 
   const name = document.createElement("div");
   name.classList.add("name");
@@ -56,6 +55,30 @@ function friendToHTML(user: IUser): HTMLElement {
   return container;
 }
 
+export function onFriendConnection(id: number): void {
+  const relationsContainer = document.querySelector(
+    ".messages > .conversations"
+  );
+  if (relationsContainer) {
+    const friend = relationsContainer.querySelector(`[data-friend="${id}"]`);
+    if (friend) {
+      friend.classList.add("connected");
+    }
+  }
+}
+
+export function onFriendDisconnection(id: number): void {
+  const relationsContainer = document.querySelector(
+    ".messages > .conversations"
+  );
+  if (relationsContainer) {
+    const friend = relationsContainer.querySelector(`[data-friend="${id}"]`);
+    if (friend) {
+      friend.classList.remove("connected");
+    }
+  }
+}
+
 function onMessageClick(e: Event, { id }: IMessage) {
   console.log("[MSG] [TODO] Clicked on", id);
 }
@@ -67,6 +90,7 @@ function messageToHTML(message: IMessage, isSelf = false): HTMLElement {
   if (isSelf) {
     container.classList.add("my-message");
   }
+  container.dataset.message = message.id.toString();
 
   const contentEl = document.createElement("div");
   contentEl.classList.add("content");
@@ -91,6 +115,19 @@ function messageToHTML(message: IMessage, isSelf = false): HTMLElement {
   return container;
 }
 
+export function onFriendList(relations: IRelation[]): void {
+  const relationsContainer = document.querySelector(
+    ".messages > .conversations"
+  );
+  if (relationsContainer) {
+    const frag = document.createDocumentFragment();
+    for (const { target, isLogged } of relations) {
+      frag.appendChild(friendToHTML(target, isLogged));
+    }
+    relationsContainer.appendChild(frag);
+  }
+}
+
 (async () => {
   const messageForm = document.getElementById("message-form");
   if (messageForm) {
@@ -103,22 +140,22 @@ function messageToHTML(message: IMessage, isSelf = false): HTMLElement {
     }
     // ? Merge two requests
     current_id = currentUser.id;
-    const { status, payload } = await fetchAPI<IRelationList>(
-      `GET /api/users/${currentUser.id}/relations`
-    );
-    if (status === StatusCodes.OK && typeof payload !== "string") {
-      const relationsContainer = document.querySelector(
-        ".messages > .conversations"
-      );
-      if (relationsContainer) {
-        const frag = document.createDocumentFragment();
-        for (const { target } of payload.relations) {
-          frag.appendChild(friendToHTML(target));
-        }
-        relationsContainer.appendChild(frag);
-      }
-    } else {
-      //TODO: error management
-    }
+    // const { status, payload } = await fetchAPI<IRelationList>(
+    //   `GET /api/users/${currentUser.id}/relations`
+    // );
+    // if (status === StatusCodes.OK && typeof payload !== "string") {
+    //   const relationsContainer = document.querySelector(
+    //     ".messages > .conversations"
+    //   );
+    //   if (relationsContainer) {
+    //     const frag = document.createDocumentFragment();
+    //     for (const { target } of payload.relations) {
+    //       frag.appendChild(friendToHTML(target));
+    //     }
+    //     relationsContainer.appendChild(frag);
+    //   }
+    // } else {
+    //   // error management
+    // }
   }
 })();
