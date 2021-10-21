@@ -1,7 +1,7 @@
 import { src, dest } from "gulp";
 import { pipeline } from "readable-stream";
 import sourcemaps from "gulp-sourcemaps";
-
+import del from "del";
 import gulpsass from "gulp-sass";
 import sassCompiler from "sass";
 const sass = gulpsass(sassCompiler);
@@ -18,4 +18,8 @@ export function transpileSCSS() {
     sourcemaps.write(".", { includeContent: false }),
     dest("dist/css/")
   );
+}
+
+export function pruneCSS() {
+  return del(["dist/css/*"]);
 }

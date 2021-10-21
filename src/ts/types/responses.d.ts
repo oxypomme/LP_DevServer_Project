@@ -7,10 +7,10 @@ type APIResult =
   | IGroup
   | IGroup[]
   | IRelation
-  | IRelation[]
+  | IRelationList
   | ILocation
   | IMessage
-  | IMessage[];
+  | IMessageList;
 
 interface IResponse<T extends APIResult> {
   status: StatusCodes;
@@ -33,6 +33,7 @@ interface IUser {
   city: string;
   country: string;
   status: EStatus;
+  location: ILocation;
   created_at: string;
 }
 
@@ -52,11 +53,17 @@ interface IRelation {
   created_at: string;
 }
 
+interface IRelationList {
+  relations: IRelation[];
+  pendingOut: IRelation[];
+  pendingIn: IRelation[];
+}
+
 interface ILocation {
   id: number;
   long: number;
   lat: number;
-  user: IUser;
+  // user: IUser;
   updated_at: string;
 }
 
@@ -68,4 +75,9 @@ interface IMessage {
   target?: IUser;
   created_at: string;
   updated_at: string;
+}
+
+interface IMessageList {
+  outMessages: IMessage[];
+  inMessages: IMessage[];
 }

@@ -19,6 +19,10 @@ function send(type: WSPacketTypes, data: IWSPayload): void {
   ws?.send(JSON.stringify(event));
 }
 
+function error(error: any) {
+  console.error("[WS]", error);
+}
+
 export function ping(): void {
   send(WSPacketTypes.PING, {
     startTime: new Date().getTime(),
@@ -84,7 +88,7 @@ if (ws) {
   };
 
   ws.onerror = (ev) => {
-    console.error(ev);
+    error(ev);
   };
 
   ws.onmessage = (ev) => {
@@ -93,7 +97,7 @@ if (ws) {
 
     switch (event.type) {
       case WSPacketTypes.ERROR:
-        console.error(event.payload);
+        error(event.payload);
         break;
 
       case WSPacketTypes.PING:

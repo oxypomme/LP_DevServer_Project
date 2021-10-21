@@ -46,10 +46,7 @@ COPY --from=builder /app ./
 # Upgrade + install driver
 RUN apk update \
   && apk upgrade -U -a \
-  && docker-php-ext-install pdo pdo_mysql \
-  && echo "php /app/public/socket.php &" > start.sh \
-  && echo "php-fpm" >> start.sh \
-  && chmod +x start.sh
+  && docker-php-ext-install pdo pdo_mysql
 
-# Run WS server
-CMD /app/start.sh
+# Run server
+CMD php-fpm

@@ -2,8 +2,7 @@
 // This is a partial HTML file, it will be included in `layout.php` via the var $content
 ?>
 
-<p>Already have an account ? <a href="/">Go signin</a></p>
-<form id="signup-form" class="grid-form">
+<form id="profile-form" class="grid-form">
   <div class="field">
     <input required type="text" name="username" id="register-username" placeholder=" ">
     <label for="username">
@@ -60,6 +59,16 @@
   </div>
 
   <div class="field">
+    <select required name="status">
+      <option value="0">Safe</option>
+      <option value="1">Contaminated</option>
+    </select>
+    <label for="status">
+      Status
+    </label>
+  </div>
+
+  <div class="field">
     <input required type="password" name="password" id="register-password" placeholder=" ">
     <label for="password">
       Password
@@ -78,8 +87,9 @@
     <span id="confirm-password-error" class="error-message">Passwords does not match</span>
   </div>
 
-  <input class="form-button" type="submit" value="Signup">
+  <input class="form-button" type="submit" value="Edit">
   <span id="submit-error" class="error-message">The form is not complete</span>
+  <button id="delete-profile">Delete Profile</button>
 </form>
 <div id="login-result" class="message">
 </div>

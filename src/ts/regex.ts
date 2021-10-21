@@ -2,7 +2,7 @@ const regexUsername = /^[a-zA-Z]{2,20}$/;
 const regexEmail =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const regexPhone = /^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/;
-const regexAdress = /^[a-zA-Z\-0-9]([-'\s]?[a-zA-Z\-0-9]){4,99}$/;
+const regexAddress = /^[a-zA-Z\-0-9]([-'\s]?[a-zA-Z\-0-9]){4,99}$/;
 const regexCityAndCountry = /^[a-zA-Z]([-'\s]?[a-zA-Z]){1,49}$/;
 
 if (document.getElementById("register-username") as HTMLFormElement) {
@@ -12,10 +12,10 @@ if (document.getElementById("register-username") as HTMLFormElement) {
   const nameError = document.getElementById("name-error") as HTMLFormElement;
   username.addEventListener("keyup", () => {
     if (username.value.match(regexUsername)) {
-      nameError.style.display = "none";
+      nameError.classList.remove("show");
       return true;
     } else {
-      nameError.style.display = "inline-block";
+      nameError.classList.add("show");
       return false;
     }
   });
@@ -23,10 +23,10 @@ if (document.getElementById("register-username") as HTMLFormElement) {
   const emailError = document.getElementById("email-error") as HTMLFormElement;
   email.addEventListener("keyup", () => {
     if (email.value.match(regexEmail)) {
-      emailError.style.display = "none";
+      emailError.classList.remove("show");
       return true;
     } else {
-      emailError.style.display = "inline-block";
+      emailError.classList.add("show");
       return false;
     }
   });
@@ -35,24 +35,24 @@ if (document.getElementById("register-username") as HTMLFormElement) {
   const phoneError = document.getElementById("phone-error") as HTMLFormElement;
   phone.addEventListener("keyup", () => {
     if (phone.value.match(regexPhone)) {
-      phoneError.style.display = "none";
+      phoneError.classList.remove("show");
       return true;
     } else {
-      phoneError.style.display = "inline-block";
+      phoneError.classList.add("show");
       return false;
     }
   });
 
-  const adress = document.getElementById("adress") as HTMLFormElement;
-  const adressError = document.getElementById(
-    "adress-error"
+  const address = document.getElementById("address") as HTMLFormElement;
+  const addressError = document.getElementById(
+    "address-error"
   ) as HTMLFormElement;
-  adress.addEventListener("keyup", () => {
-    if (adress.value.match(regexAdress)) {
-      adressError.style.display = "none";
+  address.addEventListener("keyup", () => {
+    if (address.value.match(regexAddress)) {
+      addressError.classList.remove("show");
       return true;
     } else {
-      adressError.style.display = "inline-block";
+      addressError.classList.add("show");
       return false;
     }
   });
@@ -61,10 +61,10 @@ if (document.getElementById("register-username") as HTMLFormElement) {
   const cityError = document.getElementById("city-error") as HTMLFormElement;
   city.addEventListener("keyup", () => {
     if (city.value.match(regexCityAndCountry)) {
-      cityError.style.display = "none";
+      cityError.classList.remove("show");
       return true;
     } else {
-      cityError.style.display = "inline-block";
+      cityError.classList.add("show");
       return false;
     }
   });
@@ -75,10 +75,10 @@ if (document.getElementById("register-username") as HTMLFormElement) {
   ) as HTMLFormElement;
   country.addEventListener("keyup", () => {
     if (country.value.match(regexCityAndCountry)) {
-      countryError.style.display = "none";
+      countryError.classList.remove("show");
       return true;
     } else {
-      countryError.style.display = "inline-block";
+      countryError.classList.add("show");
       return false;
     }
   });
@@ -102,33 +102,33 @@ if (document.getElementById("register-username") as HTMLFormElement) {
   password.addEventListener("keyup", () => {
     let correct = true;
     const mdp = password.value;
-    passwordError.style.display = "none";
+    passwordError.classList.remove("show");
 
     if (mdp.search(/\d/) !== -1 && mdp.search(/[a-zA-Z]/) !== -1) {
-      passwordError.style.display = "none";
-      numberLetterError.style.display = "none";
+      passwordError.classList.remove("show");
+      numberLetterError.classList.remove("show");
     } else {
       correct = false;
-      numberLetterError.style.display = "inline-block";
+      numberLetterError.classList.add("show");
     }
 
     if (mdp.search(/[!#$%&?+=()@*."]/) !== -1) {
-      passwordError.style.display = "none";
-      specCharacError.style.display = "none";
+      passwordError.classList.remove("show");
+      specCharacError.classList.remove("show");
     } else {
       correct = false;
-      specCharacError.style.display = "inline-block";
+      specCharacError.classList.add("show");
     }
 
     if (mdp.length >= 5 && mdp.length <= 15) {
-      betweenError.style.display = "none";
+      betweenError.classList.remove("show");
     } else {
       correct = false;
-      betweenError.style.display = "inline-block";
+      betweenError.classList.add("show");
     }
 
     if (!correct) {
-      passwordError.style.display = "inline-block";
+      passwordError.classList.add("show");
     }
 
     return correct;
@@ -142,11 +142,11 @@ if (document.getElementById("register-username") as HTMLFormElement) {
   ) as HTMLFormElement;
   confirmPassword.addEventListener("keyup", () => {
     let correct = true;
-    confirmPasswordError.style.display = "none";
+    confirmPasswordError.classList.remove("show");
 
     if (confirmPassword.value !== password.value) {
       correct = false;
-      confirmPasswordError.style.display = "inline-block";
+      confirmPasswordError.classList.add("show");
     }
 
     return correct;

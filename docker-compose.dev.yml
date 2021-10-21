@@ -12,6 +12,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    depends_on:
+      - db
     volumes:
       - "./:/app/dev"
     ports:
@@ -19,6 +21,8 @@ services:
       - 8090:8090
   phpmyadmin:
     image: phpmyadmin
+    depends_on:
+      - db
     ports:
       - 8085:80
     environment:

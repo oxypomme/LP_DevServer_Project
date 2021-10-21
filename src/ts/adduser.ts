@@ -11,7 +11,7 @@ if (registerForm && !registerForm.onsubmit) {
     const email = data.get("email") as string;
     const phone = data.get("phone") as string;
     const birthdate = data.get("birthdate") as string;
-    const adress = data.get("adress") as string;
+    const address = data.get("address") as string;
     const city = data.get("city") as string;
     const country = data.get("country") as string;
     const password = data.get("password") as string;
@@ -21,7 +21,7 @@ if (registerForm && !registerForm.onsubmit) {
       email.length != 0 &&
       phone.length != 0 &&
       birthdate.length != 0 &&
-      adress.length != 0 &&
+      address.length != 0 &&
       city.length != 0 &&
       country.length != 0 &&
       password.length != 0
@@ -32,11 +32,12 @@ if (registerForm && !registerForm.onsubmit) {
           email,
           phone,
           birthdate,
-          adress,
+          address,
           city,
           country,
           password,
         });
+        // TODO: Error management + action on success
       }
     } else {
       const submitError = document.getElementById(

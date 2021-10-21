@@ -108,6 +108,7 @@ class User implements JsonSerializable
     $this->city = $city;
     $this->country = $country;
     $this->status = \Crisis\EStatus::SAFE;
+    $this->location = null;
     $this->created_at = new DateTime();
   }
 
@@ -140,9 +141,35 @@ class User implements JsonSerializable
   }
   public function getRelations(): array
   {
+    $relations = [];
+    $pendingOut = [];
+    $pendingIn = [];
+
+    // Collection::fliter doesn't work so...
+    foreach ($this->outRelations as $or) {
+      // If relation is bi-directionnal
+      if ($this->inRelations->exists(function (int $i, Relation $ir) use ($or) {
+        return $or->getTarget()->id == $ir->getSender()->id;
+      })) {
+        $relations[] = $or;
+      } else {
+        $pendingOut[] = $or;
+      }
+    }
+
+    foreach ($this->inRelations as $ir) {
+      // If relation is uni-directionnal
+      if (!$this->outRelations->exists(function (int $i, Relation $or) use ($ir) {
+        return $or->getTarget()->id == $ir->getSender()->id;
+      })) {
+        $pendingIn[] = $ir;
+      }
+    }
+
     return [
-      'outRelations' => $this->outRelations->getValues(),
-      'inRelations' => $this->inRelations->getValues()
+      'relations' => $relations,
+      'pendingOut' => $pendingOut,
+      'pendingIn' => $pendingIn
     ];
   }
 
@@ -177,11 +204,26 @@ class User implements JsonSerializable
   {
     return array_merge($this->outMessages->getValues(), $this->inMessages->getValues());
   }
-  public function getMessages(): array
+  public function getMessages(int $target_id): array
   {
+    $out = [];
+    $in = [];
+
+    foreach ($this->outMessages as $om) {
+      if ($om->getTarget()->id == $target_id) {
+        $out[] = $om;
+      }
+    }
+
+    foreach ($this->inMessages as $im) {
+      if ($im->getSender()->id == $target_id) {
+        $in[] = $im;
+      }
+    }
+
     return [
-      'outMessages' => $this->outMessages->getValues(),
-      'inMessages' => $this->inMessages->getValues()
+      'outMessages' => $out,
+      'inMessages' => $in,
     ];
   }
 
@@ -268,6 +310,7 @@ class User implements JsonSerializable
       'city' => $this->city,
       'country' => $this->country,
       'status' => $this->status,
+      'location' => $this->getLocation(),
       'created_at' => $this->created_at->format('c'),
     ];
   }

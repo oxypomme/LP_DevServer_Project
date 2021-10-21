@@ -1,5 +1,6 @@
 import { dest } from "gulp";
 import { pipeline } from "readable-stream";
+import del from "del";
 import sourcemaps from "gulp-sourcemaps";
 import tsify from "tsify";
 import { sync } from "glob";
@@ -27,4 +28,8 @@ export function transpileTS() {
     sourcemaps.write(".", { includeContent: false }),
     dest("dist/js")
   );
+}
+
+export function pruneJS() {
+  return del(["dist/js/*"]);
 }

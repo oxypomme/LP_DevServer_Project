@@ -4,24 +4,41 @@ dotenv({
 });
 
 import { task, watch, series, parallel } from "gulp";
-import del from "del";
 import { server } from "gulp-connect-php";
 import browserSync from "browser-sync";
 
-import { transpileTS } from "./javascript";
-import { transpileSCSS } from "./css";
+import { pruneJS, transpileTS } from "./javascript";
+import { pruneCSS, transpileSCSS } from "./css";
+import { addRessources, pruneRes } from "./res";
 
-function pruneJS() {
-  return del(["dist/js/*"]);
-}
-function pruneCSS() {
-  return del(["dist/css/*"]);
-}
-const prune = parallel(pruneJS, pruneCSS);
+const prune = parallel(pruneJS, pruneCSS, pruneRes);
 
 // TODO?: Resize images ?
 
-task("build", series(prune, parallel(transpileTS, transpileSCSS)));
+function reload() {
+  return new Promise<void>((res, rej) => {
+    try {
+      browserSync.reload();
+      res();
+    } catch (error) {
+      rej(error);
+    }
+  });
+}
+
+task(
+  "build",
+  series(prune, parallel(transpileTS, transpileSCSS, addRessources))
+);
+
+function watchDev() {
+  watch("src/**/*.ts", series(pruneJS, transpileTS, reload));
+  watch("src/**/*.scss", series(pruneCSS, transpileSCSS, reload));
+  watch("res/**/*", series(pruneRes, addRessources, reload));
+  watch("php/**/*", reload);
+}
+
+task("watch", watchDev);
 
 task("serve", function () {
   server(
@@ -35,21 +52,12 @@ task("serve", function () {
       });
     }
   );
-
-  watch(["php/**/*", "src/**/*"]).on("change", function () {
-    browserSync.reload();
-  });
-  watch("src/**/*.ts", series(pruneJS, transpileTS));
-  watch("src/**/*.scss", series(pruneCSS, transpileSCSS));
+  watchDev();
 });
 
 task("docker", function () {
   browserSync({
-    proxy: `127.0.0.1:${process.env.HTTP_PORT}`,
+    proxy: `127.0.0.1:${process.env.HTTP_PORT ?? 8080}`,
   });
-  watch(["php/**/*", "src/**/*"]).on("change", function () {
-    browserSync.reload();
-  });
-  watch("src/**/*.ts", series(pruneJS, transpileTS));
-  watch("src/**/*.scss", series(pruneCSS, transpileSCSS));
+  watchDev();
 });

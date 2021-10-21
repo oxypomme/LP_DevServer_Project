@@ -1,3 +1,11 @@
+type APIInput =
+  | ILogin
+  | IUserInput
+  | IGroupInput
+  | IRelationInput
+  | ILocationInput
+  | IMessageInput;
+
 interface ILogin {
   username: string;
   password: string;
@@ -12,6 +20,7 @@ interface IUserInput {
   address: string;
   city: string;
   country: string;
+  status?: EStatus;
 }
 
 interface IGroupInput {

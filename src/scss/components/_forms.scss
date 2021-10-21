@@ -1,0 +1,58 @@
+$form-field--left-margin: 0.5em !default;
+$form-field-label--top-standby: false !default;
+
+@mixin form-field-container {
+  position: relative;
+}
+
+@mixin form-field {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #f1f1f1;
+  font-family: inherit;
+  font-size: medium;
+}
+
+@mixin form-field-label() {
+  position: absolute;
+  top: calc(50% - 0.57em);
+  left: $form-field--left-margin;
+  pointer-events: none;
+
+  color: #817d81;
+
+  @if $form-field-label--top-standby {
+    transition: top 0.25s, color 0.25s;
+  } @else {
+    transition: transform 0.25s, color 0.25s;
+  }
+}
+
+@mixin form-field-label--focused() {
+  pointer-events: initial;
+  color: inherit;
+
+  @if $form-field-label--top-standby {
+    top: -1.25em;
+  } @else {
+    transform: translateX(calc(-100% - 2 * $form-field--left-margin));
+  }
+}
+
+@mixin form-field-label--required {
+  content: "*";
+  color: red;
+}
+
+@mixin form-field-error {
+  position: absolute;
+  top: 0;
+  left: calc(100% + $form-field--left-margin);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

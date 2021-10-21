@@ -1,25 +1,24 @@
 <?php
 
-namespace Crisis\Actions\Users\Messages;
+namespace Crisis\Actions\Users;
 
 use Crisis\Models\User;
 use Crisis\Actions\ProtectedInvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpException;
 
-class ListMessages extends ProtectedInvokableEMAction
+class GetCurrentUser extends ProtectedInvokableEMAction
 {
   public function handle(Request $request, Response $response, array $args): Response
   {
     // Check authorisations
-    $this->checkUser($request, (int) $args['user_id']);
+    $user_id = $this->checkUser($request);
 
     /** @var User $user */
     $user = $this->em
       ->getRepository(User::class)
-      ->find((int) $args['user_id']);
+      ->find($user_id);
 
-    return $this->createResponse($user->getMessages((int) $args['target_id']));
+    return $this->createResponse($user);
   }
 }

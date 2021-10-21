@@ -67,10 +67,10 @@ class Slim implements \UMA\DIC\ServiceProvider
             // Slim routes here
             $app->group('/', function (RouteCollectorProxy $group) use ($renderer) {
                 $group->get('', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "home.phtml", ['title' => 'Signin']);
+                    return $renderer->render($response, "home.phtml", ['title' => 'Signin', 'nonav' => true]);
                 });
                 $group->get('register', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "register.phtml", ['title' => 'Signup']);
+                    return $renderer->render($response, "register.phtml", ['title' => 'Signup', 'nonav' => true]);
                 });
                 $group->get('welcome', function (Request $request, Response $response, array $args) use ($renderer) {
                     return $renderer->render($response, "welcome.phtml", ['title' => 'Welcome']);
@@ -79,7 +79,13 @@ class Slim implements \UMA\DIC\ServiceProvider
                     return $renderer->render($response, "messages.phtml", ['title' => 'Messages']);
                 });
                 $group->get('board', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "board.phtml", ['title' => 'board']);
+                    return $renderer->render($response, "board.phtml", ['title' => 'Board']);
+                });
+                $group->get('account', function (Request $request, Response $response, array $args) use ($renderer) {
+                    return $renderer->render($response, "account.phtml", ['title' => 'My Account']);
+                });
+                $group->get('map', function (Request $request, Response $response, array $args) use ($renderer) {
+                    return $renderer->render($response, "map.phtml", ['title' => 'Map']);
                 });
                 $group->post('auth[/]', Actions\Auth\GetJWTToken::class);
             });
@@ -91,11 +97,12 @@ class Slim implements \UMA\DIC\ServiceProvider
             });
 
             $app->get('/auth[/]', Actions\Auth\CheckJWTToken::class)->add($jwtAuthMiddleware);
-            $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
+            $app->group('/api', function (RouteCollectorProxy $group) {
                 //Group for API calls
                 $group->group('/users', function (RouteCollectorProxy $group) {
                     // Group for user list
                     $group->get('[/]', Actions\Users\ListUsers::class);
+                    $group->get('/me[/]', Actions\Users\GetCurrentUser::class);
 
                     $group->group('/{user_id:[0-9]+}', function (RouteCollectorProxy $group) {
                         // Group for specific user
@@ -136,10 +143,12 @@ class Slim implements \UMA\DIC\ServiceProvider
                         });
 
                         $group->group('/messages', function (RouteCollectorProxy $group) {
-                            // Group for user's messages
-                            $group->get('[/]', Actions\Users\Messages\ListMessages::class);
+                            $group->group('/{target_id:[0-9]+}', function (RouteCollectorProxy $group) {
+                                // Group for user's messages against target
+                                $group->get('[/]', Actions\Users\Messages\ListMessages::class);
 
-                            $group->get('/{message_id:[0-9]+}[/]', Actions\Users\Messages\GetMessage::class);
+                                $group->get('/{message_id:[0-9]+}[/]', Actions\Users\Messages\GetMessage::class);
+                            });
                         });
                     });
                 });
@@ -176,7 +185,6 @@ class Slim implements \UMA\DIC\ServiceProvider
                 });
             })->add($jwtAuthMiddleware);
 
-
             $app->get('/static/{file:.*}', function (Request $request, Response $response, $args) {
                 $filePath = APP_ROOT . '/dist/' . $args['file'];
 
@@ -200,10 +208,21 @@ class Slim implements \UMA\DIC\ServiceProvider
                 }
 
                 $newResponse = $response->withHeader('Content-Type', $mimeType . '; charset=UTF-8');
-
                 $newResponse->getBody()->write(file_get_contents($filePath));
 
                 return $newResponse;
+            });
+
+            $app->get('/favicon.ico', function (Request $request, Response $response, $args) {
+                $filePath = APP_ROOT . '/dist/res/favicon.ico';
+                if (!file_exists($filePath)) {
+                    return $response->withStatus(404, 'File Not Found');
+                }
+
+                $newResponse = $response; //->withHeader('Content-Type', $mimeType . '; charset=UTF-8');
+                $newResponse->getBody()->write(file_get_contents($filePath));
+
+                return $response;
             });
 
             return $app;
