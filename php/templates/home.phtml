@@ -18,6 +18,8 @@
       </label>
     </div>
     <input class="form-button" type="submit" value="Signin">
+    <input type="hidden" name="<?= $csrf['nameKey'] ?>" value="<?= $csrf['name'] ?>">
+    <input type="hidden" name="<?= $csrf['valueKey'] ?>" value="<?= $csrf['value'] ?>">
   </form>
   <div id="signin-result" class="message">
   </div>

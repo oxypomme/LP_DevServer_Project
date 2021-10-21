@@ -30,7 +30,7 @@ class GetJWTToken extends InvokableEMAction
 
         $token = $builder->setSecret($this->settings['jwt']['secret'])
           ->setSubject($user->id)
-          //->setIssuer('')
+          ->setIssuer($_SERVER['HTTP_HOST']) // Still need to test
           ->setIssuedAt($now->getTimestamp())
           ->setExpiration($expiration->getTimestamp())
           ->build();

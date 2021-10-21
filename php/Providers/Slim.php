@@ -23,7 +23,6 @@ class Slim implements \UMA\DIC\ServiceProvider
         $c->set(\Slim\App::class, static function (Container $c): \Slim\App {
             /** @var array $settings */
             $settings = $c->get('settings');
-            $renderer = $c->get(\Slim\Views\PhpRenderer::class);
 
             $app = \Slim\Factory\AppFactory::create(null, $c);
 
@@ -46,11 +45,12 @@ class Slim implements \UMA\DIC\ServiceProvider
             $c->set('csrf', function () use ($responseFactory) {
                 return new \Slim\Csrf\Guard($responseFactory);
             });
+            $csrfMiddleware = $c->get('csrf');
             // Adding CORS
             $app->options('/{routes:.+}', function ($request, $response, $args) {
                 return $response;
             });
-            $app->add(function ($request, $handler) {
+            $corsMiddleware = function ($request, $handler) {
                 $response = $handler->handle($request);
                 return $response
                     ->withHeader('Access-Control-Allow-Origin', 'https://oxypomme.fr') // Production Server
@@ -58,7 +58,8 @@ class Slim implements \UMA\DIC\ServiceProvider
                     ->withHeader('Access-Control-Allow-Credentials', 'true')
                     ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
                     ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-            });
+            };
+            $app->add($corsMiddleware);
 
             // Matching Slim Errors to Base Response
             $errorHandler = $errorMiddleware->getDefaultErrorHandler();
@@ -79,42 +80,27 @@ class Slim implements \UMA\DIC\ServiceProvider
                                 . $trace['function'];
                         }
                     }
-                    return \json_encode($res);
+                    return \Crisis\JSON::encode($res);
                 });
             }
 
-            // Slim routes here
-            $app->group('/', function (RouteCollectorProxy $group) use ($renderer) {
-                $group->get('', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "home.phtml", ['title' => 'Signin', 'nonav' => true]);
-                });
-                $group->get('register', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "register.phtml", ['title' => 'Signup', 'nonav' => true]);
-                });
-                $group->get('welcome', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "welcome.phtml", ['title' => 'Welcome']);
-                });
-                $group->get('messages', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "messages.phtml", ['title' => 'Messages']);
-                });
-                $group->get('board', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "board.phtml", ['title' => 'Board']);
-                });
-                $group->get('account', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "account.phtml", ['title' => 'My Account']);
-                });
-                $group->get('map', function (Request $request, Response $response, array $args) use ($renderer) {
-                    return $renderer->render($response, "map.phtml", ['title' => 'Map']);
-                });
-                $group->post('auth[/]', Actions\Auth\GetJWTToken::class);
-            });
-
-            // Theses routes are not in group because they can't be protected by Auth
+            // Public routes (not protected by Auth or by CSRF)
+            $app->post('/auth[/]', Actions\Auth\GetJWTToken::class);
             $app->post('/api/users[/]', Actions\Users\NewUser::class);
-            $app->get('/api[/]', function (Request $request, Response $response, array $args) use ($renderer) {
-                return $renderer->render($response, "api_doc.phtml", ['title' => 'Documentation']);
-            });
 
+            // Client routes here (CSRF protected routes)
+            $app->group('/', function (RouteCollectorProxy $group) use ($c) {
+                $group->get('[/]', new Actions\RenderAction($c, "home", ['title' => 'Signin', 'nonav' => true]));
+                $group->get('register[/]', new Actions\RenderAction($c, "register", ['title' => 'Signup', 'nonav' => true]));
+                $group->get('welcome[/]', new Actions\RenderAction($c, "welcome", ['title' => 'Welcome']));
+                $group->get('messages[/]', new Actions\RenderAction($c, "messages", ['title' => 'Messages']));
+                $group->get('board[/]', new Actions\RenderAction($c, "board", ['title' => 'Board']));
+                $group->get('account[/]', new Actions\RenderAction($c, "account", ['title' => 'My Account']));
+                $group->get('map[/]', new Actions\RenderAction($c, "map", ['title' => 'Map']));
+                $group->get('api[/]', new Actions\RenderAction($c, "api_doc", ['title' => 'Documentation', 'nonav' => true]));
+            })->add($csrfMiddleware);
+
+            // Auth protected routes
             $app->get('/auth[/]', Actions\Auth\CheckJWTToken::class)->add($jwtAuthMiddleware);
             $app->group('/api', function (RouteCollectorProxy $group) {
                 //Group for API calls
