@@ -4,7 +4,20 @@ interface IPing {
   startTime: number;
 }
 
-type IWSPayload = IMessage | IMessageInput | IPing;
+interface IConnection {
+  id: number;
+}
+
+interface IDisconnection {
+  id: number;
+}
+
+type IWSPayload =
+  | IMessage
+  | IMessageInput
+  | IPing
+  | IConnection
+  | IDisconnection;
 
 interface IWSPacket {
   type: WSPacketTypes;

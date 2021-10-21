@@ -79,7 +79,7 @@ class ServerImpl implements MessageComponentInterface
   public function onOpen(ConnectionInterface $conn)
   {
     // $this->clients->attach($conn);
-    echo "New connection! ({$conn->resourceId}).\n";
+    echo "\nNew connection! ({$conn->resourceId}).\n\n";
   }
 
   public function onMessage(ConnectionInterface $conn, $inMsg)
@@ -97,9 +97,23 @@ class ServerImpl implements MessageComponentInterface
 
     if (!$this->clients->contains($conn)) {
       $this->clients->attach($conn, $sender);
+      $data = [
+        'type' => 'connection_in',
+        'payload' => [
+          'id' => $sender->id
+        ]
+      ];
+      foreach ($sender->getRelations()['relations'] as $rel) {
+        /** @var \Crisis\Models\Relation $rel */
+        try {
+          $this->sendMessage(JSON::encode($data), $rel->getTarget());
+        } catch (\Throwable $th) {
+          continue;
+        }
+      }
     }
 
-    echo sprintf("New message from '%s': %s\n\n", $conn->resourceId, JSON::encode($event));
+    echo sprintf("\nNew message from '%s': %s\n\n", $conn->resourceId, JSON::encode($event));
     switch ($event->type) {
       case 'ping':
         $conn->send(JSON::encode($event));
@@ -236,13 +250,29 @@ class ServerImpl implements MessageComponentInterface
 
   public function onClose(ConnectionInterface $conn)
   {
+    $sender = $this->clients[$conn];
+    $data = [
+      'type' => 'connection_out',
+      'payload' => [
+        'id' => $sender->id
+      ]
+    ];
+    foreach ($sender->getRelations()['relations'] as $rel) {
+      /** @var \Crisis\Models\Relation $rel */
+      try {
+        $this->sendMessage(JSON::encode($data), $rel->getTarget());
+      } catch (\Throwable $th) {
+        continue;
+      }
+    }
+
     $this->clients->detach($conn);
-    echo "Connection {$conn->resourceId} is gone.\n";
+    echo "\nConnection {$conn->resourceId} is gone.\n\n";
   }
 
   public function onError(ConnectionInterface $conn, \Exception $e)
   {
-    echo "An error occured on connection {$conn->resourceId}: {$e->getMessage()}\n\n\n";
+    echo "\n\nAn error occured on connection {$conn->resourceId}: {$e->getMessage()}\n\n";
     $conn->close();
   }
 }
@@ -260,5 +290,5 @@ $server = IoServer::factory(
   ),
   $port
 );
-echo "Server created on port $port\n\n";
+echo "\nServer created on port $port\n\n";
 $server->run();

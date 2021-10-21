@@ -7,6 +7,8 @@ enum WSPacketTypes {
   MESSAGE = "message",
   MESSAGE_EDITED = "message_edit",
   MESSAGE_DELETION = "message_deletion",
+  FRIEND_CONNECTION = "connection_in",
+  FRIEND_DISCONNECTION = "connection_out",
 }
 
 function send(type: WSPacketTypes, data: IWSPayload): void {
@@ -117,6 +119,14 @@ if (ws) {
         break;
 
       case WSPacketTypes.MESSAGE_DELETION:
+        // TODO
+        break;
+
+      case WSPacketTypes.FRIEND_CONNECTION:
+        // TODO
+        break;
+
+      case WSPacketTypes.FRIEND_DISCONNECTION:
         // TODO
         break;
 
