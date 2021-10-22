@@ -4,6 +4,8 @@ import {
   onFriendConnection,
   onFriendDisconnection,
   onFriendList,
+  onMessageDeleted,
+  onMessageEdited,
   onNewMessage,
 } from "./chat";
 import { IConnection, IPing, IWSPacket, IWSPayload } from "./types";
@@ -123,11 +125,11 @@ if (ws) {
         break;
 
       case WSPacketTypes.MESSAGE_EDITED:
-        // TODO
+        onMessageEdited(event.payload as IMessage);
         break;
 
       case WSPacketTypes.MESSAGE_DELETION:
-        // TODO
+        onMessageDeleted(event.payload as IMessage);
         break;
 
       case WSPacketTypes.FRIEND_LIST:

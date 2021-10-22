@@ -6,7 +6,7 @@ import { ILocation, IUser } from "./types/responses";
 let mymap: Map | null = null;
 const markers: { [user_id: string]: Marker } = {};
 
-// TODO: Rayon ?
+//? Rayon
 
 (async () => {
   const { status: authStatus } = await fetchAPI("GET /auth");

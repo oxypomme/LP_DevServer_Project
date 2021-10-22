@@ -11,7 +11,7 @@ class ListGroupMessages extends ProtectedInvokableEMAction
 {
   public function handle(Request $request, Response $response, array $args): Response
   {
-    // TODO?: Visible only by owner/members ?
+    //? Visible only by owner/members
 
     /** @var Group $group */
     $group = $this->em

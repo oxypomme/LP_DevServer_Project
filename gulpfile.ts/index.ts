@@ -13,8 +13,6 @@ import { addRessources, pruneRes } from "./res";
 
 const prune = parallel(pruneJS, pruneCSS, pruneRes);
 
-// TODO?: Resize images ?
-
 function reload() {
   return new Promise<void>((res, rej) => {
     try {

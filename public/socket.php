@@ -167,7 +167,7 @@ class ServerImpl implements MessageComponentInterface
         try {
           $this->sendMessage(JSON::encode($data), $target, $group);
         } catch (\Throwable $th) {
-          // TODO: Error management ?
+          //? Error management
         }
 
         try {
@@ -212,7 +212,7 @@ class ServerImpl implements MessageComponentInterface
         try {
           $this->sendMessage(JSON::encode($data), $msg->getTarget(), $msg->getGroup());
         } catch (\Throwable $th) {
-          // TODO: Error management ?
+          //? Error management
         }
 
         try {
@@ -256,7 +256,7 @@ class ServerImpl implements MessageComponentInterface
         try {
           $this->sendMessage(JSON::encode($data), $target, $group);
         } catch (\Throwable $th) {
-          // TODO: Error management ?
+          //? Error management
         }
 
         try {

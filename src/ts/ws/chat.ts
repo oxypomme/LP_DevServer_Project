@@ -16,7 +16,6 @@ async function onFriendClick(e: Event, { id }: IUser) {
       `GET /api/users/${current_id}/messages/${id}`
     );
     if (status === StatusCodes.OK && typeof payload !== "string") {
-      //? Maybe not in the right order
       const messages = [...payload.outMessages, ...payload.inMessages].sort(
         (a, b) =>
           new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
@@ -136,6 +135,16 @@ export function onNewMessage(message: IMessage): void {
       messageToHTML(message, message.sender.id === current_id)
     );
   }
+}
+
+export function onMessageEdited(message: IMessage): void {
+  // TODO: Message Edition
+  throw new Error("NotImplementedError");
+}
+
+export function onMessageDeleted(message: IMessage): void {
+  // TODO: Message Deletion
+  throw new Error("NotImplementedError");
 }
 
 export function onFriendList(relations: IRelation[]): void {
