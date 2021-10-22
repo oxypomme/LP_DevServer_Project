@@ -1,9 +1,10 @@
-import { IRelationList } from "../types/responses";
+import { IMessage, IRelationList } from "../types/responses";
 import WindowEnv from "../windowEnv";
 import {
   onFriendConnection,
   onFriendDisconnection,
   onFriendList,
+  onNewMessage,
 } from "./chat";
 import { IConnection, IPing, IWSPacket, IWSPayload } from "./types";
 
@@ -118,7 +119,7 @@ if (ws) {
         break;
 
       case WSPacketTypes.MESSAGE:
-        // TODO
+        onNewMessage(event.payload as IMessage);
         break;
 
       case WSPacketTypes.MESSAGE_EDITED:

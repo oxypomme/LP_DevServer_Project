@@ -166,13 +166,23 @@ class ServerImpl implements MessageComponentInterface
 
         try {
           $this->sendMessage(JSON::encode($data), $target, $group);
+        } catch (\Throwable $th) {
+          // TODO: Error management ?
+        }
 
+        try {
           $this->em->persist($msg);
           $this->em->flush();
         } catch (\Throwable $th) {
-          // TODO: Error management
-          throw $th;
+          $this->em->rollback();
+          $conn->send(JSON::encode([
+            'type' => "error",
+            "payload" => $th->getMessage()
+          ]));
+          return;
         }
+        // Send feedback
+        $conn->send(JSON::encode($data));
 
         break;
 
@@ -201,13 +211,24 @@ class ServerImpl implements MessageComponentInterface
 
         try {
           $this->sendMessage(JSON::encode($data), $msg->getTarget(), $msg->getGroup());
+        } catch (\Throwable $th) {
+          // TODO: Error management ?
+        }
 
+        try {
           $this->em->persist($msg);
           $this->em->flush();
         } catch (\Throwable $th) {
-          // TODO: Error management
-          throw $th;
+          $this->em->rollback();
+          $conn->send(JSON::encode([
+            'type' => "error",
+            "payload" => $th->getMessage()
+          ]));
+          return;
         }
+        // Send feedback
+        $conn->send(JSON::encode($data));
+
         break;
 
       case 'message_deletion':
@@ -235,8 +256,7 @@ class ServerImpl implements MessageComponentInterface
         try {
           $this->sendMessage(JSON::encode($data), $target, $group);
         } catch (\Throwable $th) {
-          // TODO: Error management
-          throw $th;
+          // TODO: Error management ?
         }
 
         try {
@@ -252,8 +272,11 @@ class ServerImpl implements MessageComponentInterface
             'type' => "error",
             "payload" => $th->getMessage()
           ]));
-          throw $th;
+          return;
         }
+        // Send feedback
+        $conn->send(JSON::encode($data));
+
         break;
 
       default:

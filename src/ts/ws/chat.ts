@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import { sendMessage } from ".";
 import { fetchAPI } from "../api";
 import { IMessage, IUser, IMessageList, IRelation } from "../types/responses";
 
@@ -115,6 +116,28 @@ function messageToHTML(message: IMessage, isSelf = false): HTMLElement {
   return container;
 }
 
+export function onNewMessage(message: IMessage): void {
+  let target: number | undefined = undefined;
+  if (message.target) {
+    if (message.sender.id === current_id) {
+      target = message.target.id;
+    } else {
+      target = message.sender.id;
+    }
+  } else {
+    // TODO: groups
+  }
+
+  if (active_id && active_id === target) {
+    const messagesContainer = document.querySelector(
+      ".messages .conversation-messages"
+    );
+    messagesContainer?.appendChild(
+      messageToHTML(message, message.sender.id === current_id)
+    );
+  }
+}
+
 export function onFriendList(relations: IRelation[]): void {
   const relationsContainer = document.querySelector(
     ".messages > .conversations"
@@ -129,7 +152,9 @@ export function onFriendList(relations: IRelation[]): void {
 }
 
 (async () => {
-  const messageForm = document.getElementById("message-form");
+  const messageForm = document.getElementById(
+    "message-form"
+  ) as HTMLFormElement;
   if (messageForm) {
     const { status: myStatus, payload: currentUser } = await fetchAPI<IUser>(
       "GET /api/users/me"
@@ -138,24 +163,22 @@ export function onFriendList(relations: IRelation[]): void {
       console.error("[MSG]", currentUser);
       return;
     }
-    // ? Merge two requests
     current_id = currentUser.id;
-    // const { status, payload } = await fetchAPI<IRelationList>(
-    //   `GET /api/users/${currentUser.id}/relations`
-    // );
-    // if (status === StatusCodes.OK && typeof payload !== "string") {
-    //   const relationsContainer = document.querySelector(
-    //     ".messages > .conversations"
-    //   );
-    //   if (relationsContainer) {
-    //     const frag = document.createDocumentFragment();
-    //     for (const { target } of payload.relations) {
-    //       frag.appendChild(friendToHTML(target));
-    //     }
-    //     relationsContainer.appendChild(frag);
-    //   }
-    // } else {
-    //   // error management
-    // }
+
+    if (!messageForm.onsubmit) {
+      messageForm.onsubmit = (e) => {
+        e.preventDefault();
+        if (active_id) {
+          const data = new FormData(messageForm);
+          const message = data.get("new-message") as string;
+          if (message) {
+            sendMessage(message, "", active_id);
+            messageForm.reset();
+          }
+        } else {
+          //TODO: No selection
+        }
+      };
+    }
   }
 })();
