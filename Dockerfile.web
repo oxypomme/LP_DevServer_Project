@@ -8,6 +8,14 @@ COPY /config ./config
 # Upgrade + install driver
 RUN apk update \
   && apk upgrade -U -a \
+  # && apk add --no-cache openssl \
+  # # Generate SSL
+  # && mkdir ssl \
+  # && openssl genrsa -aes256 -out crisis.key 4096 \
+  # && mv crisis.key crisis.key.lock \
+  # && openssl rsa -in crisis.key.lock -out crisis.key \
+  # && openssl req -new -key crisis.key.lock -out crisis.csr \
+  # && openssl x509 -req -days 365 -in crisis.csr -signkey crisis.key.lock -out certificat.crt \
   # Add config files
   && mkdir /usr/local/apache2/conf/conf.d/ \
   && mv -v ./config/apache2/* /usr/local/apache2/conf/conf.d/ \

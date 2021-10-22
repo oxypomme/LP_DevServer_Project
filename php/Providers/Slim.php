@@ -66,7 +66,7 @@ class Slim implements \UMA\DIC\ServiceProvider
             $corsMiddleware = function ($request, $handler) {
                 $response = $handler->handle($request);
                 return $response
-                    ->withHeader('Access-Control-Allow-Origin', 'https://oxypomme.fr') // Production Server
+                    ->withHeader('Access-Control-Allow-Origin', 'https://crisis.fr') // Production Server
                     ->withHeader('Vary', 'Origin')
                     ->withHeader('Access-Control-Allow-Credentials', 'true')
                     ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
