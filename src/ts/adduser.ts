@@ -16,6 +16,8 @@ if (registerForm && !registerForm.onsubmit) {
     const country = data.get("country") as string;
     const password = data.get("password") as string;
     const confirmPassword = data.get("confirm-password") as string;
+    const csrf_name = data.get("csrf_name") as string;
+    const csrf_value = data.get("csrf_value") as string;
     if (
       username.length != 0 &&
       email.length != 0 &&
@@ -24,19 +26,26 @@ if (registerForm && !registerForm.onsubmit) {
       address.length != 0 &&
       city.length != 0 &&
       country.length != 0 &&
-      password.length != 0
+      password.length != 0 &&
+      csrf_name &&
+      csrf_value
     ) {
       if (password === confirmPassword) {
-        const { status, payload } = await fetchAPI<IUser>("POST /api/users", {
-          username,
-          email,
-          phone,
-          birthdate,
-          address,
-          city,
-          country,
-          password,
-        });
+        const { status, payload } = await fetchAPI<IUser, CSRF<IUserInput>>(
+          "POST /api/users",
+          {
+            username,
+            email,
+            phone,
+            birthdate,
+            address,
+            city,
+            country,
+            password,
+            csrf_name,
+            csrf_value,
+          }
+        );
         // TODO: Error management + action on success
       }
     } else {

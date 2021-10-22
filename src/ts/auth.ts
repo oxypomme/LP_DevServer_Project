@@ -51,12 +51,19 @@ const nonProtected = ["/", "/register", "/api"];
 
       const username = data.get("username") as string;
       const password = data.get("password") as string;
-      if (username && password) {
+      const csrf_name = data.get("csrf_name") as string;
+      const csrf_value = data.get("csrf_value") as string;
+      if (username && password && csrf_name && csrf_value) {
         try {
-          const { status, payload } = await fetchAPI<IToken>("POST /auth", {
-            username,
-            password,
-          });
+          const { status, payload } = await fetchAPI<IToken, CSRF<ILogin>>(
+            "POST /auth",
+            {
+              username,
+              password,
+              csrf_name,
+              csrf_value,
+            }
+          );
           if (status === StatusCodes.OK && typeof payload !== "string") {
             onAuthed(payload.token);
           } else {

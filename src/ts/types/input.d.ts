@@ -6,6 +6,13 @@ type APIInput =
   | ILocationInput
   | IMessageInput;
 
+interface ICSRF {
+  csrf_name: string;
+  csrf_value: string;
+}
+
+type CSRF<T extends APIInput> = ICSRF & T;
+
 interface ILogin {
   username: string;
   password: string;

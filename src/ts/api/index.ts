@@ -30,9 +30,12 @@ type ApiEndoints = AuthEndpoints | `api/${UserEndpoints | GroupEndpoints}`;
 
 type APIUrl = `${HttpMethods} /${ApiEndoints}`;
 
-export const fetchAPI = async <T extends APIResult>(
+export const fetchAPI = async <
+  T extends APIResult,
+  I extends APIInput = APIInput
+>(
   endpoint: APIUrl,
-  body?: APIInput,
+  body?: I | CSRF<I>,
   init?: RequestInit,
   headers?: HeadersInit
 ): Promise<IResponse<T>> => {

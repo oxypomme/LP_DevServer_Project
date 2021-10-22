@@ -43,7 +43,20 @@ class Slim implements \UMA\DIC\ServiceProvider
             session_start();
             $responseFactory = $app->getResponseFactory();
             $c->set('csrf', function () use ($responseFactory) {
-                return new \Slim\Csrf\Guard($responseFactory);
+                $guard = new \Slim\Csrf\Guard($responseFactory);
+                $guard->setFailureHandler(function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($responseFactory) {
+                    $response = $responseFactory->createResponse();
+                    $body = $response->getBody();
+                    $body->write(\Crisis\JSON::encode([
+                        'status' => 400,
+                        'payload' => 'Failed CSRF check'
+                    ]));
+                    return $response
+                        ->withStatus(400)
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withBody($body);
+                });
+                return $guard;
             });
             $csrfMiddleware = $c->get('csrf');
             // Adding CORS

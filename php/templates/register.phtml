@@ -80,6 +80,9 @@
 
   <input class="form-button" type="submit" value="Signup">
   <span id="submit-error" class="error-message">The form is not complete</span>
+
+  <input type="hidden" name="<?= $csrf['nameKey'] ?>" value="<?= $csrf['name'] ?>">
+  <input type="hidden" name="<?= $csrf['valueKey'] ?>" value="<?= $csrf['value'] ?>">
 </form>
 <div id="login-result" class="message">
 </div>
