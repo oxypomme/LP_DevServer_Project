@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { map, Map, marker, Marker, tileLayer } from "leaflet";
 import { fetchAPI } from "./api";
+import { importStyle } from "./imports";
 import { ILocation, IUser } from "./types/responses";
 
 let mymap: Map | null = null;
@@ -12,6 +13,11 @@ const markers: { [user_id: string]: Marker } = {};
   const { status: authStatus } = await fetchAPI("GET /auth");
 
   if (document.getElementById("mapid")) {
+    await importStyle("https://unpkg.com/leaflet@1.7.1/dist/leaflet.css", {
+      intergrity:
+        "sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==",
+      crossOrigin: "",
+    });
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         const latLng = {
