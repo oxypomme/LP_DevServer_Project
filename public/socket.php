@@ -27,8 +27,14 @@ class ServerImpl implements MessageComponentInterface
     $this->settings = $cnt->get('settings');
   }
 
-  public function checkJWT(string $jwt): ?User
+  public function checkJWT(?string $jwt): ?User
   {
+    // If no JWT Provided
+    if (!$jwt) {
+      return null;
+    }
+
+    // Validate JWT
     $factory = new \PsrJwt\Factory\Jwt();
     $parser = $factory->parser($jwt, $this->settings['jwt']['secret']);
     try {
@@ -36,8 +42,9 @@ class ServerImpl implements MessageComponentInterface
     } catch (\ReallySimpleJWT\Exception\ValidateException $th) {
       return null;
     }
-    $parsed = $parser->parse();
 
+    // Validate User
+    $parsed = $parser->parse();
     $auth_user_id = (int) $parsed->getSubject();
     $user = $this->em
       ->getRepository(User::class)
@@ -85,19 +92,21 @@ class ServerImpl implements MessageComponentInterface
   public function onMessage(ConnectionInterface $conn, $inMsg)
   {
     $event = json_decode($inMsg);
-    $sender = $this->checkJWT($event->jwt);
-    if (is_null($sender->id)) {
-      $conn->send(JSON::encode([
-        'type' => "error",
-        "payload" => "Auth Failed"
-      ]));
-      return;
-    }
-    unset($event->jwt);
 
     // If first time connection
     if (!$this->clients->contains($conn)) {
+      // Checking Auth
+      $sender = $this->checkJWT($event->jwt);
+      if (is_null($sender->id)) {
+        $conn->send(JSON::encode([
+          'type' => "error",
+          "payload" => "Auth Failed"
+        ]));
+        return;
+      }
+
       $this->clients->attach($conn, $sender);
+
       // Notify his friend that he's connected
       $data = [
         'type' => 'connection_in',
@@ -126,6 +135,13 @@ class ServerImpl implements MessageComponentInterface
         'type' => 'friends',
         'payload' => $rels
       ]));
+    } else {
+      $sender = $this->clients->offsetGet($conn);
+    }
+
+    // Removing JWT if present
+    if ($event->jwt) {
+      unset($event->jwt);
     }
 
     echo sprintf("\nNew message from '%s': %s\n\n", $conn->resourceId, JSON::encode($event));

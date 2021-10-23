@@ -21,12 +21,18 @@ enum WSPacketTypes {
   FRIEND_DISCONNECTION = "connection_out",
 }
 
-function send(type: WSPacketTypes, data: IWSPayload): void {
+let isJWTSent = false;
+
+function send(type: WSPacketTypes, data: IWSPayload, forceAuth = false): void {
   const event: IWSPacket = {
     type,
-    jwt: localStorage.getItem("authToken") ?? "",
     payload: data,
   };
+  // Send auth if first time or forced
+  if (!isJWTSent || forceAuth) {
+    isJWTSent = true;
+    event.jwt = localStorage.getItem("authToken") ?? undefined;
+  }
   console.log("[DEBUG] [WS] Outgoing :", event);
   ws?.send(JSON.stringify(event));
 }
