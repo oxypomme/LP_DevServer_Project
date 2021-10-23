@@ -6,6 +6,7 @@ use Crisis\Models\User;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpException;
 use Crisis\Actions\InvokableEMAction;
+use Slim\Exception\HttpUnauthorizedException;
 
 abstract class ProtectedInvokableEMAction extends InvokableEMAction
 {
@@ -34,7 +35,7 @@ abstract class ProtectedInvokableEMAction extends InvokableEMAction
 
 
     if (!$res) {
-      throw new HttpException($request, 'Unauthorized', 401);
+      throw new HttpUnauthorizedException($request, 'Unauthorized');
     }
     return $auth_user_id;
   }

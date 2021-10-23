@@ -6,7 +6,7 @@ use Crisis\Models\User;
 use Crisis\Actions\InvokableEMAction;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpException;
+use Slim\Exception\HttpUnauthorizedException;
 
 class GetJWTToken extends InvokableEMAction
 {
@@ -43,6 +43,6 @@ class GetJWTToken extends InvokableEMAction
       };
     }
 
-    throw new HttpException($request, 'Bad Creditentials', 401);
+    throw new HttpUnauthorizedException($request, 'Bad Creditentials');
   }
 }
