@@ -83,13 +83,41 @@ class Slim implements \UMA\DIC\ServiceProvider
                     ];
                     if ($displayErrorDetails) {
                         $res['trace'] = [];
-                        foreach ($exception->getTrace() as $key => $trace) {
-                            $res['trace'][] = "#{$key}"
-                                . $trace['file']
+                        foreach ($exception->getTrace() as $trace) {
+                            $argstr = '(';
+                            $i = 0;
+                            foreach ($trace['args'] as $arg) {
+                                if ($i > 0) {
+                                    $argstr .= ', ';
+                                }
+                                switch (gettype($arg)) {
+                                    case 'object':
+                                        $argstr .= get_class($arg);
+                                        break;
+                                    case 'boolean':
+                                    case 'integer':
+                                    case 'double':
+                                    case 'string':
+                                        $argstr .= $arg;
+                                        break;
+                                    case 'NULL':
+                                        $argstr .= "NULL";
+                                        break;
+                                    default:
+                                        $argstr .= gettype($arg);
+                                        break;
+                                }
+                                $i++;
+                            }
+                            $argstr .= ')';
+
+                            $res['trace'][] =
+                                $trace['file']
                                 . '(' . $trace['line'] . '): '
                                 . $trace['class']
                                 . $trace['type']
-                                . $trace['function'];
+                                . $trace['function']
+                                . $argstr;
                         }
                     }
                     return \Crisis\JSON::encode($res);
@@ -246,7 +274,7 @@ class Slim implements \UMA\DIC\ServiceProvider
              * Catch-all route to serve a 404 Not Found page if none of the routes match
              * NOTE: make sure this route is defined last
              */
-            $app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function ($request, $response) {
+            $app->map(['GET', 'POST', 'PUT', 'DELETE'], '/{routes:.+}', function ($request, $response) {
                 throw new \Slim\Exception\HttpNotFoundException($request);
             });
 
