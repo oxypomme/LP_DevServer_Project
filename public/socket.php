@@ -159,17 +159,6 @@ class ServerImpl implements MessageComponentInterface
 
         //TODO If target & group null
 
-        $data = [
-          'type' => 'message',
-          'payload' => $msg
-        ];
-
-        try {
-          $this->sendMessage(JSON::encode($data), $target, $group);
-        } catch (\Throwable $th) {
-          //? Error management
-        }
-
         try {
           $this->em->persist($msg);
           $this->em->flush();
@@ -181,6 +170,18 @@ class ServerImpl implements MessageComponentInterface
           ]));
           return;
         }
+
+        $data = [
+          'type' => 'message',
+          'payload' => $msg
+        ];
+
+        try {
+          $this->sendMessage(JSON::encode($data), $target, $group);
+        } catch (\Throwable $th) {
+          //? Error management
+        }
+
         // Send feedback
         $conn->send(JSON::encode($data));
 
