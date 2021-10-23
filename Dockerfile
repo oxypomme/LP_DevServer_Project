@@ -16,7 +16,7 @@ RUN apk update \
 
 # ====
 
-FROM php:7.4.3-alpine AS builder
+FROM php:7.4.24-alpine AS builder
 
 WORKDIR /build
 

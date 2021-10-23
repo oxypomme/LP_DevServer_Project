@@ -1,21 +1,36 @@
+FROM node:lts-alpine AS ssl-builder
+
+WORKDIR /build
+
+# Add script
+COPY ./ssl.js ./
+# Add config
+COPY ./config ./config
+
+# Upgrade
+RUN apk update \ 
+  && apk upgrade -U -a \
+  && apk add --no-cache openssl \
+  # Build SSL certifcates
+  && npm i pem \
+  && export NODE_ENV=production \
+  && node ssl.js \
+  # Make it fetchable
+  && mkdir /app \
+  && mv ssl/ config/ /app/
+
+# ====
+
 FROM httpd:alpine
 
 WORKDIR /usr/local/apache2/htdocs
 
 # Add project files
-COPY /config ./config
+COPY --from=ssl-builder /app ./
 
 # Upgrade + install driver
 RUN apk update \
   && apk upgrade -U -a \
-  # && apk add --no-cache openssl \
-  # # Generate SSL
-  # && mkdir ssl \
-  # && openssl genrsa -aes256 -out crisis.key 4096 \
-  # && mv crisis.key crisis.key.lock \
-  # && openssl rsa -in crisis.key.lock -out crisis.key \
-  # && openssl req -new -key crisis.key.lock -out crisis.csr \
-  # && openssl x509 -req -days 365 -in crisis.csr -signkey crisis.key.lock -out certificat.crt \
   # Add config files
   && mkdir /usr/local/apache2/conf/conf.d/ \
   && mv -v ./config/apache2/* /usr/local/apache2/conf/conf.d/ \

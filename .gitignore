@@ -17,3 +17,7 @@ tmp/
 
 # Docker volumes
 docker/
+
+# SSL Certifs
+ssl/*.lock
+ssl/*.csr
