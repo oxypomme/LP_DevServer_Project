@@ -52,6 +52,7 @@ interface IRelation {
   target: IUser;
   created_at: string;
   isLogged: boolean;
+  lastMessage?: IMessage;
 }
 
 interface IRelationList {

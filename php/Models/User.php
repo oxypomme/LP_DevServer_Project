@@ -200,26 +200,44 @@ class User implements JsonSerializable
   }
 
   /** @return Message[] */
-  public function getMergedMessages(): array
+  public function getMergedMessages(int $target_id): array
   {
-    return array_merge($this->outMessages->getValues(), $this->inMessages->getValues());
+    $messages = [];
+
+    foreach ($this->outMessages as $om) {
+      if ($om->getTarget()->id == $target_id) {
+        $messages[] = $om;
+      }
+    }
+
+    foreach ($this->inMessages as $im) {
+      if ($im->getSender()->id == $target_id) {
+        $messages[] = $im;
+      }
+    }
+
+    usort($messages, fn ($a, $b) => strtotime($b->createdAt) - strtotime($a->createdAt));
+    return $messages;
   }
   public function getMessages(int $target_id): array
   {
     $out = [];
     $in = [];
+    $sorter = fn ($a, $b) => fn ($a, $b) => $a->createdAt->diff($b->createdAt);
 
     foreach ($this->outMessages as $om) {
       if ($om->getTarget()->id == $target_id) {
         $out[] = $om;
       }
     }
+    usort($out, $sorter);
 
     foreach ($this->inMessages as $im) {
       if ($im->getSender()->id == $target_id) {
         $in[] = $im;
       }
     }
+    usort($in, $sorter);
 
     return [
       'outMessages' => $out,

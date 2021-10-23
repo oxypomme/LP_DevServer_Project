@@ -31,7 +31,11 @@ async function onFriendClick(e: Event, { id }: IUser) {
   }
 }
 
-function friendToHTML(user: IUser, isConnected: boolean): HTMLElement {
+function friendToHTML(
+  user: IUser,
+  isConnected: boolean,
+  lastMessage?: IMessage
+): HTMLElement {
   active_id = user.id;
 
   const container = document.createElement("div");
@@ -49,7 +53,11 @@ function friendToHTML(user: IUser, isConnected: boolean): HTMLElement {
 
   const lastMsg = document.createElement("div");
   lastMsg.classList.add("last-message", "side");
-  lastMsg.innerText = "LAST MSG"; // TODO
+  if (lastMessage) {
+    lastMsg.innerText =
+      (lastMessage.sender.id === current_id ? "You: " : "") +
+      lastMessage.content;
+  }
   container.appendChild(lastMsg);
 
   return container;
@@ -127,6 +135,14 @@ export function onNewMessage(message: IMessage): void {
     // TODO: groups
   }
 
+  const friendLastMsg = document.querySelector(
+    `.messages > .conversations [data-friend="${target}"] .last-message`
+  );
+  if (friendLastMsg) {
+    friendLastMsg.innerHTML =
+      (message.sender.id === current_id ? "You: " : "") + message.content;
+  }
+
   if (active_id && active_id === target) {
     const messagesContainer = document.querySelector(
       ".messages .conversation-messages"
@@ -153,8 +169,8 @@ export function onFriendList(relations: IRelation[]): void {
   );
   if (relationsContainer) {
     const frag = document.createDocumentFragment();
-    for (const { target, isLogged } of relations) {
-      frag.appendChild(friendToHTML(target, isLogged));
+    for (const { target, isLogged, lastMessage } of relations) {
+      frag.appendChild(friendToHTML(target, isLogged, lastMessage));
     }
     relationsContainer.appendChild(frag);
   }

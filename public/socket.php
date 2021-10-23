@@ -116,6 +116,8 @@ class ServerImpl implements MessageComponentInterface
         } catch (\Throwable $th) {
           $obj['isLogged'] = false;
         }
+        $messages = $sender->getMergedMessages($rel->getTarget()->id);
+        $obj['lastMessage'] = end($messages);
         $relations[] = $obj;
       }
       // Notify him of his friends state

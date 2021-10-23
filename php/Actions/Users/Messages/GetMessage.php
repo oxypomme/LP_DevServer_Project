@@ -8,7 +8,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpException;
 
-class GetMessages extends ProtectedInvokableEMAction
+class GetMessage extends ProtectedInvokableEMAction
 {
   public function handle(Request $request, Response $response, array $args): Response
   {
@@ -20,7 +20,7 @@ class GetMessages extends ProtectedInvokableEMAction
       ->getRepository(User::class)
       ->find((int) $args['user_id']);
 
-    foreach ($user->getMergedMessages() as $message) {
+    foreach ($user->getMergedMessages((int) $args['target_id']) as $message) {
       if ($message->id == (int) $args['message_id']) {
         return $this->createResponse($message);
       }
