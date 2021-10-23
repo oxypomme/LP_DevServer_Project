@@ -81,7 +81,12 @@ const profileForm = document.getElementById("profile-form") as HTMLFormElement;
                 status: userStatus as EStatus,
               } as IUserInput
             );
-            // TODO: Error management + action on success
+            if (status === StatusCodes.OK && typeof payload !== "string") {
+              //? Notify user of success ?
+              document.location.href = "/welcome";
+            } else {
+              throw payload;
+            }
           }
         } else {
           const submitError = document.getElementById(
