@@ -6,6 +6,7 @@ use Crisis\Actions;
 use UMA\DIC\Container;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use \Psr\Http\Server\RequestHandlerInterface as Handler;
 use Slim\Routing\RouteCollectorProxy;
 
 /**
@@ -44,7 +45,7 @@ class Slim implements \UMA\DIC\ServiceProvider
             $responseFactory = $app->getResponseFactory();
             $c->set('csrf', function () use ($responseFactory) {
                 $guard = new \Slim\Csrf\Guard($responseFactory);
-                $guard->setFailureHandler(function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($responseFactory) {
+                $guard->setFailureHandler(function (Request $request, Handler $handler) use ($responseFactory) {
                     $response = $responseFactory->createResponse();
                     $body = $response->getBody();
                     $body->write(\Crisis\JSON::encode([
@@ -60,10 +61,8 @@ class Slim implements \UMA\DIC\ServiceProvider
             });
             $csrfMiddleware = $c->get('csrf');
             // Adding CORS
-            $app->options('/{routes:.+}', function ($request, $response, $args) {
-                return $response;
-            });
-            $corsMiddleware = function ($request, $handler) {
+            $app->options('/{routes:.+}', fn (Request $request, Response $response, array $args) => $response);
+            $corsMiddleware = function (Request $request, Handler $handler) {
                 $response = $handler->handle($request);
                 return $response
                     ->withHeader('Access-Control-Allow-Origin', 'https://crisis.fr') // Production Server

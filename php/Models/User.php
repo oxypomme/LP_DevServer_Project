@@ -144,13 +144,12 @@ class User implements JsonSerializable
     $relations = [];
     $pendingOut = [];
     $pendingIn = [];
+    $debug = [];
 
     // Collection::fliter doesn't work so...
     foreach ($this->outRelations as $or) {
       // If relation is bi-directionnal
-      if ($this->inRelations->exists(function (int $i, Relation $ir) use ($or) {
-        return $or->getTarget()->id == $ir->getSender()->id;
-      })) {
+      if ($this->inRelations->exists(fn (int $i, Relation $ir) => $or->getTarget()->id == $ir->getSender()->id)) {
         $relations[] = $or;
       } else {
         $pendingOut[] = $or;
@@ -159,9 +158,7 @@ class User implements JsonSerializable
 
     foreach ($this->inRelations as $ir) {
       // If relation is uni-directionnal
-      if (!$this->outRelations->exists(function (int $i, Relation $or) use ($ir) {
-        return $or->getTarget()->id == $ir->getSender()->id;
-      })) {
+      if ($this->inRelations->exists(fn (int $i, Relation $or) => $or->getTarget()->id == $ir->getSender()->id)) {
         $pendingIn[] = $ir;
       }
     }
@@ -276,6 +273,7 @@ class User implements JsonSerializable
   {
     return array_merge($this->ownedGroups->getValues(), $this->groups->getValues());
   }
+
   public function getGroups(): array
   {
     return [
