@@ -1,4 +1,6 @@
+import { StatusCodes } from "http-status-codes";
 import { fetchAPI } from "./api";
+import { redirectToAuth } from "./auth";
 import { IUser } from "./types/responses";
 
 const registerForm = document.getElementById("signup-form") as HTMLFormElement;
@@ -46,7 +48,12 @@ if (registerForm && !registerForm.onsubmit) {
             csrf_value,
           }
         );
-        // TODO: Error management + action on success
+        if (status === StatusCodes.OK && typeof payload !== "string") {
+          //? Notify user of success ?
+          redirectToAuth();
+        } else {
+          throw payload;
+        }
       }
     } else {
       const submitError = document.getElementById(
