@@ -63,7 +63,7 @@ class Location implements JsonSerializable
     return $this->user;
   }
 
-  public function jsonSerialize()
+  public function jsonSerialize(): array
   {
     return [
       'id' => $this->id,

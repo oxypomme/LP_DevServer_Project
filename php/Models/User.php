@@ -137,7 +137,7 @@ class User implements JsonSerializable
   /** @return Relation[] */
   public function getMergedRelations(): array
   {
-    return array_merge($this->outRelations->getValues(), $this->inRelations->getValues());
+    return [...$this->outRelations->getValues(), ...$this->inRelations->getValues()];
   }
   public function getRelations(): array
   {
@@ -271,7 +271,7 @@ class User implements JsonSerializable
   /** @return Group[] */
   public function getMergedGroups(): array
   {
-    return array_merge($this->ownedGroups->getValues(), $this->groups->getValues());
+    return [...$this->ownedGroups->getValues(), ...$this->groups->getValues()];
   }
 
   public function getGroups(): array
@@ -314,7 +314,7 @@ class User implements JsonSerializable
     }
   }
 
-  public function jsonSerialize()
+  public function jsonSerialize(): array
   {
     return [
       'id' => $this->id,

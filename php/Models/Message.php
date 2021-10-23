@@ -79,7 +79,7 @@ class Message implements JsonSerializable
     return $this->group;
   }
 
-  public function jsonSerialize()
+  public function jsonSerialize(): array
   {
     $res = [
       'id' => $this->id,
