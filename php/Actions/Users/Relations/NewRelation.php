@@ -26,7 +26,7 @@ class NewRelation extends ProtectedInvokableEMAction
     /** @var User $user */
     $target = $this->em
       ->getRepository(User::class)
-      ->find((int) $parsedBody['target_id']);
+      ->find((int) $parsedBody['target']);
 
     if (!is_null($target)) {
       $relation = new Relation(

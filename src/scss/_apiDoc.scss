@@ -6,10 +6,16 @@
 .api_nav {
   width: 15%;
   background: silver;
+  height: 100%;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .api_doc {
-  width: 60%;
+  flex: 1;
   margin: 0 2.5%;
 
   h2 {

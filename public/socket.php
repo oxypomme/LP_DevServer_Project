@@ -49,6 +49,7 @@ class ServerImpl implements MessageComponentInterface
     $user = $this->em
       ->getRepository(User::class)
       ->find($auth_user_id);
+    $this->em->refresh($user);
     if (!is_null($user)) {
       return $user;
     }

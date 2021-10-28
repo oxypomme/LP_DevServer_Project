@@ -138,6 +138,7 @@ class Slim implements \UMA\DIC\ServiceProvider
                 $group->get('board[/]', new Actions\RenderAction($c, "board", ['title' => 'Board']));
                 $group->get('account[/]', new Actions\RenderAction($c, "account", ['title' => 'My Account']));
                 $group->get('map[/]', new Actions\RenderAction($c, "map", ['title' => 'Map']));
+                $group->get('search[/]', new Actions\RenderAction($c, "search", ['title' => 'Search']));
                 $group->get('api[/]', new Actions\RenderAction($c, "api_doc", ['title' => 'Documentation', 'nonav' => true]));
             })->add($csrfMiddleware);
 
