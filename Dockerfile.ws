@@ -27,7 +27,10 @@ COPY --from=builder /app ./
 
 RUN apk update \
   && apk upgrade -U -a \
-  && docker-php-ext-install pdo pdo_mysql
+  && docker-php-ext-install pdo pdo_mysql \
+  && echo "vendor/bin/doctrine orm:generate-proxies" > start.sh \
+  && echo "php /app/public/socket.php" >> start.sh \
+  && chmod +x start.sh
 
 # Run WS Server
-CMD php /app/public/socket.php
+CMD ./start.sh

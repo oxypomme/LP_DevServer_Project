@@ -1,6 +1,6 @@
 import { config as dotenv } from "dotenv";
 dotenv({
-  path: process.env.NODE_ENV !== "production" ? ".env.dev" : undefined,
+  path: process.env.NODE_ENV !== "production" ? ".env.dev" : ".env",
 });
 
 import { task, watch, series, parallel } from "gulp";

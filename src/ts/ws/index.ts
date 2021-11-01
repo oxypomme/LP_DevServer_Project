@@ -33,7 +33,9 @@ function send(type: WSPacketTypes, data: IWSPayload, forceAuth = false): void {
     isJWTSent = true;
     event.jwt = localStorage.getItem("authToken") ?? undefined;
   }
-  console.log("[DEBUG] [WS] Outgoing :", event);
+  if (WindowEnv.PHP_MODE !== "production") {
+    console.log("[DEBUG] [WS] Outgoing :", event);
+  }
   ws?.send(JSON.stringify(event));
 }
 
@@ -111,7 +113,9 @@ if (ws) {
 
   ws.onmessage = (ev) => {
     const event = JSON.parse(ev.data) as IWSPacket;
-    console.log("[DEBUG] [WS] Incoming :", event);
+    if (WindowEnv.PHP_MODE !== "production") {
+      console.log("[DEBUG] [WS] Incoming :", event);
+    }
 
     switch (event.type) {
       case WSPacketTypes.ERROR:

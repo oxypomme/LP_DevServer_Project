@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { sendMessage } from ".";
 import { fetchAPI } from "../api";
-import { IMessage, IUser, IMessageList, IRelation } from "../types/responses";
+import { IMessage, IMessageList, IRelation, IUser } from "../types/responses";
 
 let current_id: number;
 let active_id: number;
@@ -88,7 +88,7 @@ export function onFriendDisconnection(id: number): void {
 }
 
 function onMessageClick(e: Event, { id }: IMessage) {
-  console.log("[MSG] [TODO] Clicked on", id);
+  return e;
 }
 
 function messageToHTML(message: IMessage, isSelf = false): HTMLElement {

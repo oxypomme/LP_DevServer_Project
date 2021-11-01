@@ -5,7 +5,7 @@ WORKDIR /build
 # Add project files
 COPY . ./
 # Upgrade
-RUN apk update \ 
+RUN apk update \
   && apk upgrade -U -a \
   # Build client
   && if [ -d dist ]; then rm -rf dist; fi \
@@ -46,7 +46,11 @@ COPY --from=builder /app ./
 # Upgrade + install driver
 RUN apk update \
   && apk upgrade -U -a \
-  && docker-php-ext-install pdo pdo_mysql
+  && docker-php-ext-install pdo pdo_mysql \
+  # Setup start command
+  && echo "vendor/bin/doctrine orm:generate-proxies" > start.sh \
+  && echo "php-fpm" >> start.sh \
+  && chmod +x start.sh
 
 # Run server
-CMD php-fpm
+CMD ./start.sh
